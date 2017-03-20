@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="RankAlbumCellID" selectionStyle="default" indentationWidth="10" rowHeight="152" id="KGk-i7-Jjw" customClass="RankAlbumCell">
+            <rect key="frame" x="0.0" y="0.0" width="464" height="152"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="464" height="151"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bB0-ut-lI0">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="VCu-S6-XQ4"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <color key="textColor" red="0.92549019610000005" green="0.4549019608" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a8H-f0-e9k">
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="a8H-f0-e9k" secondAttribute="height" id="moD-Sz-xuV"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小婧Angelina" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i0w-4j-GrI">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="dir-Jt-Mgr"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="罗布泊之咒，遇者皆死" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8k2-GE-xSO">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="aFo-zr-rWw"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="多少集" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qh4-qp-9LR">
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.69019607839999997" green="0.69019607839999997" blue="0.69019607839999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="bB0-ut-lI0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="1vq-vY-jQR"/>
+                    <constraint firstItem="Qh4-qp-9LR" firstAttribute="leading" secondItem="8k2-GE-xSO" secondAttribute="leading" id="30l-3t-Vs6"/>
+                    <constraint firstItem="8k2-GE-xSO" firstAttribute="top" secondItem="i0w-4j-GrI" secondAttribute="bottom" constant="5" id="3ps-YF-sdX"/>
+                    <constraint firstItem="a8H-f0-e9k" firstAttribute="centerY" secondItem="bB0-ut-lI0" secondAttribute="centerY" id="D3S-1c-oBd"/>
+                    <constraint firstItem="i0w-4j-GrI" firstAttribute="leading" secondItem="a8H-f0-e9k" secondAttribute="trailing" constant="10" id="JjJ-0w-Uox"/>
+                    <constraint firstAttribute="bottom" secondItem="bB0-ut-lI0" secondAttribute="bottom" constant="5" id="Mai-8C-arv"/>
+                    <constraint firstItem="i0w-4j-GrI" firstAttribute="top" secondItem="a8H-f0-e9k" secondAttribute="top" id="SQT-eu-Xia"/>
+                    <constraint firstItem="a8H-f0-e9k" firstAttribute="height" secondItem="bB0-ut-lI0" secondAttribute="height" id="T3H-nf-ixs"/>
+                    <constraint firstItem="Qh4-qp-9LR" firstAttribute="width" secondItem="8k2-GE-xSO" secondAttribute="width" id="XYi-JC-VQa"/>
+                    <constraint firstItem="8k2-GE-xSO" firstAttribute="leading" secondItem="i0w-4j-GrI" secondAttribute="leading" id="d6A-ck-8Gs"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="i0w-4j-GrI" secondAttribute="trailing" constant="30" id="dNn-fX-cw2"/>
+                    <constraint firstItem="8k2-GE-xSO" firstAttribute="width" secondItem="i0w-4j-GrI" secondAttribute="width" id="jeB-Ql-Dbk"/>
+                    <constraint firstItem="bB0-ut-lI0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="lnP-2U-q7S"/>
+                    <constraint firstItem="a8H-f0-e9k" firstAttribute="leading" secondItem="bB0-ut-lI0" secondAttribute="trailing" id="mae-4t-vf5"/>
+                    <constraint firstItem="Qh4-qp-9LR" firstAttribute="top" secondItem="8k2-GE-xSO" secondAttribute="bottom" constant="5" id="mi9-UU-BG7"/>
+                    <constraint firstItem="Qh4-qp-9LR" firstAttribute="bottom" secondItem="a8H-f0-e9k" secondAttribute="bottom" id="n87-wc-8TU"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="descLaberl" destination="8k2-GE-xSO" id="edK-yL-js5"/>
+                <outlet property="iconImageView" destination="a8H-f0-e9k" id="PJ0-l6-A7o"/>
+                <outlet property="sortNumberLabel" destination="bB0-ut-lI0" id="x3s-7Y-zP6"/>
+                <outlet property="titleLabel" destination="i0w-4j-GrI" id="E4o-Un-bzZ"/>
+                <outlet property="totalLabel" destination="Qh4-qp-9LR" id="Mcv-n9-gxi"/>
+            </connections>
+            <point key="canvasLocation" x="-225" y="19"/>
+        </tableViewCell>
+    </objects>
+</document>

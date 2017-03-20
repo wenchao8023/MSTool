@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="CDCollectionCellID" id="gTV-IL-0wX" customClass="CDCollectionCell">
+            <rect key="frame" x="0.0" y="0.0" width="172" height="172"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="172" height="172"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wuc-OD-E9o">
+                        <rect key="frame" x="0.0" y="0.0" width="172" height="172"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="陪你熬夜聊天到爆肝" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PVp-2K-hZo">
+                        <rect key="frame" x="10" y="0.0" width="152" height="86"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="playcount-01.png" translatesAutoresizingMaskIntoConstraints="NO" id="uc3-5e-99l">
+                        <rect key="frame" x="5" y="152" width="15" height="15"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="15" id="Vn8-EE-qMD"/>
+                            <constraint firstAttribute="height" constant="15" id="j4U-cr-IjO"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3648.4万" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2X7-b6-F18">
+                        <rect key="frame" x="25" y="152" width="127" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="PVp-2K-hZo" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="2E6-lJ-UrC"/>
+                <constraint firstItem="Wuc-OD-E9o" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="B1K-wk-ApR"/>
+                <constraint firstItem="2X7-b6-F18" firstAttribute="centerY" secondItem="uc3-5e-99l" secondAttribute="centerY" id="Dsd-8l-fSi"/>
+                <constraint firstAttribute="bottom" secondItem="Wuc-OD-E9o" secondAttribute="bottom" id="HXT-LH-CHO"/>
+                <constraint firstItem="2X7-b6-F18" firstAttribute="leading" secondItem="uc3-5e-99l" secondAttribute="trailing" constant="5" id="Kyb-CJ-w5m"/>
+                <constraint firstItem="uc3-5e-99l" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="MlM-f2-eGz"/>
+                <constraint firstAttribute="bottom" secondItem="uc3-5e-99l" secondAttribute="bottom" constant="5" id="S6H-F2-22T"/>
+                <constraint firstItem="PVp-2K-hZo" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" multiplier="0.5" id="aik-xg-nar"/>
+                <constraint firstItem="Wuc-OD-E9o" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="fxz-j3-dss"/>
+                <constraint firstAttribute="trailing" secondItem="PVp-2K-hZo" secondAttribute="trailing" constant="10" id="jT1-ph-DZ0"/>
+                <constraint firstAttribute="trailing" secondItem="Wuc-OD-E9o" secondAttribute="trailing" id="vth-la-9Kf"/>
+                <constraint firstItem="2X7-b6-F18" firstAttribute="height" secondItem="uc3-5e-99l" secondAttribute="height" id="xPb-ri-fWA"/>
+                <constraint firstItem="PVp-2K-hZo" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="xoa-YI-0KY"/>
+                <constraint firstAttribute="trailing" secondItem="2X7-b6-F18" secondAttribute="trailing" constant="20" id="zPL-zn-U6M"/>
+            </constraints>
+            <size key="customSize" width="172" height="172"/>
+            <connections>
+                <outlet property="bgImageView" destination="Wuc-OD-E9o" id="iQz-QQ-aDV"/>
+                <outlet property="playCountLabel" destination="2X7-b6-F18" id="iLu-3H-gF0"/>
+                <outlet property="titleLabel" destination="PVp-2K-hZo" id="t51-Hv-HbF"/>
+            </connections>
+            <point key="canvasLocation" x="-27" y="55"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="playcount-01.png" width="30" height="30"/>
+    </resources>
+</document>

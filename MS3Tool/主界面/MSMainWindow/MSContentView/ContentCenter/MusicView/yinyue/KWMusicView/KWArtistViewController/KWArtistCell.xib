@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="KWArtistCellID" id="gTV-IL-0wX" customClass="KWArtistCell">
+            <rect key="frame" x="0.0" y="0.0" width="207" height="291"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="207" height="291"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k4O-8U-hDC">
+                        <rect key="frame" x="2" y="2" width="203" height="203"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="k4O-8U-hDC" secondAttribute="height" id="lEn-aO-VpD"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="周杰伦" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VzM-Ve-eSi">
+                        <rect key="frame" x="1.5" y="205" width="203" height="86"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" white="0.2507595486111111" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="k4O-8U-hDC" secondAttribute="trailing" constant="2" id="09p-ce-W1K"/>
+                <constraint firstItem="VzM-Ve-eSi" firstAttribute="centerX" secondItem="k4O-8U-hDC" secondAttribute="centerX" id="8JH-Wv-Dpr"/>
+                <constraint firstItem="VzM-Ve-eSi" firstAttribute="top" secondItem="k4O-8U-hDC" secondAttribute="bottom" id="I4f-vJ-hn9"/>
+                <constraint firstItem="VzM-Ve-eSi" firstAttribute="width" secondItem="k4O-8U-hDC" secondAttribute="width" id="Mbi-7r-rBR"/>
+                <constraint firstAttribute="bottom" secondItem="VzM-Ve-eSi" secondAttribute="bottom" id="O7s-ic-3pf"/>
+                <constraint firstItem="k4O-8U-hDC" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="2" id="PLP-cq-l5q"/>
+                <constraint firstItem="k4O-8U-hDC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="2" id="e4L-65-zfs"/>
+            </constraints>
+            <size key="customSize" width="207" height="291"/>
+            <connections>
+                <outlet property="iconImgV" destination="k4O-8U-hDC" id="vqr-mA-f8W"/>
+                <outlet property="titleLabel" destination="VzM-Ve-eSi" id="ycR-Ju-lOd"/>
+            </connections>
+            <point key="canvasLocation" x="69.5" y="10.5"/>
+        </collectionViewCell>
+    </objects>
+</document>
