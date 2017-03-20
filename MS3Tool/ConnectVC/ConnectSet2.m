@@ -194,8 +194,11 @@
     
     [self.latestWifi reloadData];
     
-    self.SmartUDP = [[SmartUDPManager alloc] initWithSSID:self.ssidLabel.text
-                                           pswd:self.pswdLabel.text];
+    [[NSUserDefaults standardUserDefaults] setObject:self.ssidLabel.text forKey:@"wifiname"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[SmartUDPManager shareInstance] sendRouteInfoSSID:self.ssidLabel.text pswd:self.pswdLabel.text];
     
 //    [self tcpConnect];
     

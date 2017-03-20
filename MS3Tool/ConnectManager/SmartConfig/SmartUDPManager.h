@@ -12,7 +12,7 @@
 
 +(instancetype)shareInstance;
 
--(instancetype)initWithSSID:(NSString *)ssid pswd:(NSString *)pswd;
+-(void)sendRouteInfoSSID:(NSString *)ssid pswd:(NSString *)pswd;
 
 -(void)stopUdpTimer;
 

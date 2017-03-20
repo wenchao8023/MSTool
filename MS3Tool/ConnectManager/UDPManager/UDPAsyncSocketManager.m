@@ -51,7 +51,7 @@ static UDPAsyncSocketManager *manager = nil;
     dispatch_once(&onceToken, ^{
         
 //        manager = [[self alloc] init];
-        
+//        
 //        [manager UDPBindPort];
     });
     
