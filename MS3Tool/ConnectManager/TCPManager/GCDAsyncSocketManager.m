@@ -41,6 +41,8 @@ static GCDAsyncSocketManager *manager = nil;
     dispatch_once(&onceToken, ^{
         
         manager = [[GCDAsyncSocketManager alloc] init];
+        
+        
     });
     
     return manager;
@@ -57,7 +59,9 @@ static GCDAsyncSocketManager *manager = nil;
         
         self.udpManager = [UDPAsyncSocketManager sharedInstance];
         
-        [self addObserver:self forKeyPath:@"connectStatus" options:NSKeyValueObservingOptionNew context:nil];
+//        [self addObserver:self forKeyPath:@"connectStatus" options:NSKeyValueObservingOptionNew context:nil];
+        
+        [self getStatusInRunloop];
     }
     
     return self;
@@ -69,6 +73,31 @@ static GCDAsyncSocketManager *manager = nil;
         
 //        self.connectStatus == 1 ? [self.udpManager stopBroadCast] : [self.udpManager beginBroadCast];
     }
+}
+
+-(void)getStatusInRunloop {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        NSTimer *statusTimer = [NSTimer timerWithTimeInterval:1.0                     // 每1s广播一次
+                                            target:self
+                                          selector:@selector(mySetConnectStatus)
+                                          userInfo:nil
+                                           repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] addTimer:statusTimer forMode:NSDefaultRunLoopMode];
+        
+        CFRunLoopRun();
+    });
+}
+
+-(void)mySetConnectStatus {
+    
+//    self.connectStatus = self.socket.isConnected ? 1 : -1;
+//    
+    NSLog(@"tcp connectStatus is ---%d---", self.connectStatus);
+    
+    [self.socket writeData:nil withTimeout:1 tag:110];
 }
 
 #pragma mark - socket actions

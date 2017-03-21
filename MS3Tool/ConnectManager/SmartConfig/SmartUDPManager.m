@@ -68,10 +68,7 @@ static SmartUDPManager *manager = nil;
     // 开启广播路由信息
     [self udpTimer];
     
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    
-        [[GCDAsyncSocketCommunicationManager sharedInstance] udpBroadcast];
-//    });
+    [[GCDAsyncSocketCommunicationManager sharedInstance] udpBroadcast];
 }
 
 -(AsyncUdpSocket *)udpSocket {

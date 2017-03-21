@@ -166,17 +166,6 @@ static GCDAsyncSocketCommunicationManager *manager = nil;
     
     self.socketManager.connectStatus = -1;
     
-    if ([GCDConnectConfig sharedInstance].connectProgress == CProgressDidSendRoute) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-           
-            [self performSelector:@selector(udpBroadcast)
-                       withObject:nil
-                       afterDelay:5];
-        });
-        
-        return ;
-    }
     
 //    [self.socketManager socketDidDisconnectBeginSendReconnect];
 }
@@ -185,6 +174,7 @@ static GCDAsyncSocketCommunicationManager *manager = nil;
 
     [self analysisData:data];
 }
+
 
 
 #pragma mark - 数据解析
