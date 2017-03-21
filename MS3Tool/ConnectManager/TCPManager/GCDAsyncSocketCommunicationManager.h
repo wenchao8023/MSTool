@@ -85,8 +85,6 @@
 - (void)disconnectSocket;
 
 
--(void)smartReconnectWithHost:(nonnull NSString *)host andPort:(uint16_t)port ;
-
 
 
 @end

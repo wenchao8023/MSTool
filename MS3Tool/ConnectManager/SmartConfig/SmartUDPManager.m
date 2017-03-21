@@ -8,12 +8,7 @@
 
 #import "SmartUDPManager.h"
 
-
 #import "AsyncUdpSocket.h"
-
-#import "SmartTCPManager.h"
-
-#import "GCDAysncSocketDataManager.h"
 
 #import "cooee.h"
 
@@ -30,22 +25,11 @@ static SmartUDPManager *manager = nil;
     const char *_key;
 }
 
-//@property (nullable, nonatomic, assign) const char *sid;
-//
-//@property (nullable, nonatomic, assign) const char *pwd;
-//
-//@property (nullable, nonatomic, assign) const char *key;
-
 @property (nonatomic, assign) uint32_t ip;
-@property (nonatomic, nonnull, strong) NSString *wifiName;
 
 @property (nullable, nonatomic, strong) NSTimer *udpTimer;
 @property (nullable, nonatomic, strong) AsyncUdpSocket *udpSocket;
 
-@property (nonatomic, strong, nonnull) GCDAysncSocketDataManager *dataManager;
-
-@property (nonatomic, nullable, strong) AsyncUdpSocket *broadUdp;
-@property (nullable, nonatomic, strong) NSTimer *broadTimer;
 
 @end
 
@@ -61,25 +45,13 @@ static SmartUDPManager *manager = nil;
     return manager;
 }
 
--(instancetype)init {
- 
-    if (self = [super init]) {
-        
-        self.dataManager = [GCDAysncSocketDataManager shareInstance];
-    }
-    
-    return self;
-}
-
-
-
 -(void)sendRouteInfoSSID:(NSString *)ssid pswd:(NSString *)pswd {
     
-    self.wifiName = [[NSUserDefaults standardUserDefaults] objectForKey:@"wifiname"];
+    NSString *wifiName = [[NSUserDefaults standardUserDefaults] objectForKey:@"wifiname"];
     
-    _sid = [self.wifiName UTF8String];
+    _sid = [wifiName UTF8String];
     
-    NSString *pswdddd = [CommonUtil getPasswordFromWifiTableWithSSID:self.wifiName];
+    NSString *pswdddd = [CommonUtil getPasswordFromWifiTableWithSSID:wifiName];
     
     _pwd  = [pswdddd UTF8String];
     
@@ -95,20 +67,35 @@ static SmartUDPManager *manager = nil;
     
     // 开启广播路由信息
     [self udpTimer];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    
+        [[GCDAsyncSocketCommunicationManager sharedInstance] udpBroadcast];
+//    });
 }
-
 
 -(AsyncUdpSocket *)udpSocket {
     
-    if (!_udpSocket) {
+    if (!_udpSocket || !_udpSocket.localPort) {
         
-        _udpSocket = [[AsyncUdpSocket alloc]
-                      initWithDelegate:self];
+        if (!_udpSocket) {
+        
+            _udpSocket = [[AsyncUdpSocket alloc]
+                          initWithDelegate:self];
+        }
+        
+        
+        
+        
         
         NSError *error = nil;
         
-        [_udpSocket bindToPort:UDP_PORT_G
-                         error:&error];
+        if (!_udpSocket.localPort) {
+            
+            [_udpSocket bindToPort:UDP_PORT_G
+                             error:&error];
+        }
+        
         [_udpSocket enableBroadcast:YES
                               error:&error];
         
@@ -133,10 +120,6 @@ static SmartUDPManager *manager = nil;
                                                     repeats:YES];
         
         [_udpTimer fire];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self stopUdpTimer];
-        });
     }
     
     return _udpTimer;
@@ -148,89 +131,36 @@ static SmartUDPManager *manager = nil;
         
         NSLog(@"AsyncUdpSocket smartconfig......");
         
-        send_cooee(_sid, (int)strlen(_sid), _pwd, (int)strlen(_pwd), _key, 0, self.ip);
+        send_cooee(_sid, (int)strlen(_sid),
+                   _pwd, (int)strlen(_pwd),
+                   _key, 0,
+                   self.ip);
     });
 }
+
 -(void)stopUdpTimer {
     
-    if ([self.udpTimer isValid]) {
-        
-        [self.udpTimer invalidate];
-        self.udpTimer = nil;
-        
-        [self closeUdpSocket];
-        
-//        [self broadTimer];
-    }
-}
-
--(AsyncUdpSocket *)broadUdp {
-    
-    if (!_broadUdp) {
-        _broadUdp = [[AsyncUdpSocket alloc] initWithDelegate:self];
-        
-        [_broadUdp bindToPort:UDP_PORT_C error:nil];
-        
-        [_broadUdp enableBroadcast:YES error:nil];
+    if ([_udpTimer isValid])
+    {
+        [_udpTimer invalidate];
+        _udpTimer = nil;
     }
     
-    return _broadUdp;
-}
-
--(NSTimer *)broadTimer {
-    
-    if (!_broadTimer) {
-        
-        _broadTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                       target:self
-                                                     selector:@selector(startBroadCast)
-                                                     userInfo:nil
-                                                      repeats:YES];
-        
-        [_broadTimer fire];
-    }
-    
-    return _broadTimer;
-}
-
--(void)startBroadCast {
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        
-        NSLog(@"AsyncUdpSocket broadcast......");
-        
-        [self.broadUdp sendData:[self.dataManager getGetReturnHeadDataWithCMD:CMD_GET_SERVER]
-                      toHost:[CommonUtil deviceIPAdress:IPType_desaddr]
-                        port:UDP_PORT_S
-                 withTimeout:TIMEOUT
-                         tag:0];
-        
-        [self.broadUdp receiveWithTimeout:TIMEOUT tag:0];
-    });
-}
-
--(void)stopBroadTimer {
-    
-    if ([self.broadTimer isValid]) {
-        
-        [self.broadTimer invalidate];
-        self.broadTimer = nil;
-        
-        [self closeBroadUdp];
+    if ([_udpSocket isClosed] == YES)
+    {
+        [_udpSocket close];
+        _udpSocket = nil;
     }
 }
-
 
 -(BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
 {
     NSString *Wifi_Config_Success = @"lapsule:success";
-    //    NSString *Wifi_Config_Fail = @"lapsule:fail";
+//  NSString *Wifi_Config_Fail = @"lapsule:fail";
     
     NSString *info = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
     
     if([info containsString:Wifi_Config_Success]){
-        
-//        [self stopUdpTimer];
         
         NSString *alertStr = [NSString stringWithFormat:@"info: %@\nhost: %@\nport: %d", info, host, port];
         
@@ -256,20 +186,6 @@ static SmartUDPManager *manager = nil;
 
 -(void)onUdpSocket:(AsyncUdpSocket *)sock didNotReceiveDataWithTag:(long)tag dueToError:(NSError *)error {
     NSLog(@"on udp did not receive data...");
-}
-
--(void)closeUdpSocket {
-    if (![self.udpSocket isClosed])
-        [self.udpSocket close];
-    
-    self.udpSocket = nil;
-}
--(void)closeBroadUdp {
-    if (![self.broadUdp isClosed]) {
-        [self.broadUdp close];
-    }
-    
-    self.broadUdp = nil;
 }
 
 @end

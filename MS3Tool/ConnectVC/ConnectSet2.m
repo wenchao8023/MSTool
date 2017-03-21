@@ -63,10 +63,10 @@
 }
 -(void)clickBack {
  
-//    if ([KVNProgress isVisible]) {
-//        
-//        [KVNProgress dismiss];
-//    }
+    if ([KVNProgress isVisible] == YES) {
+        
+        [KVNProgress dismiss];
+    }
     
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
@@ -96,8 +96,8 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-//                [self clickBack];
-                NSLog(@"连接成功，关闭提示框");
+                [self clickBack];
+//                NSLog(@"连接成功，关闭提示框");
             });
         }
     }
@@ -199,25 +199,46 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [[SmartUDPManager shareInstance] sendRouteInfoSSID:self.ssidLabel.text pswd:self.pswdLabel.text];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        [[SmartUDPManager shareInstance] stopUdpTimer];
-        
-        [[GCDAsyncSocketCommunicationManager sharedInstance] udpBroadcast];
-    });
-    
-//    [self tcpConnect];
     
 //    [CommonUtil addKVNToConnectOnView:self.view];
+    [self addKVNToConnect];
+    
+    [KVNProgress showWithStatus:@"正在连接网络" onView:self.view];
 }
 
-- (void)tcpConnect {
+-(void)addKVNToConnect {
     
-    [self.comManager resetToConnect];
+    KVNProgressConfiguration *configuration = [[KVNProgressConfiguration alloc] init];
     
-    [self.comManager rememberWifi:self.ssidLabel.text pswd:self.pswdLabel.text];
+    configuration.statusColor = [UIColor whiteColor];
     
-    [self.comManager createSocketWithDelegate:self andHost:TCP_HOST andPort:TCP_PORT];
+    configuration.statusFont = [UIFont fontWithName:@"HelveticaNeue-Thin" size:15.0f];
+    
+    configuration.circleStrokeForegroundColor = [UIColor whiteColor];
+    
+    configuration.circleStrokeBackgroundColor = [UIColor colorWithWhite:1.0f alpha:0.3f];
+    
+    configuration.circleFillBackgroundColor = [UIColor colorWithWhite:1.0f alpha:0.1f];
+    
+    configuration.backgroundTintColor = [UIColor colorWithRed:6 / 255.0 green:71 / 255.0 blue:69 / 255.0 alpha:1];
+    
+    configuration.successColor = [UIColor whiteColor];
+    
+    configuration.errorColor = [UIColor redColor];
+    
+    configuration.stopColor = [UIColor whiteColor];
+    
+    configuration.circleSize = 100.0f;
+    
+    configuration.lineWidth = 1.0f;
+    
+    configuration.fullScreen = YES;
+    
+    configuration.showStop = YES;
+    
+    configuration.stopRelativeHeight = 0.4f;
+    
+    [KVNProgress setConfiguration:configuration];
 }
 
 

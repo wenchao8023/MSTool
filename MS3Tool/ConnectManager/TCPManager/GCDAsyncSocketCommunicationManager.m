@@ -324,6 +324,8 @@ static GCDAsyncSocketCommunicationManager *manager = nil;
 
 
 
+
+
 #pragma mark - read data in runloop
 - (void)readDataInRunloop {
     
@@ -336,14 +338,13 @@ static GCDAsyncSocketCommunicationManager *manager = nil;
         
         NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
         
-        NSLog(@"currentRunLoop = %@", [runLoop description]);
+        NSLog(@"read socket data currentRunLoop = %@", [runLoop description]);
         
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
         
         CFRunLoopRun();
     });
 }
-
 
 #pragma mark - connectBack
 - (void)handShakeBack {
@@ -376,9 +377,7 @@ static GCDAsyncSocketCommunicationManager *manager = nil;
         
         [GCDConnectConfig sharedInstance].connectProgress = CProgressShouldConnectSuccess;
         
-        [self udpStopBroadcast];
-        
-        [[VoicePlayer shareInstace] VPGetPlayAlbum_begin:0];
+//        [[VoicePlayer shareInstace] VPGetPlayAlbum_begin:0];
     }
 }
 - (void)udpBack:(NSData *)data {
@@ -392,8 +391,6 @@ static GCDAsyncSocketCommunicationManager *manager = nil;
         [self tcpReConnect:data];
     }
 }
-
-
 
 //  解析广播数据，重新连接音箱
 -(void)tcpReConnect:(NSData *)data {
@@ -415,12 +412,6 @@ static GCDAsyncSocketCommunicationManager *manager = nil;
                                           andPort:[[tempDic objectForKey:@"PORT"] integerValue]];
 }
 
--(void)smartReconnectWithHost:(NSString *)host andPort:(uint16_t)port {
-    
-    [GCDConnectConfig sharedInstance].connectProgress = CProgressShouldReConnect;
-    
-    [self.socketManager connectSocketWithDelegate:self withHost:host andPort:port];
-}
 
 
 #pragma mark - 网络判断

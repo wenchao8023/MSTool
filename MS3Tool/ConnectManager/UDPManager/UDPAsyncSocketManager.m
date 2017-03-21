@@ -20,6 +20,8 @@
 
 #import "GCDAsyncSocketManager.h"
 
+#import "SmartUDPManager.h"
+
 
 
 static UDPAsyncSocketManager *manager = nil;
@@ -35,15 +37,15 @@ static UDPAsyncSocketManager *manager = nil;
 
 @property (nonatomic, strong, nullable) NSTimer *udpTimer;
 
+@property (nonatomic, strong, nullable) NSTimer *serviceTimer;
+
 
 @end
 
 @implementation UDPAsyncSocketManager
 
 #pragma mark - init
-/**
- *  创建socket单例
- */
+
 +(UDPAsyncSocketManager *)sharedInstance{
     
     static dispatch_once_t onceToken;
@@ -51,16 +53,11 @@ static UDPAsyncSocketManager *manager = nil;
     dispatch_once(&onceToken, ^{
         
         manager = [[self alloc] init];
-        
-//        [manager UDPBindPort];
     });
     
     return manager;
 }
 
-/**
- *  初始化，用于创建socket单例
- */
 -(instancetype)init{
     
     if (self = [super init]) {
@@ -82,29 +79,24 @@ static UDPAsyncSocketManager *manager = nil;
  */
 -(GCDAsyncUdpSocket *)udpSocket {
     
-    if (!_udpSocket) {
+    if (!_udpSocket || !_udpSocket.localPort) {
      
-        _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)];
+        if (!_udpSocket) {
+        
+            _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)];
+        }
         
         NSError *error = nil;
         
-        [_udpSocket bindToPort:UDP_PORT_C error:&error];
+        if (!_udpSocket.localPort) {
+            
+            [_udpSocket bindToPort:UDP_PORT_C error:&error];
+        }
         
         [_udpSocket enableBroadcast:YES error:&error];
     }
     
     return _udpSocket;
-}
-
-- (void) UDPBindPort {
-    
-    self.udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)];
-    
-    NSError *error = nil;
-    
-    [self.udpSocket bindToPort:UDP_PORT_C error:&error];
-    
-    [self.udpSocket enableBroadcast:YES error:&error];
 }
 
 /**
@@ -143,21 +135,19 @@ static UDPAsyncSocketManager *manager = nil;
 
 - (void)stopBroadCast {
     
-    if ([self.udpTimer isValid]) {
+    if ([_udpTimer isValid]) {
         
-        [self.udpTimer invalidate];
-        self.udpTimer = nil;
+        [_udpTimer invalidate];
+        _udpTimer = nil;
     }
     
-    if (![self.udpSocket isClosed]) {
-        [self.udpSocket close];
+    if ([_udpSocket isClosed] == YES) {
+        [_udpSocket close];
     }
     
-    if (self.udpSocket) {
-        self.udpSocket = nil;
+    if (_udpSocket) {
+        _udpSocket = nil;
     }
-    
-    
 }
 
 - (void)broadCastData {
@@ -172,7 +162,7 @@ static UDPAsyncSocketManager *manager = nil;
     
     [GCDAsyncSocketManager sharedInstance].connectStatus = -1;
     
-    sleep(TIMEOUT);
+//    sleep(TIMEOUT);
     
     //开始广播
     [self.udpSocket
@@ -188,6 +178,45 @@ static UDPAsyncSocketManager *manager = nil;
      tag:0];
     
     [self.udpSocket beginReceiving:nil];
+}
+
+- (void)receiveService {
+    
+    NSError *error ;
+    
+    [self.udpSocket beginReceiving:&error];
+}
+
+//- (void)getServiceInRunLoop {
+//    
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        
+//        if (!_serviceTimer) {
+//            
+//            _serviceTimer = [NSTimer timerWithTimeInterval:0.1                     // 给个0.1s 的间隔，不然CPU消耗太大
+//                                                    target:self
+//                                                  selector:@selector(receiveService)
+//                                                  userInfo:nil repeats:YES];
+//            
+//            NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+//            
+//            NSLog(@"receive udp service currentRunLoop = %@", [runLoop description]);
+//            
+//            [[NSRunLoop currentRunLoop] addTimer:_serviceTimer forMode:NSDefaultRunLoopMode];
+//            
+//            CFRunLoopRun();
+//        }
+//    });
+//}
+
+- (void)udpStopGetService {
+    
+    if ([self.serviceTimer isValid]) {
+        
+        [self.serviceTimer invalidate];
+        
+        self.serviceTimer = nil;
+    }
 }
 
 #pragma mark - GCDAsyncUdpSocketDelegate
@@ -209,18 +238,24 @@ static UDPAsyncSocketManager *manager = nil;
       fromAddress:(NSData *)address
 withFilterContext:(id)filterContext {
 
-    if (self.connectConfig.connectProgress == CProgressDidReceiveBroadcastData) {
-        
-        return ;
-    }
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         
-         NSLog(@"UDP 已经收到返回的数据了");
+        if (self.connectConfig.connectProgress >= CProgressDidReceiveBroadcastData) {
+            
+            return ;
+        }
         
-        self.udpDataBlock(data);
+        NSLog(@"UDP 已经收到返回的数据了");
+        
+        [[SmartUDPManager shareInstance] stopUdpTimer];
+        
+        [self stopBroadCast];
+        
+        [self udpStopGetService];
         
         self.connectConfig.connectProgress = CProgressDidReceiveBroadcastData;
+        
+        self.udpDataBlock(data);
     });
 }
 

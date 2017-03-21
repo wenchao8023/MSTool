@@ -67,7 +67,7 @@ static GCDAsyncSocketManager *manager = nil;
     
     if ([keyPath isEqualToString:@"connectStatus"]) {
         
-        self.connectStatus == 1 ? [self.udpManager stopBroadCast] : [self.udpManager beginBroadCast];
+//        self.connectStatus == 1 ? [self.udpManager stopBroadCast] : [self.udpManager beginBroadCast];
     }
 }
 

@@ -38,6 +38,7 @@ typedef void(^UdpDataBlock)(NSData *data);
  */
 - (void)stopBroadCast;
 
+- (void)receiveService;
 
 
 @end
