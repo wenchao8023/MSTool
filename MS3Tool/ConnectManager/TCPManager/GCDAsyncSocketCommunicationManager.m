@@ -477,6 +477,4 @@ static GCDAsyncSocketCommunicationManager *manager = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_CMDDATARETURN object:nil];
 }
-
-
 @end

@@ -17,11 +17,6 @@ typedef void(^UdpDataBlock)(NSData *data);
 +(UDPAsyncSocketManager *)sharedInstance;
 
 /**
- *  socket 绑定端口
- */
--(void)UDPBindWithDelegate:(id)delegate;
-
-/**
  *  socket 发送数据
  */
 

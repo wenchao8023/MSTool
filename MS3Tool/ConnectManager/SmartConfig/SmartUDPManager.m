@@ -15,10 +15,8 @@
 
 #import "GCDAysncSocketDataManager.h"
 
-
-
-
 #import "cooee.h"
+
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 
@@ -39,16 +37,15 @@ static SmartUDPManager *manager = nil;
 //@property (nullable, nonatomic, assign) const char *key;
 
 @property (nonatomic, assign) uint32_t ip;
+@property (nonatomic, nonnull, strong) NSString *wifiName;
 
 @property (nullable, nonatomic, strong) NSTimer *udpTimer;
-
 @property (nullable, nonatomic, strong) AsyncUdpSocket *udpSocket;
 
 @property (nonatomic, strong, nonnull) GCDAysncSocketDataManager *dataManager;
 
+@property (nonatomic, nullable, strong) AsyncUdpSocket *broadUdp;
 @property (nullable, nonatomic, strong) NSTimer *broadTimer;
-
-@property (nonatomic, nonnull, strong) NSString *wifiName;
 
 @end
 
@@ -74,6 +71,8 @@ static SmartUDPManager *manager = nil;
     return self;
 }
 
+
+
 -(void)sendRouteInfoSSID:(NSString *)ssid pswd:(NSString *)pswd {
     
     self.wifiName = [[NSUserDefaults standardUserDefaults] objectForKey:@"wifiname"];
@@ -92,37 +91,36 @@ static SmartUDPManager *manager = nil;
     
     self.ip = CFSwapInt32BigToHost(ntohl(addr.s_addr));
     
-    [self createSocketIsJoinGroup:YES];
+    [self udpSocket];
     
     // 开启广播路由信息
     [self udpTimer];
 }
 
--(void)createSocketIsJoinGroup:(BOOL)isJoinGroup {
+
+-(AsyncUdpSocket *)udpSocket {
     
     if (!_udpSocket) {
         
         _udpSocket = [[AsyncUdpSocket alloc]
                       initWithDelegate:self];
-    }
-    
-    NSError *error = nil;
-    
-    [_udpSocket bindToPort:UDP_PORT_C
-                     error:&error];
-    [_udpSocket enableBroadcast:YES
-                          error:&error];
-    
-    if (isJoinGroup) {
-       
+        
+        NSError *error = nil;
+        
+        [_udpSocket bindToPort:UDP_PORT_G
+                         error:&error];
+        [_udpSocket enableBroadcast:YES
+                              error:&error];
+        
         [_udpSocket joinMulticastGroup:UDP_HOST_C
-                                 error:&error];
+                                     error:&error];
+        
+        [_udpSocket receiveWithTimeout:-1
+                                   tag:0];
     }
     
-    [_udpSocket receiveWithTimeout:-1
-                               tag:0];
+    return _udpSocket;
 }
-
 
 -(NSTimer *)udpTimer {
     
@@ -136,15 +134,9 @@ static SmartUDPManager *manager = nil;
         
         [_udpTimer fire];
         
-        [self.udpTimer addObserver:self
-                        forKeyPath:@"isValid"
-                           options:NSKeyValueObservingOptionNew
-                           context:nil];
-        
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            
-//            [self stopUdpTimer];
-//        });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self stopUdpTimer];
+        });
     }
     
     return _udpTimer;
@@ -159,7 +151,6 @@ static SmartUDPManager *manager = nil;
         send_cooee(_sid, (int)strlen(_sid), _pwd, (int)strlen(_pwd), _key, 0, self.ip);
     });
 }
-
 -(void)stopUdpTimer {
     
     if ([self.udpTimer isValid]) {
@@ -167,14 +158,24 @@ static SmartUDPManager *manager = nil;
         [self.udpTimer invalidate];
         self.udpTimer = nil;
         
-        [self closeSocket];
+        [self closeUdpSocket];
         
-        [self createSocketIsJoinGroup:NO];
-        
-        [self broadTimer];
+//        [self broadTimer];
     }
 }
 
+-(AsyncUdpSocket *)broadUdp {
+    
+    if (!_broadUdp) {
+        _broadUdp = [[AsyncUdpSocket alloc] initWithDelegate:self];
+        
+        [_broadUdp bindToPort:UDP_PORT_C error:nil];
+        
+        [_broadUdp enableBroadcast:YES error:nil];
+    }
+    
+    return _broadUdp;
+}
 
 -(NSTimer *)broadTimer {
     
@@ -194,17 +195,17 @@ static SmartUDPManager *manager = nil;
 
 -(void)startBroadCast {
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
         NSLog(@"AsyncUdpSocket broadcast......");
         
-        [_udpSocket sendData:[self.dataManager getGetReturnHeadDataWithCMD:CMD_GET_SERVER]
+        [self.broadUdp sendData:[self.dataManager getGetReturnHeadDataWithCMD:CMD_GET_SERVER]
                       toHost:[CommonUtil deviceIPAdress:IPType_desaddr]
                         port:UDP_PORT_S
                  withTimeout:TIMEOUT
                          tag:0];
         
-        [self.udpSocket receiveWithTimeout:TIMEOUT tag:0];
+        [self.broadUdp receiveWithTimeout:TIMEOUT tag:0];
     });
 }
 
@@ -215,9 +216,10 @@ static SmartUDPManager *manager = nil;
         [self.broadTimer invalidate];
         self.broadTimer = nil;
         
-        [self closeSocket];
+        [self closeBroadUdp];
     }
 }
+
 
 -(BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
 {
@@ -228,7 +230,7 @@ static SmartUDPManager *manager = nil;
     
     if([info containsString:Wifi_Config_Success]){
         
-        [self stopUdpTimer];
+//        [self stopUdpTimer];
         
         NSString *alertStr = [NSString stringWithFormat:@"info: %@\nhost: %@\nport: %d", info, host, port];
         
@@ -238,11 +240,6 @@ static SmartUDPManager *manager = nil;
     }
     NSLog(@"on udp did receive data...");
     
-    [self stopUdpTimer];
-    
-//    [[GCDAsyncSocketCommunicationManager sharedInstance] createSocketWithDelegate:nil andHost:host andPort:port];
-    
-//    [self broadTimer];
     
     return YES;
 }
@@ -261,12 +258,18 @@ static SmartUDPManager *manager = nil;
     NSLog(@"on udp did not receive data...");
 }
 
--(void)closeSocket {
+-(void)closeUdpSocket {
     if (![self.udpSocket isClosed])
         [self.udpSocket close];
     
     self.udpSocket = nil;
 }
-
+-(void)closeBroadUdp {
+    if (![self.broadUdp isClosed]) {
+        [self.broadUdp close];
+    }
+    
+    self.broadUdp = nil;
+}
 
 @end

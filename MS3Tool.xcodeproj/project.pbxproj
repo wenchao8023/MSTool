@@ -1929,7 +1929,7 @@
 				TargetAttributes = {
 					94480D241DAF8614004DB372 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = RS5VVQU2Q4;
+						DevelopmentTeam = E9BD655MW7;
 						ProvisioningStyle = Automatic;
 					};
 					94480D3D1DAF8615004DB372 = {
@@ -2433,7 +2433,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = RS5VVQU2Q4;
+				DEVELOPMENT_TEAM = E9BD655MW7;
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MS3Tool/Ms3Header.h";
 				HEADER_SEARCH_PATHS = (
@@ -2487,7 +2487,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = RS5VVQU2Q4;
+				DEVELOPMENT_TEAM = E9BD655MW7;
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MS3Tool/Ms3Header.h";
 				HEADER_SEARCH_PATHS = (

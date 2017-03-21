@@ -26,14 +26,14 @@ static UDPAsyncSocketManager *manager = nil;
 
 @interface UDPAsyncSocketManager()<GCDAsyncUdpSocketDelegate>
 
-@property (nonatomic, strong) GCDAsyncUdpSocket *udpSocket;
+@property (nonatomic, strong, nullable) GCDAsyncUdpSocket *udpSocket;
 
 @property (nonatomic, strong) GCDAysncSocketDataManager *dataManager;
 
 @property (nonatomic, strong) GCDConnectConfig *connectConfig;
 
 
-@property (nonatomic, strong, nonnull) NSTimer *udpTimer;
+@property (nonatomic, strong, nullable) NSTimer *udpTimer;
 
 
 @end
@@ -50,8 +50,8 @@ static UDPAsyncSocketManager *manager = nil;
     
     dispatch_once(&onceToken, ^{
         
-//        manager = [[self alloc] init];
-//        
+        manager = [[self alloc] init];
+        
 //        [manager UDPBindPort];
     });
     
@@ -68,6 +68,8 @@ static UDPAsyncSocketManager *manager = nil;
         self.dataManager = [GCDAysncSocketDataManager shareInstance];
         
         self.connectConfig = [GCDConnectConfig sharedInstance];
+        
+        [self udpSocket];
     }
     
     return self;
@@ -78,19 +80,20 @@ static UDPAsyncSocketManager *manager = nil;
 /**
  *  socket 绑定端口
  */
--(void)UDPBindWithDelegate:(id)delegate {
+-(GCDAsyncUdpSocket *)udpSocket {
     
-    if (!self.udpSocket) {
-        
-        self.udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)];
+    if (!_udpSocket) {
+     
+        _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)];
         
         NSError *error = nil;
         
-        [self.udpSocket enableBroadcast:YES error:&error];
+        [_udpSocket bindToPort:UDP_PORT_C error:&error];
         
-        [self.udpSocket bindToPort:UDP_PORT_C error:&error];
+        [_udpSocket enableBroadcast:YES error:&error];
     }
     
+    return _udpSocket;
 }
 
 - (void) UDPBindPort {
@@ -99,9 +102,9 @@ static UDPAsyncSocketManager *manager = nil;
     
     NSError *error = nil;
     
-    [self.udpSocket enableBroadcast:YES error:&error];
-    
     [self.udpSocket bindToPort:UDP_PORT_C error:&error];
+    
+    [self.udpSocket enableBroadcast:YES error:&error];
 }
 
 /**
@@ -109,25 +112,25 @@ static UDPAsyncSocketManager *manager = nil;
  */
 -(void)UDPSocketWriteData  {
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        
-        [self udpTimer];
-    });
+    [self udpTimer];
 }
 
 -(NSTimer *)udpTimer {
     
     if (!_udpTimer) {
         
-        _udpTimer = [NSTimer timerWithTimeInterval:1.0                     // 每1s广播一次
-                                            target:self
-                                          selector:@selector(broadCastData)
-                                          userInfo:nil
-                                           repeats:YES];
-        
-        [[NSRunLoop currentRunLoop] addTimer:_udpTimer forMode:NSDefaultRunLoopMode];
-        
-        CFRunLoopRun();
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+           
+            _udpTimer = [NSTimer timerWithTimeInterval:1.0                     // 每1s广播一次
+                                                target:self
+                                              selector:@selector(broadCastData)
+                                              userInfo:nil
+                                               repeats:YES];
+            
+            [[NSRunLoop currentRunLoop] addTimer:_udpTimer forMode:NSDefaultRunLoopMode];
+            
+            CFRunLoopRun();
+        });
     }
     
     return _udpTimer;
@@ -135,17 +138,30 @@ static UDPAsyncSocketManager *manager = nil;
 
 - (void)beginBroadCast {
     
-    [self.udpTimer setFireDate:[NSDate distantPast]];
+    [self udpTimer];
 }
 
 - (void)stopBroadCast {
     
-    [self.udpTimer setFireDate:[NSDate distantFuture]];
+    if ([self.udpTimer isValid]) {
+        
+        [self.udpTimer invalidate];
+        self.udpTimer = nil;
+    }
+    
+    if (![self.udpSocket isClosed]) {
+        [self.udpSocket close];
+    }
+    
+    if (self.udpSocket) {
+        self.udpSocket = nil;
+    }
+    
+    
 }
 
-
 - (void)broadCastData {
-
+        
     NSData *serverData = [self.dataManager getGetReturnHeadDataWithCMD:CMD_GET_SERVER];
     
     NSString *wifiIPStr = [CommonUtil deviceIPAdress:IPType_desaddr];
@@ -158,7 +174,7 @@ static UDPAsyncSocketManager *manager = nil;
     
     sleep(TIMEOUT);
     
-    // 开始广播
+    //开始广播
     [self.udpSocket
      
      sendData:serverData
@@ -167,7 +183,7 @@ static UDPAsyncSocketManager *manager = nil;
      
      port:UDP_PORT_S        // 协商好了的端口
      
-     withTimeout:TIMEOUT    // 发送超时时长
+     withTimeout:-1    // 发送超时时长
      
      tag:0];
     
@@ -207,6 +223,8 @@ withFilterContext:(id)filterContext {
         self.connectConfig.connectProgress = CProgressDidReceiveBroadcastData;
     });
 }
+
+
 @end
 
 
