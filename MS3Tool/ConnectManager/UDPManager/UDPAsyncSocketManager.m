@@ -158,11 +158,9 @@ static UDPAsyncSocketManager *manager = nil;
     
     NSLog(@"broad IP = %@", wifiIPStr);
     
-    self.connectConfig.connectProgress = CProgressShouldBroadcast;
+    [self.connectConfig setConnectProgress:CProgressShouldBroadcast];
     
     [GCDAsyncSocketManager sharedInstance].connectStatus = -1;
-    
-//    sleep(TIMEOUT);
     
     //开始广播
     [self.udpSocket
@@ -173,7 +171,7 @@ static UDPAsyncSocketManager *manager = nil;
      
      port:UDP_PORT_S        // 协商好了的端口
      
-     withTimeout:-1    // 发送超时时长
+     withTimeout:TIMEOUT    // 发送超时时长
      
      tag:0];
     
@@ -186,28 +184,6 @@ static UDPAsyncSocketManager *manager = nil;
     
     [self.udpSocket beginReceiving:&error];
 }
-
-//- (void)getServiceInRunLoop {
-//    
-//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//        
-//        if (!_serviceTimer) {
-//            
-//            _serviceTimer = [NSTimer timerWithTimeInterval:0.1                     // 给个0.1s 的间隔，不然CPU消耗太大
-//                                                    target:self
-//                                                  selector:@selector(receiveService)
-//                                                  userInfo:nil repeats:YES];
-//            
-//            NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-//            
-//            NSLog(@"receive udp service currentRunLoop = %@", [runLoop description]);
-//            
-//            [[NSRunLoop currentRunLoop] addTimer:_serviceTimer forMode:NSDefaultRunLoopMode];
-//            
-//            CFRunLoopRun();
-//        }
-//    });
-//}
 
 - (void)udpStopGetService {
     

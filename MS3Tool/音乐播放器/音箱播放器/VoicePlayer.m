@@ -20,6 +20,11 @@ static VoicePlayer *manager = nil;
 
 @property (nonatomic, strong, nullable) NSTimer *getCollectTimer;   // 控制收藏列表获取
 
+@property (nonatomic, strong, nullable) NSTimer *progressTimer_inv5;     // 控制进度获取,每5s获取一次
+
+@property (nonatomic, strong, nullable) NSTimer *progressTimer_inv1;     // 控制进度获取,每1s获取一次
+
+
 @end
 
 @implementation VoicePlayer
@@ -234,7 +239,7 @@ static VoicePlayer *manager = nil;
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             
-            NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
+            NSTimer *timer = [NSTimer timerWithTimeInterval:5.0
                                                      target:self
                                                    selector:@selector(VPGetCurrentProgressInRunLoop)
                                                    userInfo:nil repeats:YES];
@@ -244,6 +249,68 @@ static VoicePlayer *manager = nil;
             CFRunLoopRun();
         });
     });
+}
+
+-(void)VPGetCurrentProgressIsLastFiveSeconds:(BOOL)isLastFiveSeconds {
+    
+    if (isLastFiveSeconds) {
+        
+        if (_progressTimer_inv5 && [_progressTimer_inv5 isValid]) {
+            
+            [_progressTimer_inv5 invalidate];
+            _progressTimer_inv5 = nil;
+        }
+        
+        [self.progressTimer_inv1 fire];
+    } else {
+        
+        if (_progressTimer_inv1 && [_progressTimer_inv1 isValid]) {
+            
+            [_progressTimer_inv1 invalidate];
+            _progressTimer_inv1 = nil;
+        }
+        
+        [self.progressTimer_inv5 fire];
+    }
+}
+
+-(void)VPGetCurrentProgress_Stop {
+    
+    if (_progressTimer_inv5 && [_progressTimer_inv5 isValid]) {
+        
+        [_progressTimer_inv5 invalidate];
+        _progressTimer_inv5 = nil;
+    }
+    
+    if (_progressTimer_inv1 && [_progressTimer_inv1 isValid]) {
+        
+        [_progressTimer_inv1 invalidate];
+        _progressTimer_inv1 = nil;
+    }
+}
+
+-(NSTimer *)progressTimer_inv5 {
+    
+    if (!_progressTimer_inv5) {
+        [self VPGetCurrentProgressInRunLoop];
+        _progressTimer_inv5 = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(VPGetCurrentProgressInRunLoop) userInfo:nil repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] addTimer:_progressTimer_inv5 forMode:NSDefaultRunLoopMode];
+    }
+    
+    return _progressTimer_inv5;
+}
+
+-(NSTimer *)progressTimer_inv1 {
+    
+    if (!_progressTimer_inv1) {
+        [self VPGetCurrentProgressInRunLoop];
+        _progressTimer_inv1 = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(VPGetCurrentProgressInRunLoop) userInfo:nil repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] addTimer:_progressTimer_inv1 forMode:NSDefaultRunLoopMode];
+    }
+    
+    return _progressTimer_inv1;
 }
 
 -(void)VPGetCurrentProgressInRunLoop {

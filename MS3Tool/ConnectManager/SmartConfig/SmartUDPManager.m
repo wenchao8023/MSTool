@@ -47,13 +47,13 @@ static SmartUDPManager *manager = nil;
 
 -(void)sendRouteInfoSSID:(NSString *)ssid pswd:(NSString *)pswd {
     
-    NSString *wifiName = [[NSUserDefaults standardUserDefaults] objectForKey:@"wifiname"];
+    NSString *wifiName = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentwifiname"];
     
     _sid = [wifiName UTF8String];
     
-    NSString *pswdddd = [CommonUtil getPasswordFromWifiTableWithSSID:wifiName];
+    NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentpassword"];
     
-    _pwd  = [pswdddd UTF8String];
+    _pwd  = [password UTF8String];
     
     _key  = [@"" UTF8String];
     

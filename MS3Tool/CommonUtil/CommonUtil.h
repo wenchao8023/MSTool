@@ -89,4 +89,10 @@ typedef enum : NSInteger{
  提示音箱还没有连接网络
  */
 +(void)showAlertToUnConnected;
+
+//图片模糊
++(UIImage *)coreBlurImage:(UIImage *)image withBlurNumber:(CGFloat)blur;
+
++(NSMutableAttributedString *)getTitleLabelStr:(NSString *)str;
++(NSMutableAttributedString *)getTitleLabelStr:(NSString *)str font:(CGFloat)fontSize;
 @end

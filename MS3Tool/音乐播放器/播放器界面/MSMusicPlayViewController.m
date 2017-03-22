@@ -84,7 +84,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
 @property (nonatomic, strong, nonnull) GCDAsyncSocketCommunicationManager *comConfig;
 
 
-
+@property (nonatomic, strong, nullable) NSTimer *sliderTimer;    // 播放进度定时器
 
 @property (nonatomic, strong, nonnull) NSArray *argusArray;
 
@@ -208,7 +208,8 @@ static const CGFloat kVolumeViewHeight = 160.f;
  */
 - (void)loadMusicInfoInView {
     
-    [self.vPlayer VPGetCurrentProgress];
+//    [self.vPlayer VPGetCurrentProgress];
+    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
     
     [self.vPlayer VPGetPlayType];
     
@@ -222,6 +223,8 @@ static const CGFloat kVolumeViewHeight = 160.f;
         
         [self.vPlayer VPGetPlayMusicInfo];
     });
+    
+    [self.sliderTimer fire];
 }
 
 
@@ -234,7 +237,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
     [self setMiddldImageLayer];
     
     // 设置进度条
-    [self setSlider];
+    [self setSliderUI];
     
     /**
      * 创建背景视图
@@ -298,11 +301,11 @@ static const CGFloat kVolumeViewHeight = 160.f;
     self.middleImageV.layer.masksToBounds = YES;
 }
 
-- (void)setSlider {
+- (void)setSliderUI {
     
     [self.playSlider addTarget:self action:@selector(progressValueChanged:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.playSlider addTarget:self action:@selector(sliderProgress:) forControlEvents:UIControlEventValueChanged];
+    [self.playSlider addTarget:self action:@selector(sliderProgress:) forControlEvents:UIControlEventValueChanged | UIControlEventTouchDown];
     
     self.playSlider.minimumTrackTintColor = WCWhite;
     
@@ -323,7 +326,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
         
         effectView.frame = _bgImageView.frame;
         
-        effectView.alpha = 0.8;
+        effectView.alpha = 0.9;
         
         [_bgImageView addSubview:effectView];
     }
@@ -381,6 +384,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
     return _volumeView;
 }
 
+
 -(UISlider *)volumeSlider {
     
     if (!_volumeSlider) {
@@ -396,18 +400,63 @@ static const CGFloat kVolumeViewHeight = 160.f;
     
     return _volumeSlider;
 }
-#pragma mark - 设置播放进度
+
+-(NSTimer *)sliderTimer {
+    
+    if (!_sliderTimer) {
+        
+        _sliderTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(addPlaySlider) userInfo:nil repeats:YES];
+    }
+    
+    return _sliderTimer;
+}
+
+#pragma mark - 管理播放进度
+-(void)addPlaySlider {
+    
+    self.playSlider.value += 1;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.playingTimeLabel.text = [self getDuration:(int)self.playSlider.value];
+    });
+}
+// 暂停进度推进
+-(void)stopPlaySlider {
+    
+    if (self.sliderTimer && [self.sliderTimer isValid]) {
+        
+        [self.sliderTimer invalidate];
+        
+        self.sliderTimer = nil;
+    }
+}
+// 恢复进度推进
+-(void)resumePlaySlider {
+    
+    [self.sliderTimer fire];
+}
+
 // 手指松开
 - (void)progressValueChanged:(UISlider *)slider {
+    
+    [self resumePlaySlider];
+    
+    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
     
     [self.vPlayer VPSetProgress:(int)slider.value];
 }
 
+// 手指按下
 - (void)sliderProgress:(UISlider *)slider {
+    
+    [self stopPlaySlider];
+    
+    [self.vPlayer VPGetCurrentProgress_Stop];
     
     self.playingTimeLabel.text = [self getDuration:(int)slider.value];
 }
 
+#pragma mark - 给控件赋值
 // 设置音量
 - (void)setVolumeData {
     
@@ -420,17 +469,27 @@ static const CGFloat kVolumeViewHeight = 160.f;
     
     [self setImagesWithUrlStr:[self.playInfo objectForKey:@"musicImgUrl"]];
     
-    self.songNameLabel.text = [self.playInfo objectForKey:@"musicName"];
+    self.songNameLabel.attributedText = [CommonUtil getTitleLabelStr:[self.playInfo objectForKey:@"musicName"] font:18];
     
-    self.albumNameLabel.text = [self.playInfo objectForKey:@"artistsName"];
+    self.albumNameLabel.attributedText = [CommonUtil getTitleLabelStr:[self.playInfo objectForKey:@"artistsName"] font:14];
 }
 
 // 设置背景、专辑图片
 -(void)setImagesWithUrlStr:(NSString *)urlStr {
     
-    [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:self.defaultImage];
+    [self.middleImageV sd_setImageWithURL:[NSURL URLWithString:urlStr]
+                         placeholderImage:self.defaultImage];
     
-    [self.middleImageV sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:self.defaultImage];
+    [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:urlStr]
+                        placeholderImage:self.defaultImage];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        self.bgImageView.image = [CommonUtil coreBlurImage:self.bgImageView.image
+                                            withBlurNumber:0.5];
+    });
+  
+    
 }
 
 // 设置循环模式按钮图片
@@ -458,15 +517,18 @@ static const CGFloat kVolumeViewHeight = 160.f;
  * 3 - 暂停
  * 4 - 播放
  */
-
 - (void)setImgToPlayBtn {
     
     switch (self.playStatu) {
         case 3:
             [self.playBtn setBackgroundImage:[UIImage imageNamed:@"playPlay39"] forState:UIControlStateNormal];
+            [self stopPlaySlider];
+            [self.vPlayer VPGetCurrentProgress_Stop];
             break;
         case 4:
             [self.playBtn setBackgroundImage:[UIImage imageNamed:@"playPause39"] forState:UIControlStateNormal];
+            [self resumePlaySlider];
+            [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
             break;
         default:
             break;
@@ -701,7 +763,10 @@ static const CGFloat kVolumeViewHeight = 160.f;
 }
 
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary<NSKeyValueChangeKey,id> *)change
+                      context:(void *)context {
 //_argusArray = @[@"playVolume", @"playStatu", @"playType", @"playProgress", @"playDuration", @"playInfo"];
     
     dispatch_async(dispatch_get_main_queue(), ^{

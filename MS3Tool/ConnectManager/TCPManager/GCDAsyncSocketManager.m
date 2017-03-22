@@ -61,7 +61,7 @@ static GCDAsyncSocketManager *manager = nil;
         
 //        [self addObserver:self forKeyPath:@"connectStatus" options:NSKeyValueObservingOptionNew context:nil];
         
-        [self getStatusInRunloop];
+//        [self getStatusInRunloop];
     }
     
     return self;
@@ -95,9 +95,9 @@ static GCDAsyncSocketManager *manager = nil;
     
 //    self.connectStatus = self.socket.isConnected ? 1 : -1;
 //    
-    NSLog(@"tcp connectStatus is ---%d---", self.connectStatus);
-    
-    [self.socket writeData:nil withTimeout:1 tag:110];
+//    NSLog(@"tcp connectStatus is ---%d---", self.connectStatus);
+//    
+//    [self.socket writeData:nil withTimeout:1 tag:110];
 }
 
 #pragma mark - socket actions

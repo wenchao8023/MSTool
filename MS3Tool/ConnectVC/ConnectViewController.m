@@ -10,7 +10,9 @@
 
 #import "VoiceBoxType.h"
 
-#import "ConnectSetter1_VC.h"
+//#import "ConnectSetter1_VC.h"
+
+#import "ConnectSet2.h"
 
 
 
@@ -81,7 +83,7 @@ typedef enum _NAVI_BUTTON_TAG {
 #pragma mark - actions
 - (void) nextClick {
     
-    [self.navigationController pushViewController:[[ConnectSetter1_VC alloc] init] animated:YES];
+    [self.navigationController pushViewController:[[ConnectSet2 alloc] init] animated:YES];
 }
 
 -(void)btnClick:(UIButton *)btn {

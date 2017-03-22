@@ -58,6 +58,8 @@
 
     self.navigationController.navigationBar.hidden = NO;
     
+    self.navigationItem.title = @"网络配置";
+    
     self.navigationItem.leftBarButtonItem = [WenChaoControl createNaviBackButtonTarget:self Action:@selector(clickBack)];
     
 }
@@ -138,17 +140,20 @@
     
     self.dataArray = [CommonUtil getWifiTableInUserDefualt];
     
-    if (self.currentWifiStr) {
-        
-        self.currentWifiLabel.hidden = NO;
-        
-        self.currentWifiLabel.text = [NSString stringWithFormat:@"当前连接WiFi: %@", self.currentWifiStr];
-        
-    } else {
-        
-        self.currentWifiLabel.hidden = YES;
-    }
+//    if (self.currentWifiStr) {
+//        
+//        self.currentWifiLabel.hidden = NO;
+//        
+//        self.currentWifiLabel.text = [NSString stringWithFormat:@"当前连接WiFi: %@", self.currentWifiStr];
+//        
+//    } else {
+//        
+//        self.currentWifiLabel.hidden = YES;
+//    }
     
+    self.ssidLabel.text = self.currentWifiStr;
+    
+    self.pswdLabel.text = [CommonUtil getPasswordFromWifiTableWithSSID:self.currentWifiStr];
     
     if (self.dataArray.count) {
         
@@ -162,15 +167,15 @@
 
 
 #pragma mark - -- 按钮点击事件
+
 // 显示 或隐藏密码
 - (IBAction)showPswdClick:(id)sender {
     
 }
 
-// 记住 或不记住密码
-- (IBAction)remberPswdClick:(id)sender {
-    
+- (IBAction)rembpswd:(id)sender {
 }
+
 
 // 清空 WiFi列表
 - (IBAction)delectClick:(id)sender {
@@ -194,7 +199,9 @@
     
     [self.latestWifi reloadData];
     
-    [[NSUserDefaults standardUserDefaults] setObject:self.ssidLabel.text forKey:@"wifiname"];
+    [[NSUserDefaults standardUserDefaults] setObject:self.ssidLabel.text forKey:@"currentwifiname"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:self.pswdLabel.text forKey:@"currentpassword"];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
     

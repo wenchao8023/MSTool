@@ -24,7 +24,8 @@
 - (void)config:(XMAlbum *)album {
     
    
-    self.titleLabel.attributedText = [self getTitleLabelStr:album.albumTitle];
+//    self.titleLabel.attributedText = [self getTitleLabelStr:album.albumTitle];
+    self.titleLabel.attributedText = [CommonUtil getTitleLabelStr:album.albumTitle];
     
     self.playCountLabel.attributedText = [self getCountStr:album.playCount];
     

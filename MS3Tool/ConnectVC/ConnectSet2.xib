@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -26,7 +26,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前WiFi：" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="97u-xM-m2Q">
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前WiFi：" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="97u-xM-m2Q">
                     <rect key="frame" x="20" y="10" width="335" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="cZv-9P-ZC7"/>
@@ -35,8 +35,9 @@
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入WiFi" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="2ya-3N-pTK">
+                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入WiFi" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="2ya-3N-pTK">
                     <rect key="frame" x="20" y="40" width="335" height="50"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="oAb-tf-vKO"/>
                     </constraints>
@@ -77,10 +78,14 @@
                 </label>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PPc-HL-3Is">
                     <rect key="frame" x="250" y="155" width="40" height="40"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="3tB-lX-ALd"/>
                         <constraint firstAttribute="height" constant="40" id="4bN-L7-5VB"/>
                     </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="Lin-xR-mMM" appends="YES" id="bnC-7F-KN9"/>
+                    </connections>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最近连接过的WiFi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kqk-f9-9vn">
                     <rect key="frame" x="123" y="215" width="129.5" height="19.5"/>
@@ -184,15 +189,12 @@
                 <constraint firstItem="97u-xM-m2Q" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="yai-qB-jKC"/>
                 <constraint firstItem="2ya-3N-pTK" firstAttribute="top" secondItem="97u-xM-m2Q" secondAttribute="bottom" constant="10" id="zRq-nc-zAk"/>
             </constraints>
-            <connections>
-                <outletCollection property="gestureRecognizers" destination="T5x-1l-beZ" appends="YES" id="Ba5-hh-AsZ"/>
-            </connections>
             <point key="canvasLocation" x="35.5" y="54.5"/>
         </view>
-        <tapGestureRecognizer id="T5x-1l-beZ">
+        <gestureRecognizer id="Lin-xR-mMM">
             <connections>
-                <action selector="remberPswdClick:" destination="-1" id="YYx-Lh-tvd"/>
+                <action selector="rembpswd:" destination="-1" id="Rkq-Bv-cNr"/>
             </connections>
-        </tapGestureRecognizer>
+        </gestureRecognizer>
     </objects>
 </document>

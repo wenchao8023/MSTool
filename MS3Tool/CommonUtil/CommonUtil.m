@@ -424,6 +424,67 @@
     });
 }
 
+// 高斯模糊
++(UIImage *)coreBlurImage:(UIImage *)image withBlurNumber:(CGFloat)blur
+{
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *inputImage= [CIImage imageWithCGImage:image.CGImage];
+    //设置filter
+    CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
+    [filter setValue:inputImage forKey:kCIInputImageKey]; [filter setValue:@(blur) forKey: @"inputRadius"];
+    //模糊图片
+    CIImage *result=[filter valueForKey:kCIOutputImageKey];
+    CGImageRef outImage=[context createCGImage:result fromRect:[result extent]];
+    UIImage *blurImage=[UIImage imageWithCGImage:outImage];
+    CGImageRelease(outImage);
+    return blurImage;
+}
+// 文字模糊背景
++(NSMutableAttributedString *)getTitleLabelStr:(NSString *)str {
+    
+    NSRange range = NSMakeRange(0, str.length);
+    
+    NSShadow *shadow = [[NSShadow alloc] init];
+    
+    shadow.shadowBlurRadius = 5;    //模糊度
+    
+    shadow.shadowColor = WCBlack;
+    
+    shadow.shadowOffset = CGSizeMake(1, 3);
+    
+    NSDictionary *dict = @{NSFontAttributeName : [UIFont systemFontOfSize:16],
+                           NSForegroundColorAttributeName : WCWhite,
+                           NSShadowAttributeName : shadow};
+    
+    NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:str];
+    
+    [attText setAttributes:dict range:range];
+    
+    return attText;
+}
+
++(NSMutableAttributedString *)getTitleLabelStr:(NSString *)str font:(CGFloat)fontSize {
+    
+    NSRange range = NSMakeRange(0, str.length);
+    
+    NSShadow *shadow = [[NSShadow alloc] init];
+    
+    shadow.shadowBlurRadius = 5;    //模糊度
+    
+    shadow.shadowColor = WCBlack;
+    
+    shadow.shadowOffset = CGSizeMake(0, 0);
+    
+    NSDictionary *dict = @{NSFontAttributeName : [UIFont systemFontOfSize:fontSize],
+                           NSForegroundColorAttributeName : WCWhite,
+                           NSShadowAttributeName : shadow};
+    
+    NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:str];
+    
+    [attText setAttributes:dict range:range];
+    
+    return attText;
+}
 @end
 
 
