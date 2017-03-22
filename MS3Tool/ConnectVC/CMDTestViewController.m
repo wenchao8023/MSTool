@@ -236,7 +236,8 @@
             break;
         case 8:
         {
-            [[VoicePlayer shareInstace] VPGetCurrentProgress];
+//            [[VoicePlayer shareInstace] VPGetCurrentProgress];
+            
             
             [self setText:@"获取当前播放进度"];
         }

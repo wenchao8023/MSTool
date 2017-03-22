@@ -84,7 +84,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
 @property (nonatomic, strong, nonnull) GCDAsyncSocketCommunicationManager *comConfig;
 
 
-@property (nonatomic, strong, nullable) NSTimer *sliderTimer;    // 播放进度定时器
+//@property (nonatomic, strong, nullable) NSTimer *sliderTimer;    // 播放进度定时器
 
 @property (nonatomic, strong, nonnull) NSArray *argusArray;
 
@@ -131,7 +131,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
         [[MSFooterManager shareManager] setWindowHidden];
     }];
 
-    [self loadMusicInfoInView];
+//    [self loadMusicInfoInView];
 }
 -(UIStatusBarStyle)preferredStatusBarStyle {
     
@@ -208,8 +208,10 @@ static const CGFloat kVolumeViewHeight = 160.f;
  */
 - (void)loadMusicInfoInView {
     
+    // 进来的时候就先获取一次进度
 //    [self.vPlayer VPGetCurrentProgress];
-    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
+    // 循环获取进度
+    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
     
     [self.vPlayer VPGetPlayType];
     
@@ -224,7 +226,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
         [self.vPlayer VPGetPlayMusicInfo];
     });
     
-    [self.sliderTimer fire];
+//    [self.sliderTimer fire];
 }
 
 
@@ -401,47 +403,48 @@ static const CGFloat kVolumeViewHeight = 160.f;
     return _volumeSlider;
 }
 
--(NSTimer *)sliderTimer {
-    
-    if (!_sliderTimer) {
-        
-        _sliderTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(addPlaySlider) userInfo:nil repeats:YES];
-    }
-    
-    return _sliderTimer;
-}
+//-(NSTimer *)sliderTimer {
+//    
+//    if (!_sliderTimer) {
+//        
+//        _sliderTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(addPlaySlider) userInfo:nil repeats:YES];
+//    }
+//    
+//    return _sliderTimer;
+//}
 
 #pragma mark - 管理播放进度
 -(void)addPlaySlider {
     
-    self.playSlider.value += 1;
-    
     dispatch_async(dispatch_get_main_queue(), ^{
+        float value = self.playSlider.value;
+        value += 1;
+        self.playSlider.value = value;
         self.playingTimeLabel.text = [self getDuration:(int)self.playSlider.value];
     });
 }
 // 暂停进度推进
--(void)stopPlaySlider {
-    
-    if (self.sliderTimer && [self.sliderTimer isValid]) {
-        
-        [self.sliderTimer invalidate];
-        
-        self.sliderTimer = nil;
-    }
-}
+//-(void)stopPlaySlider {
+//    
+//    if (self.sliderTimer && [self.sliderTimer isValid]) {
+//        
+//        [self.sliderTimer invalidate];
+//        
+//        self.sliderTimer = nil;
+//    }
+//}
 // 恢复进度推进
--(void)resumePlaySlider {
-    
-    [self.sliderTimer fire];
-}
+//-(void)resumePlaySlider {
+//    
+//    [self.sliderTimer fire];
+//}
 
 // 手指松开
 - (void)progressValueChanged:(UISlider *)slider {
     
-    [self resumePlaySlider];
+//    [self resumePlaySlider];
     
-    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
+    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
     
     [self.vPlayer VPSetProgress:(int)slider.value];
 }
@@ -449,7 +452,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
 // 手指按下
 - (void)sliderProgress:(UISlider *)slider {
     
-    [self stopPlaySlider];
+//    [self stopPlaySlider];
     
     [self.vPlayer VPGetCurrentProgress_Stop];
     
@@ -507,7 +510,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
         case 2:
             [self.cycleTypeBtn setBackgroundImage:[UIImage imageNamed:@"cycleTypeDisorder39"] forState:UIControlStateNormal];
             break;
-            
         default:
             break;
     }
@@ -522,13 +524,13 @@ static const CGFloat kVolumeViewHeight = 160.f;
     switch (self.playStatu) {
         case 3:
             [self.playBtn setBackgroundImage:[UIImage imageNamed:@"playPlay39"] forState:UIControlStateNormal];
-            [self stopPlaySlider];
+//            [self stopPlaySlider];
             [self.vPlayer VPGetCurrentProgress_Stop];
             break;
         case 4:
             [self.playBtn setBackgroundImage:[UIImage imageNamed:@"playPause39"] forState:UIControlStateNormal];
-            [self resumePlaySlider];
-            [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
+//            [self resumePlaySlider];
+            [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
             break;
         default:
             break;

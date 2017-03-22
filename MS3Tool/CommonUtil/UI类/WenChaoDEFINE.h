@@ -122,6 +122,10 @@
 #define LIBPATH [NSString stringWithFormat:@"%@/",[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject]]
 
 
+#warning GCD_QUEUE
+#define GCD_QUEUE_CONNECT dispatch_queue_create("com.Steak.GCD", DISPATCH_QUEUE_CONCURRENT)
+
+
 
 #ifndef WenChaoDEFINE_h
 #define WenChaoDEFINE_h

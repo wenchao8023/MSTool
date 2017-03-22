@@ -231,24 +231,25 @@ static VoicePlayer *manager = nil;
  获取播放进度
  */
 -(void)VPGetCurrentProgress {
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        
-        [self VPGetCurrentProgressInRunLoop];
-        
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            
-            NSTimer *timer = [NSTimer timerWithTimeInterval:5.0
-                                                     target:self
-                                                   selector:@selector(VPGetCurrentProgressInRunLoop)
-                                                   userInfo:nil repeats:YES];
-            
-            [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-            
-            CFRunLoopRun();
-        });
-    });
+
+    [self VPGetCurrentProgressInRunLoop];
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        
+//        [self VPGetCurrentProgressInRunLoop];
+//        
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            
+//            NSTimer *timer = [NSTimer timerWithTimeInterval:5.0
+//                                                     target:self
+//                                                   selector:@selector(VPGetCurrentProgressInRunLoop)
+//                                                   userInfo:nil repeats:YES];
+//            
+//            [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+//            
+//            CFRunLoopRun();
+//        });
+//    });
 }
 
 -(void)VPGetCurrentProgressIsLastFiveSeconds:(BOOL)isLastFiveSeconds {
@@ -261,7 +262,7 @@ static VoicePlayer *manager = nil;
             _progressTimer_inv5 = nil;
         }
         
-        [self.progressTimer_inv1 fire];
+        [self progressTimer_inv1];
     } else {
         
         if (_progressTimer_inv1 && [_progressTimer_inv1 isValid]) {
@@ -270,7 +271,7 @@ static VoicePlayer *manager = nil;
             _progressTimer_inv1 = nil;
         }
         
-        [self.progressTimer_inv5 fire];
+        [self progressTimer_inv5];
     }
 }
 
@@ -296,6 +297,10 @@ static VoicePlayer *manager = nil;
         _progressTimer_inv5 = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(VPGetCurrentProgressInRunLoop) userInfo:nil repeats:YES];
         
         [[NSRunLoop currentRunLoop] addTimer:_progressTimer_inv5 forMode:NSDefaultRunLoopMode];
+        
+        CFRunLoopRun();
+        
+        [self.progressTimer_inv5 fire];
     }
     
     return _progressTimer_inv5;
@@ -307,7 +312,9 @@ static VoicePlayer *manager = nil;
         [self VPGetCurrentProgressInRunLoop];
         _progressTimer_inv1 = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(VPGetCurrentProgressInRunLoop) userInfo:nil repeats:YES];
         
-        [[NSRunLoop currentRunLoop] addTimer:_progressTimer_inv1 forMode:NSDefaultRunLoopMode];
+        [[NSRunLoop currentRunLoop] addTimer:_progressTimer_inv1 forMode:NSRunLoopCommonModes];
+        
+        [self.progressTimer_inv1 fire];
     }
     
     return _progressTimer_inv1;
