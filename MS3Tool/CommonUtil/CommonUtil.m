@@ -65,13 +65,6 @@
 }
 
 #pragma mark - WiFi Control
-+(BOOL)isConnectedToVoiceboxWifi {
-    if ([[self getCurrentWIFISSID] containsString:MS3_WIFISSID]) {
-        return YES;
-    }
-    
-    return NO;
-}
 //  获取手机当前连接的WiFi名
 +(NSString *)getCurrentWIFISSID {
     
@@ -159,7 +152,7 @@
 +(void)setWifiTableToUserDefualt:(NSArray *)wifiArray {
     
    [[NSUserDefaults standardUserDefaults] setObject:wifiArray
-                                             forKey:LAST_WIFISSID];
+                                             forKey:WIFI_ARRAY];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -167,7 +160,7 @@
 // 获取WiFi列表
 +(NSMutableArray *)getWifiTableInUserDefualt {
     
-    return [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:LAST_WIFISSID]];
+    return [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:WIFI_ARRAY]];
 }
 
 // 判断是否保存过该WiFi
@@ -267,7 +260,7 @@
 #pragma mark -- 删除所有WiFi
 +(void)deleteAllWifi {
     
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:LAST_WIFISSID];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:WIFI_ARRAY];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }

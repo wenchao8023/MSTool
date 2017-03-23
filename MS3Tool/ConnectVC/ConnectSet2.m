@@ -10,7 +10,7 @@
 
 #import "latestCell.h"
 
-#import "SmartUDPManager.h"
+#import "MSConnectManager.h"
 
 
 
@@ -37,11 +37,7 @@
 
 @property (nonatomic, assign) BOOL isRememberPswd;
 
-@property (nonnull, nonatomic, strong) GCDAsyncSocketCommunicationManager *comManager;
 
-@property (nonatomic, nonnull, strong) GCDConnectConfig *configManager;
-
-@property (nonatomic, nullable, strong) SmartUDPManager *SmartUDP;
 
 @end
 
@@ -80,30 +76,9 @@
     [self loadLocalData];
     
     [self resetView];
-
-    self.comManager = [GCDAsyncSocketCommunicationManager sharedInstance];
-    
-    self.comManager = [GCDAsyncSocketCommunicationManager sharedInstance];
-    
-    self.configManager = [GCDConnectConfig sharedInstance];
-    
-    [self.configManager addObserver:self forKeyPath:@"connectProgress" options:NSKeyValueObservingOptionNew context:nil];
 }
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    
-    if ([keyPath isEqualToString:@"connectProgress"]) {
-        
-        if (self.configManager.connectProgress == CProgressShouldConnectSuccess) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [self clickBack];
-//                NSLog(@"连接成功，关闭提示框");
-            });
-        }
-    }
-}
+
 
 
 - (void)didReceiveMemoryWarning {
@@ -139,17 +114,6 @@
     self.currentWifiStr = [CommonUtil getCurrentWIFISSID];
     
     self.dataArray = [CommonUtil getWifiTableInUserDefualt];
-    
-//    if (self.currentWifiStr) {
-//        
-//        self.currentWifiLabel.hidden = NO;
-//        
-//        self.currentWifiLabel.text = [NSString stringWithFormat:@"当前连接WiFi: %@", self.currentWifiStr];
-//        
-//    } else {
-//        
-//        self.currentWifiLabel.hidden = YES;
-//    }
     
     self.ssidLabel.text = self.currentWifiStr;
     
@@ -199,15 +163,15 @@
     
     [self.latestWifi reloadData];
     
-    [[NSUserDefaults standardUserDefaults] setObject:self.ssidLabel.text forKey:@"currentwifiname"];
+    [[NSUserDefaults standardUserDefaults] setObject:self.ssidLabel.text forKey:CRT_WIFI_SSID];
     
-    [[NSUserDefaults standardUserDefaults] setObject:self.pswdLabel.text forKey:@"currentpassword"];
+    [[NSUserDefaults standardUserDefaults] setObject:self.pswdLabel.text forKey:CRT_WIFI_PSWD];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [[SmartUDPManager shareInstance] sendRouteInfoSSID:self.ssidLabel.text pswd:self.pswdLabel.text];
+//    [[SmartUDPManager shareInstance] sendRouteInfo];
+    [[MSConnectManager sharedInstance] smartConfig];
     
-//    [CommonUtil addKVNToConnectOnView:self.view];
     [self addKVNToConnect];
     
     [KVNProgress showWithStatus:@"正在连接网络" onView:self.view];
@@ -306,7 +270,7 @@
     
     [super viewWillDisappear:animated];
     
-    [self.SmartUDP stopUdpTimer];
+    [[MSConnectManager sharedInstance] smartStopConfig];
 }
 
 @end

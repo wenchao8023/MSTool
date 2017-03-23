@@ -39,7 +39,6 @@ typedef enum : NSInteger{
 +(void)changeStateBarBlack;
 
 
-+(BOOL)isConnectedToVoiceboxWifi;
 /**
  *  获取手机当前连接的WiFiSSID
  */

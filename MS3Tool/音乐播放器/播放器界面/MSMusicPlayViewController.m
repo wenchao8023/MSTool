@@ -81,7 +81,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
 
 @property (nonatomic, strong, nonnull) VoicePlayer *vPlayer;
 
-@property (nonatomic, strong, nonnull) GCDAsyncSocketCommunicationManager *comConfig;
+@property (nonatomic, strong, nonnull) MSConnectManager *comConfig;
 
 
 //@property (nonatomic, strong, nullable) NSTimer *sliderTimer;    // 播放进度定时器
@@ -190,7 +190,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
     
     self.vPlayer = [VoicePlayer shareInstace];
     
-    self.comConfig = [GCDAsyncSocketCommunicationManager sharedInstance];
+    self.comConfig = [MSConnectManager sharedInstance];
     
     self.defaultImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"cm2_default_play_bg@3x" ofType:@"jpg"]];
 }

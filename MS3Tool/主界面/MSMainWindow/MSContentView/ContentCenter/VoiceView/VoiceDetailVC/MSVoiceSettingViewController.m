@@ -144,11 +144,9 @@
 
 -(void)resetClick {
     
-    NSData *data = [[GCDAsyncSocketCommunicationManager sharedInstance].dataManager getGetReturnHeadDataWithCMD:CMD_SET_resetFactory];
+    NSData *data = [[MSConnectManager sharedInstance].dataManager getGetReturnHeadDataWithCMD:CMD_SET_resetFactory];
     
-    [[GCDAsyncSocketCommunicationManager sharedInstance] socketWriteDataWithData:data andTag:0];
-    
-//    [[GCDAsyncSocketCommunicationManager sharedInstance] createSocketToReset];
+    [[MSConnectManager sharedInstance] tcpWriteDataWithData:data andTag:0];
     
     NSLog(@"还原出厂设置");
 }

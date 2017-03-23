@@ -23,8 +23,6 @@
 
 #import "BroadCastDetailVC.h"
 
-#import "CMDTestViewController.h"
-
 #import "SmartHomeVC.h"
 
 #import "MSMusicPlayVC1.h"
@@ -36,7 +34,7 @@
 #import "AlbumDetailViewController.h"
 
 
-#import "UDPAsyncSocketManager.h"
+//#import "UDPAsyncSocketManager.h"
 
 
 typedef enum :NSInteger {
@@ -227,7 +225,7 @@ static const CGFloat kGestureMinimumTranslation = 20.0;
             case latestClickTag:
             {
                 NSLog(@"--> 最近播放");
-                [UDPAsyncSocketManager sharedInstance];
+//                [UDPAsyncSocketManager sharedInstance];
             }
                 break;
             case smarthomeClickTag:

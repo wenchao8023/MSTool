@@ -17,7 +17,7 @@
 
 #import "HeadImageView.h"
 
-#import "GCDAsyncSocketManager.h"
+//#import "GCDAsyncSocketManager.h"
 
 
 
@@ -652,13 +652,13 @@ static UIColor *kContentBgColor = nil;
     
     
     
-    if ([GCDAsyncSocketManager sharedInstance].connectStatus == 1) {    // 已连接
-        
-        [self postNotify];
-    } else {
-        
-        [CommonUtil showAlertToUnConnected];
-    }
+//    if ([GCDAsyncSocketManager sharedInstance].connectStatus == 1) {    // 已连接
+//        
+//        [self postNotify];
+//    } else {
+//        
+//        [CommonUtil showAlertToUnConnected];
+//    }
 }
 
 -(void)postNotify {

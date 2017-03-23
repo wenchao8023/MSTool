@@ -18,7 +18,7 @@
 
 #import "MSMusicAlbumView.h"
 
-#import "GCDAsyncSocketManager.h"
+//#import "GCDAsyncSocketManager.h"
 
 
 typedef enum : NSInteger {
@@ -114,10 +114,10 @@ static MSFooterManager *manager = nil;
         
         NSLog(@"去播放器界面");
 
-        if ([GCDAsyncSocketManager sharedInstance].connectStatus == 1)
-            sself.goMusicVC();
-        else
-            [CommonUtil showAlertToUnConnected];
+//        if ([GCDAsyncSocketManager sharedInstance].connectStatus == 1)
+//            sself.goMusicVC();
+//        else
+//            [CommonUtil showAlertToUnConnected];
         
     };
     

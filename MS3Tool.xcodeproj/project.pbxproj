@@ -10,9 +10,12 @@
 		403ADAC72DAFF4DF3B701EA0 /* libPods-MS3Tool.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C41925631213201CAB30D927 /* libPods-MS3Tool.a */; };
 		94045B381E6D0C32003D26B0 /* KWCategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94045B361E6D0C32003D26B0 /* KWCategoryCell.m */; };
 		94045B391E6D0C32003D26B0 /* KWCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94045B371E6D0C32003D26B0 /* KWCategoryCell.xib */; };
-		941010901E2CD47E0071AEDC /* CMDTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9410108F1E2CD47E0071AEDC /* CMDTestViewController.m */; };
 		941632011E7639D10061C2B1 /* NewHandHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941632001E7639D10061C2B1 /* NewHandHelpViewController.m */; };
 		941632051E7644EB0061C2B1 /* smarthome.png in Resources */ = {isa = PBXBuildFile; fileRef = 941632041E7644EB0061C2B1 /* smarthome.png */; };
+		94169EB81E83B44700FDB791 /* MSSmartUDPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94169EB71E83B44700FDB791 /* MSSmartUDPManager.m */; };
+		94169EBB1E83B51000FDB791 /* MSTCPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94169EBA1E83B51000FDB791 /* MSTCPManager.m */; };
+		94169EBE1E83B51A00FDB791 /* MSUDPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94169EBD1E83B51A00FDB791 /* MSUDPManager.m */; };
+		94169EC11E83B58200FDB791 /* MSConnectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94169EC01E83B58200FDB791 /* MSConnectManager.m */; };
 		941C46D81E1B49380089CB5F /* HeadImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 941C46D71E1B49380089CB5F /* HeadImageView.m */; };
 		942B29C91DC98A48005A87EE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942B29C81DC98A47005A87EE /* SystemConfiguration.framework */; };
 		942B29CB1DC98A50005A87EE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942B29CA1DC98A50005A87EE /* CoreTelephony.framework */; };
@@ -27,13 +30,10 @@
 		94480D4E1DAF8615004DB372 /* MS3ToolUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94480D4D1DAF8615004DB372 /* MS3ToolUITests.m */; };
 		944DFFE41DED2B91008D3E50 /* CABasicAnimation+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 944DFFE31DED2B91008D3E50 /* CABasicAnimation+Extension.m */; };
 		945769941E75819000198700 /* AlbumDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 945769931E75819000198700 /* AlbumDetailViewController.m */; };
-		94682CF71E7CDB3B005666A6 /* SmartUDPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94682CF61E7CDB3B005666A6 /* SmartUDPManager.m */; };
 		946B64A31DDF2C390053010B /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 946B64A01DDF2C390053010B /* UIBarButtonItem+Extension.m */; };
 		946B64A41DDF2C390053010B /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 946B64A21DDF2C390053010B /* UIView+Extension.m */; };
 		946C076E1E7BAC870018B403 /* libcooee.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 946C07671E7BAC870018B403 /* libcooee.a */; };
 		946C076F1E7BAC870018B403 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 946C07681E7BAC870018B403 /* libcrypto.a */; };
-		946C07811E7BDB740018B403 /* GCDAsyncSocketCommunicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 946C07801E7BDB740018B403 /* GCDAsyncSocketCommunicationManager.m */; };
-		946C07841E7BDD800018B403 /* GCDConnectConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 946C07831E7BDD800018B403 /* GCDConnectConfig.m */; };
 		9475983B1E641F25003551E4 /* CategoryDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 947597E21E641F25003551E4 /* CategoryDataManager.m */; };
 		947598441E641F25003551E4 /* CategoryDetailVC1.m in Sources */ = {isa = PBXBuildFile; fileRef = 947597F11E641F25003551E4 /* CategoryDetailVC1.m */; };
 		947598451E641F25003551E4 /* CDCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 947597F31E641F25003551E4 /* CDCollectionCell.m */; };
@@ -140,8 +140,6 @@
 		948E1D961E5E8301001C01B9 /* MSMusicAlbumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1D711E5E8301001C01B9 /* MSMusicAlbumView.m */; };
 		948E1D9D1E5E833E001C01B9 /* CMDDataConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1D9A1E5E833E001C01B9 /* CMDDataConfig.m */; };
 		948E1D9E1E5E833E001C01B9 /* VoicePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1D9C1E5E833E001C01B9 /* VoicePlayer.m */; };
-		94942EAB1DD9519A00B45898 /* GCDAsyncSocketManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942EA61DD9519A00B45898 /* GCDAsyncSocketManager.m */; };
-		94942EB01DD951A300B45898 /* UDPAsyncSocketManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942EAF1DD951A300B45898 /* UDPAsyncSocketManager.m */; };
 		94942EB51DD95AFF00B45898 /* GCDAysncSocketDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942EB41DD95AFF00B45898 /* GCDAysncSocketDataManager.m */; };
 		9494C0A21E6CF4A600A1F011 /* KWMusicNet.m in Sources */ = {isa = PBXBuildFile; fileRef = 9494C0A11E6CF4A600A1F011 /* KWMusicNet.m */; };
 		9496A4A41DE5825A009CEDEB /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9496A4A31DE5825A009CEDEB /* UIImageView+Extension.m */; };
@@ -273,11 +271,17 @@
 		94045B351E6D0C32003D26B0 /* KWCategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KWCategoryCell.h; sourceTree = "<group>"; };
 		94045B361E6D0C32003D26B0 /* KWCategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KWCategoryCell.m; sourceTree = "<group>"; };
 		94045B371E6D0C32003D26B0 /* KWCategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KWCategoryCell.xib; sourceTree = "<group>"; };
-		9410108E1E2CD47E0071AEDC /* CMDTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMDTestViewController.h; sourceTree = "<group>"; };
-		9410108F1E2CD47E0071AEDC /* CMDTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMDTestViewController.m; sourceTree = "<group>"; };
 		941631FF1E7639D10061C2B1 /* NewHandHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewHandHelpViewController.h; sourceTree = "<group>"; };
 		941632001E7639D10061C2B1 /* NewHandHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewHandHelpViewController.m; sourceTree = "<group>"; };
 		941632041E7644EB0061C2B1 /* smarthome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smarthome.png; sourceTree = "<group>"; };
+		94169EB61E83B44700FDB791 /* MSSmartUDPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSmartUDPManager.h; sourceTree = "<group>"; };
+		94169EB71E83B44700FDB791 /* MSSmartUDPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSmartUDPManager.m; sourceTree = "<group>"; };
+		94169EB91E83B51000FDB791 /* MSTCPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTCPManager.h; sourceTree = "<group>"; };
+		94169EBA1E83B51000FDB791 /* MSTCPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTCPManager.m; sourceTree = "<group>"; };
+		94169EBC1E83B51A00FDB791 /* MSUDPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUDPManager.h; sourceTree = "<group>"; };
+		94169EBD1E83B51A00FDB791 /* MSUDPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUDPManager.m; sourceTree = "<group>"; };
+		94169EBF1E83B58200FDB791 /* MSConnectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSConnectManager.h; sourceTree = "<group>"; };
+		94169EC01E83B58200FDB791 /* MSConnectManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSConnectManager.m; sourceTree = "<group>"; };
 		941C46D61E1B49380089CB5F /* HeadImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadImageView.h; sourceTree = "<group>"; };
 		941C46D71E1B49380089CB5F /* HeadImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadImageView.m; sourceTree = "<group>"; };
 		942B29C81DC98A47005A87EE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -305,8 +309,6 @@
 		944DFFE61DED511C008D3E50 /* Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Extension.h; sourceTree = "<group>"; };
 		945769921E75819000198700 /* AlbumDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumDetailViewController.h; sourceTree = "<group>"; };
 		945769931E75819000198700 /* AlbumDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumDetailViewController.m; sourceTree = "<group>"; };
-		94682CF51E7CDB3B005666A6 /* SmartUDPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartUDPManager.h; sourceTree = "<group>"; };
-		94682CF61E7CDB3B005666A6 /* SmartUDPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartUDPManager.m; sourceTree = "<group>"; };
 		946B649F1DDF2C390053010B /* UIBarButtonItem+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extension.h"; sourceTree = "<group>"; };
 		946B64A01DDF2C390053010B /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
 		946B64A11DDF2C390053010B /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
@@ -314,10 +316,6 @@
 		946C07661E7BAC870018B403 /* cooee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cooee.h; sourceTree = "<group>"; };
 		946C07671E7BAC870018B403 /* libcooee.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcooee.a; sourceTree = "<group>"; };
 		946C07681E7BAC870018B403 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		946C077F1E7BDB740018B403 /* GCDAsyncSocketCommunicationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocketCommunicationManager.h; sourceTree = "<group>"; };
-		946C07801E7BDB740018B403 /* GCDAsyncSocketCommunicationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocketCommunicationManager.m; sourceTree = "<group>"; };
-		946C07821E7BDD800018B403 /* GCDConnectConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDConnectConfig.h; sourceTree = "<group>"; };
-		946C07831E7BDD800018B403 /* GCDConnectConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDConnectConfig.m; sourceTree = "<group>"; };
 		947238C91DC0937200380736 /* Ms3Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ms3Header.h; sourceTree = "<group>"; };
 		947597E11E641F25003551E4 /* CategoryDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryDataManager.h; sourceTree = "<group>"; };
 		947597E21E641F25003551E4 /* CategoryDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryDataManager.m; sourceTree = "<group>"; };
@@ -478,10 +476,6 @@
 		948E1D9A1E5E833E001C01B9 /* CMDDataConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMDDataConfig.m; sourceTree = "<group>"; };
 		948E1D9B1E5E833E001C01B9 /* VoicePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoicePlayer.h; sourceTree = "<group>"; };
 		948E1D9C1E5E833E001C01B9 /* VoicePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoicePlayer.m; sourceTree = "<group>"; };
-		94942EA51DD9519A00B45898 /* GCDAsyncSocketManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocketManager.h; sourceTree = "<group>"; };
-		94942EA61DD9519A00B45898 /* GCDAsyncSocketManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocketManager.m; sourceTree = "<group>"; };
-		94942EAE1DD951A300B45898 /* UDPAsyncSocketManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPAsyncSocketManager.h; sourceTree = "<group>"; };
-		94942EAF1DD951A300B45898 /* UDPAsyncSocketManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPAsyncSocketManager.m; sourceTree = "<group>"; };
 		94942EB11DD951F500B45898 /* packet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = packet.h; sourceTree = "<group>"; };
 		94942EB31DD95AFF00B45898 /* GCDAysncSocketDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAysncSocketDataManager.h; sourceTree = "<group>"; };
 		94942EB41DD95AFF00B45898 /* GCDAysncSocketDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAysncSocketDataManager.m; sourceTree = "<group>"; };
@@ -845,8 +839,8 @@
 		946C07751E7BD3E00018B403 /* SmartConfig */ = {
 			isa = PBXGroup;
 			children = (
-				94682CF51E7CDB3B005666A6 /* SmartUDPManager.h */,
-				94682CF61E7CDB3B005666A6 /* SmartUDPManager.m */,
+				94169EB61E83B44700FDB791 /* MSSmartUDPManager.h */,
+				94169EB71E83B44700FDB791 /* MSSmartUDPManager.m */,
 			);
 			path = SmartConfig;
 			sourceTree = "<group>";
@@ -1395,10 +1389,10 @@
 			children = (
 				94942EB11DD951F500B45898 /* packet.h */,
 				94942EBA1DD9675300B45898 /* GCDHeaderFile.h */,
-				946C07821E7BDD800018B403 /* GCDConnectConfig.h */,
-				946C07831E7BDD800018B403 /* GCDConnectConfig.m */,
 				94942EB31DD95AFF00B45898 /* GCDAysncSocketDataManager.h */,
 				94942EB41DD95AFF00B45898 /* GCDAysncSocketDataManager.m */,
+				94169EBF1E83B58200FDB791 /* MSConnectManager.h */,
+				94169EC01E83B58200FDB791 /* MSConnectManager.m */,
 				946C07751E7BD3E00018B403 /* SmartConfig */,
 				94942E9F1DD950EE00B45898 /* TCPManager */,
 				94942E9E1DD950E300B45898 /* UDPManager */,
@@ -1410,8 +1404,8 @@
 		94942E9E1DD950E300B45898 /* UDPManager */ = {
 			isa = PBXGroup;
 			children = (
-				94942EAE1DD951A300B45898 /* UDPAsyncSocketManager.h */,
-				94942EAF1DD951A300B45898 /* UDPAsyncSocketManager.m */,
+				94169EBC1E83B51A00FDB791 /* MSUDPManager.h */,
+				94169EBD1E83B51A00FDB791 /* MSUDPManager.m */,
 			);
 			path = UDPManager;
 			sourceTree = "<group>";
@@ -1419,10 +1413,8 @@
 		94942E9F1DD950EE00B45898 /* TCPManager */ = {
 			isa = PBXGroup;
 			children = (
-				94942EA51DD9519A00B45898 /* GCDAsyncSocketManager.h */,
-				94942EA61DD9519A00B45898 /* GCDAsyncSocketManager.m */,
-				946C077F1E7BDB740018B403 /* GCDAsyncSocketCommunicationManager.h */,
-				946C07801E7BDB740018B403 /* GCDAsyncSocketCommunicationManager.m */,
+				94169EB91E83B51000FDB791 /* MSTCPManager.h */,
+				94169EBA1E83B51000FDB791 /* MSTCPManager.m */,
 			);
 			path = TCPManager;
 			sourceTree = "<group>";
@@ -1441,8 +1433,6 @@
 			children = (
 				94971CEF1DC19311007D472E /* ConnectViewController.h */,
 				94971CF01DC19311007D472E /* ConnectViewController.m */,
-				9410108E1E2CD47E0071AEDC /* CMDTestViewController.h */,
-				9410108F1E2CD47E0071AEDC /* CMDTestViewController.m */,
 				94971D0E1DC1A671007D472E /* ConnectSetter1_VC.h */,
 				94971D0F1DC1A671007D472E /* ConnectSetter1_VC.m */,
 				94A864E81E4C5EED00F52CFF /* ConnectSet2.h */,
@@ -2161,10 +2151,10 @@
 				948E1D2C1E5E809A001C01B9 /* MSMusicSliderView.m in Sources */,
 				9485EB5E1E6ED1EE002BB589 /* KWFenleiViewController.m in Sources */,
 				94971D041DC19D22007D472E /* WenChaoControl.m in Sources */,
-				946C07841E7BDD800018B403 /* GCDConnectConfig.m in Sources */,
 				947598601E641F25003551E4 /* RecommandVC.m in Sources */,
 				948E1D331E5E809A001C01B9 /* ZhuboView.m in Sources */,
 				94971CF11DC19311007D472E /* ConnectViewController.m in Sources */,
+				94169EC11E83B58200FDB791 /* MSConnectManager.m in Sources */,
 				9475985E1E641F25003551E4 /* RankVC.m in Sources */,
 				94E148F31E6D06BA0087476D /* KWMusicView.m in Sources */,
 				9475985F1E641F25003551E4 /* RankVC2.m in Sources */,
@@ -2181,7 +2171,6 @@
 				94E49ACC1E51E74500F8D029 /* FMDatabaseAdditions.m in Sources */,
 				94B34E1E1E6E8859009CD1F6 /* KWCateMusicCell.m in Sources */,
 				948E1D291E5E809A001C01B9 /* CategoryCell.m in Sources */,
-				94942EAB1DD9519A00B45898 /* GCDAsyncSocketManager.m in Sources */,
 				94E49ACB1E51E74500F8D029 /* FMDatabase.m in Sources */,
 				94BD19F81E6FA83600536AD2 /* KWFenleiDetailModel.m in Sources */,
 				9499C65B1E72C21A0044500F /* KMSearchModel.m in Sources */,
@@ -2191,7 +2180,6 @@
 				9485EAD01E6E9291002BB589 /* KWArtistModel.m in Sources */,
 				947598451E641F25003551E4 /* CDCollectionCell.m in Sources */,
 				94971D031DC19D22007D472E /* UIButton+UnderlineNone.m in Sources */,
-				941010901E2CD47E0071AEDC /* CMDTestViewController.m in Sources */,
 				948E1D1A1E5E809A001C01B9 /* MSMainGuessLikeModel.m in Sources */,
 				9499C65C1E72C21A0044500F /* KugouMusicSearchVC.m in Sources */,
 				946B64A41DDF2C390053010B /* UIView+Extension.m in Sources */,
@@ -2203,13 +2191,13 @@
 				948E1D341E5E809A001C01B9 /* MSMainLeftView.m in Sources */,
 				948E1D9D1E5E833E001C01B9 /* CMDDataConfig.m in Sources */,
 				948E1D8D1E5E8301001C01B9 /* MSMusicModel.m in Sources */,
-				946C07811E7BDB740018B403 /* GCDAsyncSocketCommunicationManager.m in Sources */,
 				948E1D231E5E809A001C01B9 /* BroadCastView.m in Sources */,
 				94E904C01E5EDEB700EAD39A /* MSPanScroll.m in Sources */,
 				945769941E75819000198700 /* AlbumDetailViewController.m in Sources */,
 				948E1D1C1E5E809A001C01B9 /* BangdanCell.m in Sources */,
 				948E1D3A1E5E809A001C01B9 /* MSNavigation.m in Sources */,
 				94971D1B1DC20468007D472E /* CommonUtil.m in Sources */,
+				94169EBB1E83B51000FDB791 /* MSTCPManager.m in Sources */,
 				9485EAD41E6E9D70002BB589 /* KWArtistMusicModel.m in Sources */,
 				948E1D8E1E5E8301001C01B9 /* MSMusicPlayerConfig.m in Sources */,
 				948E1D1E1E5E809A001C01B9 /* BangdanView.m in Sources */,
@@ -2218,6 +2206,7 @@
 				9475985B1E641F25003551E4 /* RankAlbumCell.m in Sources */,
 				948E1D1F1E5E809A001C01B9 /* BroadCastCell.m in Sources */,
 				9485EB611E6ED54E002BB589 /* KWFenleiModel.m in Sources */,
+				94169EB81E83B44700FDB791 /* MSSmartUDPManager.m in Sources */,
 				9499C6571E72C21A0044500F /* KMRecordCell.m in Sources */,
 				948E1D321E5E809A001C01B9 /* ZhuboModel.m in Sources */,
 				94480D2D1DAF8614004DB372 /* AppDelegate.m in Sources */,
@@ -2228,12 +2217,10 @@
 				94F532181E7940E2004DC4FC /* MSMusicInfoInBox.m in Sources */,
 				947598441E641F25003551E4 /* CategoryDetailVC1.m in Sources */,
 				94E49ACE1E51E74500F8D029 /* FMDatabaseQueue.m in Sources */,
-				94682CF71E7CDB3B005666A6 /* SmartUDPManager.m in Sources */,
 				94E49ACD1E51E74500F8D029 /* FMDatabasePool.m in Sources */,
 				9499C5A21E7283A20044500F /* MSVoicecommandViewController.m in Sources */,
 				948E1D221E5E809A001C01B9 /* BroadCastDetailVC.m in Sources */,
 				94B34E211E6E8859009CD1F6 /* KWCateListCell.m in Sources */,
-				94942EB01DD951A300B45898 /* UDPAsyncSocketManager.m in Sources */,
 				94A864EB1E4C5EED00F52CFF /* ConnectSet2.m in Sources */,
 				9475985D1E641F25003551E4 /* RankAlbumTableView.m in Sources */,
 				9496A4A41DE5825A009CEDEB /* UIImageView+Extension.m in Sources */,
@@ -2248,6 +2235,7 @@
 				9499C5A51E72921F0044500F /* MSVoiceSettingViewController.m in Sources */,
 				948E1D8F1E5E8301001C01B9 /* MSMusicPlayViewController.m in Sources */,
 				94971D101DC1A671007D472E /* ConnectSetter1_VC.m in Sources */,
+				94169EBE1E83B51A00FDB791 /* MSUDPManager.m in Sources */,
 				94B34E2C1E6E8AA1009CD1F6 /* KWArtistCell.m in Sources */,
 				948E1D151E5E809A001C01B9 /* MSMainAlbumCell.m in Sources */,
 				94B34E231E6E8859009CD1F6 /* KWCateListViewController.m in Sources */,

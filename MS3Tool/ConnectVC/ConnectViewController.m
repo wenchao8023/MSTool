@@ -39,8 +39,6 @@ typedef enum _NAVI_BUTTON_TAG {
     self.navigationController.navigationBar.hidden = NO;
     
     self.navigationItem.leftBarButtonItem = [WenChaoControl createNaviBackButtonTarget:self Action:@selector(clickBack)];
-    
-    [[GCDAsyncSocketCommunicationManager sharedInstance] udpStopBroadcast];
 }
 -(void)clickBack {
     

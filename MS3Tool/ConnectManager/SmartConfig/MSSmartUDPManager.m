@@ -1,23 +1,25 @@
 //
-//  SmartUDPManager.m
+//  MSSmartUDPManager.m
 //  MS3Tool
 //
-//  Created by chao on 2017/3/18.
+//  Created by chao on 2017/3/23.
 //  Copyright © 2017年 ibuild. All rights reserved.
 //
 
-#import "SmartUDPManager.h"
+#import "MSSmartUDPManager.h"
 
 #import "AsyncUdpSocket.h"
 
-#import "cooee.h"
+#import "MSConnectManager.h"
 
+#import "cooee.h"
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 
-static SmartUDPManager *manager = nil;
 
-@interface SmartUDPManager()<AsyncUdpSocketDelegate> {
+static MSSmartUDPManager *manager = nil;
+
+@interface MSSmartUDPManager ()<AsyncUdpSocketDelegate> {
     const char *_sid;
     
     const char *_pwd;
@@ -28,47 +30,29 @@ static SmartUDPManager *manager = nil;
 @property (nonatomic, assign) uint32_t ip;
 
 @property (nullable, nonatomic, strong) NSTimer *udpTimer;
-@property (nullable, nonatomic, strong) AsyncUdpSocket *udpSocket;
 
+@property (nullable, nonatomic, strong) AsyncUdpSocket *udpSocket;
 
 @end
 
-@implementation SmartUDPManager
+@implementation MSSmartUDPManager
 
 +(instancetype)shareInstance {
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        manager = [[SmartUDPManager alloc] init];
+        manager = [[MSSmartUDPManager alloc] init];
     });
     
     return manager;
 }
 
--(void)sendRouteInfoSSID:(NSString *)ssid pswd:(NSString *)pswd {
-    
-    NSString *wifiName = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentwifiname"];
-    
-    _sid = [wifiName UTF8String];
-    
-    NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentpassword"];
-    
-    _pwd  = [password UTF8String];
-    
-    _key  = [@"" UTF8String];
-    
-    struct in_addr addr;
-    
-    inet_aton([[CommonUtil deviceIPAdress:IPType_addr] UTF8String], &addr);
-    
-    self.ip = CFSwapInt32BigToHost(ntohl(addr.s_addr));
+-(void)smartConfig {
     
     [self udpSocket];
     
     // 开启广播路由信息
     [self udpTimer];
-    
-    [[GCDAsyncSocketCommunicationManager sharedInstance] udpBroadcast];
 }
 
 -(AsyncUdpSocket *)udpSocket {
@@ -76,7 +60,7 @@ static SmartUDPManager *manager = nil;
     if (!_udpSocket || !_udpSocket.localPort) {
         
         if (!_udpSocket) {
-        
+            
             _udpSocket = [[AsyncUdpSocket alloc]
                           initWithDelegate:self];
         }
@@ -97,7 +81,7 @@ static SmartUDPManager *manager = nil;
                               error:&error];
         
         [_udpSocket joinMulticastGroup:UDP_HOST_C
-                                     error:&error];
+                                 error:&error];
         
         [_udpSocket receiveWithTimeout:-1
                                    tag:0];
@@ -128,6 +112,18 @@ static SmartUDPManager *manager = nil;
         
         NSLog(@"AsyncUdpSocket smartconfig......");
         
+        _sid = [[[NSUserDefaults standardUserDefaults] objectForKey:CRT_WIFI_SSID] UTF8String];
+        
+        _pwd  = [[[NSUserDefaults standardUserDefaults] objectForKey:CRT_WIFI_PSWD] UTF8String];
+        
+        _key  = [@"" UTF8String];
+        
+        struct in_addr addr;
+        
+        inet_aton([[CommonUtil deviceIPAdress:IPType_addr] UTF8String], &addr);
+        
+        self.ip = CFSwapInt32BigToHost(ntohl(addr.s_addr));
+        
         send_cooee(_sid, (int)strlen(_sid),
                    _pwd, (int)strlen(_pwd),
                    _key, 0,
@@ -150,10 +146,14 @@ static SmartUDPManager *manager = nil;
     }
 }
 
+
+
+
+#if 0
 -(BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
 {
     NSString *Wifi_Config_Success = @"lapsule:success";
-//  NSString *Wifi_Config_Fail = @"lapsule:fail";
+    //  NSString *Wifi_Config_Fail = @"lapsule:fail";
     
     NSString *info = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
     
@@ -184,5 +184,6 @@ static SmartUDPManager *manager = nil;
 -(void)onUdpSocket:(AsyncUdpSocket *)sock didNotReceiveDataWithTag:(long)tag dueToError:(NSError *)error {
     NSLog(@"on udp did not receive data...");
 }
+#endif
 
 @end

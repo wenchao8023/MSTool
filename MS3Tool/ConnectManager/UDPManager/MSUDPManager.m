@@ -1,38 +1,24 @@
 //
-//  UDPAsyncSocketManager.m
+//  MSUDPManager.m
 //  MS3Tool
 //
-//  Created by chao on 2016/10/19.
-//  Copyright © 2016年 ibuild. All rights reserved.
+//  Created by chao on 2017/3/23.
+//  Copyright © 2017年 ibuild. All rights reserved.
 //
 
-#import "UDPAsyncSocketManager.h"
+#import "MSUDPManager.h"
 
 #import "GCDAsyncUdpSocket.h"
 
-#import "GCDAysncSocketDataManager.h"
-
-#import "GCDHeaderFile.h"
-
-#import "GCDConnectConfig.h"
-
-#import "packet.h"
-
-#import "GCDAsyncSocketManager.h"
-
-#import "SmartUDPManager.h"
 
 
+static MSUDPManager *manager = nil;
 
-static UDPAsyncSocketManager *manager = nil;
-
-@interface UDPAsyncSocketManager()<GCDAsyncUdpSocketDelegate>
+@interface MSUDPManager()<GCDAsyncUdpSocketDelegate>
 
 @property (nonatomic, strong, nullable) GCDAsyncUdpSocket *udpSocket;
 
 @property (nonatomic, strong) GCDAysncSocketDataManager *dataManager;
-
-@property (nonatomic, strong) GCDConnectConfig *connectConfig;
 
 
 @property (nonatomic, strong, nullable) NSTimer *udpTimer;
@@ -42,11 +28,11 @@ static UDPAsyncSocketManager *manager = nil;
 
 @end
 
-@implementation UDPAsyncSocketManager
+@implementation MSUDPManager
 
 #pragma mark - init
 
-+(UDPAsyncSocketManager *)sharedInstance{
++(MSUDPManager *)sharedInstance{
     
     static dispatch_once_t onceToken;
     
@@ -64,8 +50,6 @@ static UDPAsyncSocketManager *manager = nil;
         
         self.dataManager = [GCDAysncSocketDataManager shareInstance];
         
-        self.connectConfig = [GCDConnectConfig sharedInstance];
-        
         [self udpSocket];
     }
     
@@ -80,10 +64,14 @@ static UDPAsyncSocketManager *manager = nil;
 -(GCDAsyncUdpSocket *)udpSocket {
     
     if (!_udpSocket || !_udpSocket.localPort) {
-     
-        if (!_udpSocket) {
         
+        if (!_udpSocket) {
+            
             _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)];
+            
+            [_udpSocket setIPv4Enabled:YES];
+            
+            [_udpSocket setIPv6Enabled:NO];
         }
         
         NSError *error = nil;
@@ -112,7 +100,7 @@ static UDPAsyncSocketManager *manager = nil;
     if (!_udpTimer) {
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-           
+            
             _udpTimer = [NSTimer timerWithTimeInterval:1.0                     // 每1s广播一次
                                                 target:self
                                               selector:@selector(broadCastData)
@@ -151,23 +139,15 @@ static UDPAsyncSocketManager *manager = nil;
 }
 
 - (void)broadCastData {
-        
-    NSData *serverData = [self.dataManager getGetReturnHeadDataWithCMD:CMD_GET_SERVER];
-    
-    NSString *wifiIPStr = [CommonUtil deviceIPAdress:IPType_desaddr];
-    
-    NSLog(@"broad IP = %@", wifiIPStr);
-    
-    [self.connectConfig setConnectProgress:CProgressShouldBroadcast];
-    
-    [GCDAsyncSocketManager sharedInstance].connectStatus = -1;
+
+    NSLog(@"broad IP = %@", [CommonUtil deviceIPAdress:IPType_desaddr]);
     
     //开始广播
     [self.udpSocket
      
-     sendData:serverData
+     sendData:[self.dataManager getGetReturnHeadDataWithCMD:CMD_GET_SERVER]
      
-     toHost:wifiIPStr
+     toHost:[CommonUtil deviceIPAdress:IPType_desaddr]
      
      port:UDP_PORT_S        // 协商好了的端口
      
@@ -178,6 +158,7 @@ static UDPAsyncSocketManager *manager = nil;
     [self.udpSocket beginReceiving:nil];
 }
 
+#if 0
 - (void)receiveService {
     
     NSError *error ;
@@ -194,6 +175,8 @@ static UDPAsyncSocketManager *manager = nil;
         self.serviceTimer = nil;
     }
 }
+#endif
+
 
 #pragma mark - GCDAsyncUdpSocketDelegate
 #pragma mark -- UDP_DATA
@@ -203,42 +186,23 @@ static UDPAsyncSocketManager *manager = nil;
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag {
     
     NSLog(@"UDP 已经发送数据了");
-    self.connectConfig.connectProgress = CProgressDidBroadcast;
 }
-
 
 /**
  *  已经收到返回的数据
  **/
+
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data
       fromAddress:(NSData *)address
 withFilterContext:(id)filterContext {
+    
+    NSLog(@"UDP 已经收到返回的数据了");
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        if (self.connectConfig.connectProgress >= CProgressDidReceiveBroadcastData) {
-            
-            return ;
-        }
-        
-        NSLog(@"UDP 已经收到返回的数据了");
-        
-        [[SmartUDPManager shareInstance] stopUdpTimer];
-        
-        [self stopBroadCast];
-        
-        [self udpStopGetService];
-        
-        self.connectConfig.connectProgress = CProgressDidReceiveBroadcastData;
-        
-        self.udpDataBlock(data);
-    });
+    [self stopBroadCast];
+
+    self.udpDataBlock(data);
+
 }
 
 
 @end
-
-
-
-
-

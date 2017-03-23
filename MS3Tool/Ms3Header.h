@@ -74,7 +74,7 @@
 
 #import "MSFooterManager.h"
 
-#import "GCDAsyncSocketCommunicationManager.h"
+#import "MSConnectManager.h"
 
 
 

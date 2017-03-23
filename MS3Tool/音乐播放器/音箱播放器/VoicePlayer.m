@@ -14,7 +14,7 @@ static VoicePlayer *manager = nil;
 
 @interface VoicePlayer ()
 
-@property (nonatomic, strong, nonnull) GCDAsyncSocketCommunicationManager *comManager;
+@property (nonatomic, strong, nonnull) MSConnectManager *conManager;
 
 @property (nonatomic, strong, nullable) NSTimer *getAlbumTimer;     // 控制播放列表获取
 
@@ -46,7 +46,7 @@ static VoicePlayer *manager = nil;
     
     if (self = [super init]) {
         
-        self.comManager = [GCDAsyncSocketCommunicationManager sharedInstance];
+        self.conManager = [MSConnectManager sharedInstance];
         
     }
     
@@ -61,25 +61,25 @@ static VoicePlayer *manager = nil;
 #pragma mark -- set message only head
 - (void)setDataWithCMD:(int)cmd {
     
-    NSData *data = [self.comManager.dataManager getGetReturnHeadDataWithCMD:cmd];
+    NSData *data = [self.conManager.dataManager getGetReturnHeadDataWithCMD:cmd];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 // 设置播放 某个列表(0-当前列表 1-收藏列表) 中的 某首歌曲
 - (void)setDataWithAlbumType:(int)albumType index:(int)index {
     
-    NSData *data = [self.comManager.dataManager getAlbumUrlDataWithFlag:albumType index:index];
+    NSData *data = [self.conManager.dataManager getAlbumUrlDataWithFlag:albumType index:index];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 // 设置APP收藏音乐
 - (void)setDataWithCMD:(int)cmd musicInfo:(NSDictionary *)musicInfo {
     
-    NSData *data = [self.comManager.dataManager getReturnAPPCollectMusicWithCMD:cmd dataDic:musicInfo];
+    NSData *data = [self.conManager.dataManager getReturnAPPCollectMusicWithCMD:cmd dataDic:musicInfo];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 
@@ -88,9 +88,9 @@ static VoicePlayer *manager = nil;
 #pragma mark -- message with value
 -(void)setArgumentWithCMD:(int)cmd value:(int)value {
     
-    NSData *data = [self.comManager.dataManager getSetReturnHeadAndValueDataWithCMD:cmd andValue:value];
+    NSData *data = [self.conManager.dataManager getSetReturnHeadAndValueDataWithCMD:cmd andValue:value];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 #pragma mark -- play control
@@ -206,9 +206,9 @@ static VoicePlayer *manager = nil;
 #pragma mark - get info
 -(void)getArgumentWithCMD:(int)cmd {
     
-    NSData *data = [self.comManager.dataManager getGetReturnHeadDataWithCMD:cmd];
+    NSData *data = [self.conManager.dataManager getGetReturnHeadDataWithCMD:cmd];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 /**
@@ -487,9 +487,9 @@ static VoicePlayer *manager = nil;
 //播放列表下标对应的歌曲
 - (void)writeDataWithValue:(int)value flag:(int)flag {
     
-    NSData *data = [self.comManager.dataManager getAlbumUrlDataWithFlag:flag index:value];
+    NSData *data = [self.conManager.dataManager getAlbumUrlDataWithFlag:flag index:value];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 //播放列表下标对应的歌曲
@@ -499,15 +499,15 @@ static VoicePlayer *manager = nil;
         
         NSDictionary *dataDic = [self musicInfo:modelArray[i]];
         
-        NSData *data = [self.comManager.dataManager getReturnAPPCollectMusicWithCMD:CMD_SET_currentPlayAlbum dataDic:dataDic];
+        NSData *data = [self.conManager.dataManager getReturnAPPCollectMusicWithCMD:CMD_SET_currentPlayAlbum dataDic:dataDic];
         
-        [self.comManager socketWriteDataWithData:data andTag:0];
+        [self.conManager tcpWriteDataWithData:data andTag:0];
         
         if (i == modelArray.count - 1) {
             
-            NSData *lastData = [self.comManager.dataManager getSetReturnHeadAndValueDataWithCMD:CMD_SET_send_end_album andValue:(int)index];
+            NSData *lastData = [self.conManager.dataManager getSetReturnHeadAndValueDataWithCMD:CMD_SET_send_end_album andValue:(int)index];
             
-            [self.comManager socketWriteDataWithData:lastData andTag:0];
+            [self.conManager tcpWriteDataWithData:data andTag:0];
         }
     }
 }

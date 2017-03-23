@@ -38,9 +38,10 @@
 #define LAST_PLAYINDEX      @"LASTPLAYINDEX"        //上一次播放的下标
 #define LAST_PLAYTYPE       @"LASTPLAYTYPE"         //上一次的循环模式
 
-#define LAST_WIFISSID       @"LASTWIFISSID"         //上一次进来的WiFi
+#define WIFI_ARRAY          @"WIFIARRAY"            //上一次进来的WiFi
+#define CRT_WIFI_SSID       @"currentWIFISSIDName"  //当前连接WiFi账号
+#define CRT_WIFI_PSWD       @"currentWIFIPWSDName"  //当前连接WiFi密码
 
-#define MS3_WIFISSID         @"SmartAudio"           //音箱WiFi名包含的字符串
 
 #warning rotateTime
 #pragma mark - define rotateTime
@@ -122,8 +123,6 @@
 #define LIBPATH [NSString stringWithFormat:@"%@/",[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject]]
 
 
-#warning GCD_QUEUE
-#define GCD_QUEUE_CONNECT dispatch_queue_create("com.Steak.GCD", DISPATCH_QUEUE_CONCURRENT)
 
 
 
