@@ -74,9 +74,12 @@ static MSConnectManager *manager = nil;
         [sself analysisData:data];
     };
 }
-/**
- *  写数据
- */
+
+- (BOOL)tcpConnectStatus {
+    
+    return [self.tcpManager TcpConnectStatus] == 1 ? YES : NO;
+}
+
 - (void)tcpWriteDataWithData:(nonnull NSData *)requestData andTag:(long)tag {
     
     [self.tcpManager tcpWriteData:requestData andTag:tag];

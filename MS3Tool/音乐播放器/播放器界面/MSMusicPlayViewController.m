@@ -84,7 +84,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
 @property (nonatomic, strong, nonnull) MSConnectManager *comConfig;
 
 
-//@property (nonatomic, strong, nullable) NSTimer *sliderTimer;    // 播放进度定时器
+@property (nonatomic, strong, nullable) NSTimer *sliderTimer;    // 播放进度定时器
 
 @property (nonatomic, strong, nonnull) NSArray *argusArray;
 
@@ -131,7 +131,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
         [[MSFooterManager shareManager] setWindowHidden];
     }];
 
-//    [self loadMusicInfoInView];
 }
 -(UIStatusBarStyle)preferredStatusBarStyle {
     
@@ -147,6 +146,8 @@ static const CGFloat kVolumeViewHeight = 160.f;
     [self setUI];
     
     [self setImagesWithUrlStr:@""];
+    
+    [self loadLocalData];
         
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
@@ -160,7 +161,9 @@ static const CGFloat kVolumeViewHeight = 160.f;
 
     for (NSString *aruStr in self.argusArray) {
         
-        [self addObserver:self forKeyPath:aruStr options:NSKeyValueObservingOptionNew context:nil];
+        [self addObserver:self forKeyPath:aruStr
+                  options:NSKeyValueObservingOptionNew
+                  context:nil];
     }
 }
 
@@ -178,7 +181,13 @@ static const CGFloat kVolumeViewHeight = 160.f;
     
     if (!_argusArray) {
         
-        _argusArray = @[@"playVolume", @"playStatu", @"playType", @"playProgress", @"playDuration", @"playInfo"];
+        _argusArray = @[@"playVolume",
+                        @"playStatu",
+                        @"playType",
+                        @"playProgress",
+                        @"playDuration",
+                        @"playInfo"
+                        ];
     }
     
     return _argusArray;
@@ -211,7 +220,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
     // 进来的时候就先获取一次进度
 //    [self.vPlayer VPGetCurrentProgress];
     // 循环获取进度
-    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
+    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
     
     [self.vPlayer VPGetPlayType];
     
@@ -226,7 +235,36 @@ static const CGFloat kVolumeViewHeight = 160.f;
         [self.vPlayer VPGetPlayMusicInfo];
     });
     
-//    [self.sliderTimer fire];
+    [self.sliderTimer fire];
+}
+
+- (void)loadLocalData {
+
+    NSDictionary *tempDic = self.cmdConfig.cmdDic;
+    
+    if ([self getValueDic:tempDic CMD:CMD_GET_VOLUME_R] != -1) {
+        self.playVolume = [self getValueDic:tempDic CMD:CMD_GET_VOLUME_R];
+    }
+    
+    if ([self getValueDic:tempDic CMD:CMD_GET_PLAYSTATE_R] != -1) {
+        self.playStatu = [self getValueDic:tempDic CMD:CMD_GET_PLAYSTATE_R];
+    }
+    
+    if ([self getValueDic:tempDic CMD:CMD_NOT_controlStatus] != -1) {
+        self.playStatu = [self getValueDic:tempDic CMD:CMD_NOT_controlStatus];
+    }
+    
+    if ([self getValueDic:tempDic CMD:CMD_GET_playProgress_R] != -1) {
+        self.playProgress = [self getValueDic:tempDic CMD:CMD_GET_playProgress_R];
+    }
+    
+    if ([self getValueDic:tempDic CMD:CMD_GET_currentPlayStyle_R] != -1) {
+        self.playType = [self getValueDic:tempDic CMD:CMD_GET_currentPlayStyle_R];
+    }
+    
+    if ([self getValueDic:tempDic CMD:CMD_GET_currentDuration_R] != -1) {
+        self.playDuration = [self getValueDic:tempDic CMD:CMD_GET_currentDuration_R];
+    }
 }
 
 
@@ -234,7 +272,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
 
 #pragma mark - 设置UI界面中的控件详细参数
 -(void)setUI {
-    
     // 设置中间的图片
     [self setMiddldImageLayer];
     
@@ -290,7 +327,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
                 }
             }];
         });
-        
     };
 }
 
@@ -403,48 +439,62 @@ static const CGFloat kVolumeViewHeight = 160.f;
     return _volumeSlider;
 }
 
-//-(NSTimer *)sliderTimer {
-//    
-//    if (!_sliderTimer) {
-//        
-//        _sliderTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(addPlaySlider) userInfo:nil repeats:YES];
-//    }
-//    
-//    return _sliderTimer;
-//}
+-(NSTimer *)sliderTimer {
+    
+    if (!_sliderTimer) {
+        
+        _sliderTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(addPlaySlider) userInfo:nil repeats:YES];
+    }
+    
+    return _sliderTimer;
+}
 
 #pragma mark - 管理播放进度
 -(void)addPlaySlider {
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        float value = self.playSlider.value;
-        value += 1;
-        self.playSlider.value = value;
-        self.playingTimeLabel.text = [self getDuration:(int)self.playSlider.value];
+    [self configPlaySlider:0 isAdd:YES];
+}
+
+-(void)configPlaySlider:(float)value isAdd:(BOOL)isAdd {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    
+        if (isAdd) {
+            
+            self.playProgress++;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            self.playSlider.value = self.playProgress;
+            
+            self.playingTimeLabel.text = [self getDuration:(int)self.playSlider.value];
+        });
     });
 }
+
 // 暂停进度推进
-//-(void)stopPlaySlider {
-//    
-//    if (self.sliderTimer && [self.sliderTimer isValid]) {
-//        
-//        [self.sliderTimer invalidate];
-//        
-//        self.sliderTimer = nil;
-//    }
-//}
+-(void)stopPlaySlider {
+    
+    if (self.sliderTimer && [self.sliderTimer isValid]) {
+        
+        [self.sliderTimer invalidate];
+        
+        self.sliderTimer = nil;
+    }
+}
 // 恢复进度推进
-//-(void)resumePlaySlider {
-//    
-//    [self.sliderTimer fire];
-//}
+-(void)resumePlaySlider {
+    
+    [self.sliderTimer fire];
+}
 
 // 手指松开
 - (void)progressValueChanged:(UISlider *)slider {
     
-//    [self resumePlaySlider];
+    [self resumePlaySlider];
     
-    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
+    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
     
     [self.vPlayer VPSetProgress:(int)slider.value];
 }
@@ -452,7 +502,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
 // 手指按下
 - (void)sliderProgress:(UISlider *)slider {
     
-//    [self stopPlaySlider];
+    [self stopPlaySlider];
     
     [self.vPlayer VPGetCurrentProgress_Stop];
     
@@ -524,13 +574,13 @@ static const CGFloat kVolumeViewHeight = 160.f;
     switch (self.playStatu) {
         case 3:
             [self.playBtn setBackgroundImage:[UIImage imageNamed:@"playPlay39"] forState:UIControlStateNormal];
-//            [self stopPlaySlider];
+            [self stopPlaySlider];
             [self.vPlayer VPGetCurrentProgress_Stop];
             break;
         case 4:
             [self.playBtn setBackgroundImage:[UIImage imageNamed:@"playPause39"] forState:UIControlStateNormal];
-//            [self resumePlaySlider];
-            [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
+            [self resumePlaySlider];
+            [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
             break;
         default:
             break;
@@ -658,7 +708,10 @@ static const CGFloat kVolumeViewHeight = 160.f;
     
     int cmd = self.cmdConfig.getCMD;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        
+//    });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         
         [self setMusicInfoWithCMD:cmd];
     });
@@ -793,9 +846,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
                 break;
             case 3:
             {
-                self.playSlider.value = (float)self.playProgress;
-                
-                self.playingTimeLabel.text = [self getDuration:self.playProgress];
+                [self configPlaySlider:self.playProgress isAdd:NO];
             }
                 break;
             case 4:
@@ -833,7 +884,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
         
         [self removeObserver:self forKeyPath:aruStr];
     }
-
 }
 
 

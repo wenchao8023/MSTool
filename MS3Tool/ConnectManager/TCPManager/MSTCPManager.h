@@ -40,4 +40,9 @@ typedef void(^TcpDataBlock)(NSData * _Nonnull data);
  socket 主动断开连接
  */
 -(void)tcpDisconnectSocket;
+
+/**
+ 连接状态
+ */
+-(int)TcpConnectStatus;
 @end

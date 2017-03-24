@@ -19,7 +19,7 @@ static MSTCPManager *manager = nil;
 
 @property (nonatomic, strong) GCDAsyncSocket *tcpSocket;
 
-@property (nonatomic, assign) NSInteger connectStatus;  // 连接状态：1 - 已连接， -1 - 未连接， 0 - 连接中
+@property (nonatomic, assign) int connectStatus;  // 连接状态：1 - 已连接， -1 - 未连接， 0 - 连接中
 
 @property (nonatomic, assign) NSInteger connectCount;
 
@@ -58,9 +58,31 @@ static MSTCPManager *manager = nil;
         self.isToDisconnect = NO;
         
         [self tcpReadDataInRunLoop];
+        
+        [self addObserver:self forKeyPath:@"connectStatus" options:NSKeyValueObservingOptionNew context:nil];
     }
     
     return self;
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    
+    if ([keyPath isEqualToString:@"connectStatus"]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_CONTROLLERCOUNT object:nil];
+    }
+}
+
+-(void)dealloc {
+    
+    [self removeObserver:self forKeyPath:@"connectStatus"];
+    
+    [self removeObserver:self forKeyPath:NOTIFY_CONTROLLERCOUNT];
+}
+
+-(int)TcpConnectStatus {
+    
+    return self.connectStatus;
 }
 
 #pragma mark - connect

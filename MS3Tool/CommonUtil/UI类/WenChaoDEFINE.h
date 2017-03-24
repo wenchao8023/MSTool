@@ -27,7 +27,9 @@
 #define NOTIFY_PUSH_VOICE    @"pushVoiceSetterViewController"   //推出音箱中的视图
 #define NOTIFY_PUSH_ALBUMDETAIL @"pushAlbumDetailViewController"//推出我的歌单详情
 
-#define TCP_DATA_QUEUE          "com.data.tcp"  // tcp请求数据的串行对列
+#define NOTIRY_CONNECTSTATUS @"notifyConnectStatus"             // tcp连接状态
+
+
 
 
 

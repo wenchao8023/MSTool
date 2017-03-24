@@ -114,10 +114,10 @@ static MSFooterManager *manager = nil;
         
         NSLog(@"去播放器界面");
 
-//        if ([GCDAsyncSocketManager sharedInstance].connectStatus == 1)
-//            sself.goMusicVC();
-//        else
-//            [CommonUtil showAlertToUnConnected];
+        if ([[MSConnectManager sharedInstance] tcpConnectStatus])
+            sself.goMusicVC();
+        else
+            [CommonUtil showAlertToUnConnected];
         
     };
     

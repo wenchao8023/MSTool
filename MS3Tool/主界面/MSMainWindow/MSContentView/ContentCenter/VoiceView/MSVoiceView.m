@@ -51,32 +51,24 @@ static NSString *kCollectionCellID = @"MSVoiceViewCollectionCellID";
         
         [self addSubview:self.collectionView];
         
-        
-        
-#warning 通知连接状态
+        [self addNotifycation];
     }
     
     return self;
 }
-//
-//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-//
-//    if ([keyPath isEqualToString:@"connectStatus"]) {
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            
-//            [self resetHeadImage];
-//        });
-//    }
-//}
-//
-//- (void)resetHeadImage {
-//    
-//    if (self.socketManager.connectStatus == 1)
-//        self.headImage.image = [UIImage imageNamed:@"voicebgConnect"];
-//    else
-//        self.headImage.image = [UIImage imageNamed:@"voicebgUnconnected"];
-//}
+
+- (void)addNotifycation {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetHeadImage) name:NOTIFY_CONTROLLERCOUNT object:nil];
+}
+
+- (void)resetHeadImage {
+    
+    if ([[MSConnectManager sharedInstance] tcpConnectStatus])
+        self.headImage.image = [UIImage imageNamed:@"voicebgConnect"];
+    else
+        self.headImage.image = [UIImage imageNamed:@"voicebgUnconnected"];
+}
 
 
 -(UIImageView *)headImage {
@@ -95,10 +87,9 @@ static NSString *kCollectionCellID = @"MSVoiceViewCollectionCellID";
 
 -(void)imageTap {
     
+    if (![[MSConnectManager sharedInstance] tcpConnectStatus])
+        [self postNotify:[NSIndexPath indexPathForRow:4 inSection:0]];
     
-//    if (self.socketManager.connectStatus != 1)
-//        [self postNotify:[NSIndexPath indexPathForRow:4 inSection:0]];
-        
 }
 
 

@@ -507,7 +507,7 @@ static VoicePlayer *manager = nil;
             
             NSData *lastData = [self.conManager.dataManager getSetReturnHeadAndValueDataWithCMD:CMD_SET_send_end_album andValue:(int)index];
             
-            [self.conManager tcpWriteDataWithData:data andTag:0];
+            [self.conManager tcpWriteDataWithData:lastData andTag:0];
         }
     }
 }

@@ -198,8 +198,6 @@ withFilterContext:(id)filterContext {
     
     NSLog(@"UDP 已经收到返回的数据了");
 
-    [self stopBroadCast];
-
     self.udpDataBlock(data);
 
 }

@@ -42,12 +42,12 @@
 
 #pragma mark - manager TCP
 
-/**
- *  写数据
- */
 - (void)tcpWriteDataWithData:(nonnull NSData *)requestData andTag:(long)tag;
 
 - (void)tcpDisconnect;
+
+- (BOOL)tcpConnectStatus;
+
 
 #pragma mark - manager UDP
 
