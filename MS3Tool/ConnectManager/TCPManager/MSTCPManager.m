@@ -29,6 +29,9 @@ static MSTCPManager *manager = nil;
 
 @property (nonatomic, assign) uint16_t currentPort;     // 目前正在连接的port
 
+@property (nonatomic, assign) BOOL isToDisconnect;      // 是否是主动断开连接
+
+
 @end
 
 @implementation MSTCPManager
@@ -51,6 +54,8 @@ static MSTCPManager *manager = nil;
         self.connectStatus = -1;
         
         self.connectCount = 0;
+        
+        self.isToDisconnect = NO;
         
         [self tcpReadDataInRunLoop];
     }
@@ -96,30 +101,42 @@ static MSTCPManager *manager = nil;
     
     self.connectStatus = -1;
     
-    if (self.connectCount >= 0 && self.connectCount < TCPConnectLimit) {
-        
-        NSTimeInterval time = pow(2, self.connectCount);
-        
-        if (!self.connectTimer) {
-            
-            self.connectTimer = [NSTimer scheduledTimerWithTimeInterval:time
-                                                                   target:self
-                                                                 selector:@selector(reconnection)
-                                                                 userInfo:nil
-                                                                  repeats:NO];
-            
-            [[NSRunLoop mainRunLoop] addTimer:self.connectTimer forMode:NSRunLoopCommonModes];
-            
-            [self.connectTimer fire];
-        }
-        
-        self.connectCount++;
-        
-        [self socketDidDisconnectBeginSendReconnect];
-    }
-    else{
+    if (self.isToDisconnect) {  //主动断开连接，不需要做后面的判断
         
         return ;
+    } else {
+        
+        if (self.connectCount >= 0 && self.connectCount < TCPConnectLimit) {
+            
+            NSTimeInterval time = pow(2, self.connectCount);
+            
+            if (!self.connectTimer) {
+                
+                self.connectTimer = [NSTimer scheduledTimerWithTimeInterval:time
+                                                                     target:self
+                                                                   selector:@selector(reconnection)
+                                                                   userInfo:nil
+                                                                    repeats:NO];
+                
+                [[NSRunLoop mainRunLoop] addTimer:self.connectTimer forMode:NSRunLoopCommonModes];
+                
+                [self.connectTimer fire];
+            }
+            
+            self.connectCount++;
+            
+            [self socketDidDisconnectBeginSendReconnect];
+        }
+        else{
+            
+            //we should udp or reconnect smart. coding here, udp atomic but smart need user to config.
+            NSLog(@"reconnect failed, alert to check up net-work");
+            
+            [[MSConnectManager sharedInstance] udpBroadcast];
+            
+            return ;
+        }
+
     }
 }
 
@@ -145,11 +162,13 @@ static MSTCPManager *manager = nil;
 }
 
 
--(void)disconnectSocket {
+-(void)tcpDisconnectSocket {
     
     self.connectStatus = -1;
     
     self.connectCount = 0;
+    
+    self.isToDisconnect = YES;
     
     [self.tcpSocket disconnect];
 }
@@ -191,6 +210,8 @@ static MSTCPManager *manager = nil;
     
     self.connectStatus = 1;
     
+    self.isToDisconnect = NO;
+    
     [self socketStopReconnect];
     
     NSLog(@"tcp connect success");
@@ -200,9 +221,7 @@ static MSTCPManager *manager = nil;
 }
 
 -(void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err {
-    
-    self.connectStatus = -1;
-    
+
     NSLog(@"tcp connect failed : %@", err);
     
     [self socketDidDisconnectBeginSendReconnect];

@@ -82,6 +82,11 @@ static MSConnectManager *manager = nil;
     [self.tcpManager tcpWriteData:requestData andTag:tag];
 }
 
+- (void)tcpDisconnect {
+    
+    [self.tcpManager tcpDisconnectSocket];
+}
+
 
 #pragma mark - manager UDP
 
@@ -216,7 +221,7 @@ static MSConnectManager *manager = nil;
     
     self.cmdConfig.getCMD = cmd;
     
-//    [self addNotify];
+    [self postNotify];
 }
 
 #pragma mark -- commandBack
@@ -241,4 +246,17 @@ static MSConnectManager *manager = nil;
     [self tcpConnectWithHost:[tempDic objectForKey:@"IP"]
                      andPort:[[tempDic objectForKey:@"PORT"] integerValue]];
 }
+
+#pragma mark -- add notify
+- (void)postNotify {
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_CMDDATARETURN object:nil];
+}
+
+- (void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_CMDDATARETURN object:nil];
+}
+
+
 @end

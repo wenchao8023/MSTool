@@ -61,12 +61,14 @@
 }
 -(void)clickBack {
  
-    if ([KVNProgress isVisible] == YES) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([KVNProgress isVisible] == YES) {
+            
+            [KVNProgress dismiss];
+        }
         
-        [KVNProgress dismiss];
-    }
-    
-    [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    });
 }
 
 - (void)viewDidLoad {
@@ -76,8 +78,32 @@
     [self loadLocalData];
     
     [self resetView];
+    
+//    [self addNotify];
+    [[CMDDataConfig shareInstance] addObserver:self forKeyPath:@"getCMD" options:NSKeyValueObservingOptionNew context:nil];
 }
 
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    
+    if ([keyPath isEqualToString:@"getCMD"]) {
+        
+        if ([CMDDataConfig shareInstance].getCMD == CMD_HANDSHAKE_R) {
+            
+            [self clickBack];
+        }
+    }
+}
+//- (void)addNotify {
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clickBack) name:NOTIFY_CMDDATARETURN object:nil];
+//}
+
+
+- (void)dealloc {
+    
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_CMDDATARETURN object:nil];
+    [[CMDDataConfig shareInstance] removeObserver:self forKeyPath:@"getCMD"];
+}
 
 
 

@@ -47,6 +47,7 @@
  */
 - (void)tcpWriteDataWithData:(nonnull NSData *)requestData andTag:(long)tag;
 
+- (void)tcpDisconnect;
 
 #pragma mark - manager UDP
 

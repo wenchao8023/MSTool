@@ -30,8 +30,14 @@ typedef void(^TcpDataBlock)(NSData * _Nonnull data);
  *  socket 向服务器发送数据
  */
 -(void)tcpWriteData:(nonnull NSData *)data andTag:(long)tag;
+
 /**
  *  socket 读取数据
  */
 -(void)tcpReadData;
+
+/**
+ socket 主动断开连接
+ */
+-(void)tcpDisconnectSocket;
 @end

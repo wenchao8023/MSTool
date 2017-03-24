@@ -49,10 +49,16 @@ static MSSmartUDPManager *manager = nil;
 
 -(void)smartConfig {
     
+    [[MSConnectManager sharedInstance] tcpDisconnect];
+    
     [self udpSocket];
     
     // 开启广播路由信息
     [self udpTimer];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[MSConnectManager sharedInstance] udpBroadcast];
+    });
 }
 
 -(AsyncUdpSocket *)udpSocket {
@@ -64,11 +70,7 @@ static MSSmartUDPManager *manager = nil;
             _udpSocket = [[AsyncUdpSocket alloc]
                           initWithDelegate:self];
         }
-        
-        
-        
-        
-        
+
         NSError *error = nil;
         
         if (!_udpSocket.localPort) {
