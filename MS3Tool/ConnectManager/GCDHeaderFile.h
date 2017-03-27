@@ -4,7 +4,7 @@
 #define DEV_STATE_ONLINE 1
 
 // 连接超时时长
-static const int TIMEOUT = 1;
+static const double TIMEOUT = 0.3;
 
 #define UPLOAD_ENV_ONLINE @"online"
 

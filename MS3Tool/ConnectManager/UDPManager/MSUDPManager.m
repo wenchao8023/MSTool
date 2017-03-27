@@ -101,7 +101,7 @@ static MSUDPManager *manager = nil;
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             
-            _udpTimer = [NSTimer timerWithTimeInterval:1.0                     // 每1s广播一次
+            _udpTimer = [NSTimer timerWithTimeInterval:TIMEOUT                     // 每 0.3s 广播一次
                                                 target:self
                                               selector:@selector(broadCastData)
                                               userInfo:nil

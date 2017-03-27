@@ -28,8 +28,6 @@ static VoicePlayer *manager = nil;
 @end
 
 @implementation VoicePlayer
-
-
 +(instancetype)shareInstace {
     
     static dispatch_once_t onceToken;

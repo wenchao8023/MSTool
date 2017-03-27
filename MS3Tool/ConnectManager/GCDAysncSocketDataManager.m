@@ -170,7 +170,7 @@ static GCDAysncSocketDataManager *dataManager = nil;
         
         [data getBytes:&packHead length:sizeof(packHead)];
         
-        NSLog(@"cmd == 0x000000%x", ntohl(packHead.cmd));
+        NSLog(@"cmd == 0x000000%x, %d", ntohl(packHead.cmd), ntohl(packHead.cmd));
         
         return ntohl(packHead.cmd);
     }

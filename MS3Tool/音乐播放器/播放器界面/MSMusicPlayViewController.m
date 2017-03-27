@@ -130,6 +130,12 @@ static const CGFloat kVolumeViewHeight = 160.f;
         
         [[MSFooterManager shareManager] setWindowHidden];
     }];
+    
+//    if (![self.playInfo count]) {
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            [self.vPlayer VPGetPlayMusicInfo];
+//        });
+//    }
 
 }
 -(UIStatusBarStyle)preferredStatusBarStyle {
@@ -147,12 +153,10 @@ static const CGFloat kVolumeViewHeight = 160.f;
     
     [self setImagesWithUrlStr:@""];
     
-    [self loadLocalData];
-        
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        
-        [self loadMusicInfoInView];
-    });
+//    [self loadLocalData];
+    
+    
+    [self loadMusicInfoInView];
     
     [self addObservers];
 }
@@ -201,7 +205,9 @@ static const CGFloat kVolumeViewHeight = 160.f;
     
     self.comConfig = [MSConnectManager sharedInstance];
     
-    self.defaultImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"cm2_default_play_bg@3x" ofType:@"jpg"]];
+    self.defaultImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]
+                                                          pathForResource:@"cm2_default_play_bg@3x"
+                                                          ofType:@"jpg"]];
 }
 
 #pragma mark - 进入界面的时候导入播放音乐的信息
@@ -220,22 +226,35 @@ static const CGFloat kVolumeViewHeight = 160.f;
     // 进来的时候就先获取一次进度
 //    [self.vPlayer VPGetCurrentProgress];
     // 循环获取进度
-    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
+//    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
     
-    [self.vPlayer VPGetPlayType];
     
-    [self.vPlayer VPGetPlayStatu];
-    
-    [self.vPlayer VPGetVolume];
-    
-    [self.vPlayer VPGetDuration];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        [self.vPlayer VPGetPlayMusicInfo];
+        
+        
+        NSArray *selArr = @[@"VPGetDuration",
+                            @"VPGetPlayMusicInfo",
+                            @"VPGetPlayStatu",
+                            @"VPGetPlayType",
+                            @"VPGetVolume",
+                            ];
+        
+        for (int i = 0; i < selArr.count; i++) {
+            
+            if (!i) {
+                
+            }
+            
+            [NSThread sleepForTimeInterval:0.1];
+            
+            [self.vPlayer performSelectorInBackground:NSSelectorFromString(selArr[i])
+                                           withObject:nil];
+        }
     });
-    
-    [self.sliderTimer fire];
+
+ 
+//    [self.sliderTimer fire];
 }
 
 - (void)loadLocalData {
@@ -305,9 +324,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
      *  给button赋值，程序上一次记录的
      */
     [self setImgToCycleTypeBtn];
-    
- 
-    
+
     // 关闭歌单
     __weak typeof(&*self) sself = self;
     
@@ -341,9 +358,13 @@ static const CGFloat kVolumeViewHeight = 160.f;
 
 - (void)setSliderUI {
     
-    [self.playSlider addTarget:self action:@selector(progressValueChanged:) forControlEvents:UIControlEventTouchUpInside];
+    [self.playSlider addTarget:self
+                        action:@selector(progressValueChanged:)
+              forControlEvents:UIControlEventTouchUpInside];
     
-    [self.playSlider addTarget:self action:@selector(sliderProgress:) forControlEvents:UIControlEventValueChanged | UIControlEventTouchDown];
+    [self.playSlider addTarget:self
+                        action:@selector(sliderProgress:)
+              forControlEvents:UIControlEventValueChanged | UIControlEventTouchDown];
     
     self.playSlider.minimumTrackTintColor = WCWhite;
     
@@ -407,7 +428,11 @@ static const CGFloat kVolumeViewHeight = 160.f;
         _volumeView.hidden = YES;
         
         
-        UIButton *cancelBtn = [WenChaoControl createButtonWithFrame:CGRectMake((WIDTH - 40) / 2, 0, 40, 40) ImageName:nil Target:self Action:@selector(cancelVolumeView) Title:nil];
+        UIButton *cancelBtn = [WenChaoControl createButtonWithFrame:CGRectMake((WIDTH - 40) / 2, 0, 40, 40)
+                                                          ImageName:nil
+                                                             Target:self
+                                                             Action:@selector(cancelVolumeView)
+                                                              Title:nil];
         
         [cancelBtn setBackgroundImage:[UIImage imageNamed:@"backDownBlue"] forState:UIControlStateNormal];
         
@@ -433,7 +458,9 @@ static const CGFloat kVolumeViewHeight = 160.f;
         
         _volumeSlider.maximumValue = 100;
         
-        [_volumeSlider addTarget:self action:@selector(setVolumeData) forControlEvents:UIControlEventTouchUpInside];
+        [_volumeSlider addTarget:self
+                          action:@selector(setVolumeData)
+                forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _volumeSlider;
@@ -443,7 +470,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
     
     if (!_sliderTimer) {
         
-        _sliderTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(addPlaySlider) userInfo:nil repeats:YES];
+//        _sliderTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(addPlaySlider) userInfo:nil repeats:YES];
     }
     
     return _sliderTimer;
@@ -452,7 +479,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
 #pragma mark - 管理播放进度
 -(void)addPlaySlider {
     
-    [self configPlaySlider:0 isAdd:YES];
+//    [self configPlaySlider:0 isAdd:YES];
 }
 
 -(void)configPlaySlider:(float)value isAdd:(BOOL)isAdd {
@@ -476,37 +503,39 @@ static const CGFloat kVolumeViewHeight = 160.f;
 // 暂停进度推进
 -(void)stopPlaySlider {
     
-    if (self.sliderTimer && [self.sliderTimer isValid]) {
-        
-        [self.sliderTimer invalidate];
-        
-        self.sliderTimer = nil;
-    }
+//    if (self.sliderTimer && [self.sliderTimer isValid]) {
+//        
+//        [self.sliderTimer invalidate];
+//        
+//        self.sliderTimer = nil;
+//    }
 }
 // 恢复进度推进
 -(void)resumePlaySlider {
     
-    [self.sliderTimer fire];
+//    [self.sliderTimer fire];
 }
 
 // 手指松开
 - (void)progressValueChanged:(UISlider *)slider {
     
-    [self resumePlaySlider];
-    
-    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
-    
+//    [self resumePlaySlider];
+//    
+    [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
+//
     [self.vPlayer VPSetProgress:(int)slider.value];
 }
 
 // 手指按下
 - (void)sliderProgress:(UISlider *)slider {
     
-    [self stopPlaySlider];
-    
+//    [self stopPlaySlider];
+//
     [self.vPlayer VPGetCurrentProgress_Stop];
-    
-    self.playingTimeLabel.text = [self getDuration:(int)slider.value];
+//
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.playingTimeLabel.text = [self getDuration:(int)slider.value];
+    });
 }
 
 #pragma mark - 给控件赋值
@@ -517,8 +546,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
 }
 
 - (void)setMusicInfoInView {
-    
-    NSLog(@"返回的音乐信息是 : %@", self.playInfo);
     
     [self setImagesWithUrlStr:[self.playInfo objectForKey:@"musicImgUrl"]];
     
@@ -547,9 +574,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
 
 // 设置循环模式按钮图片
 - (void)setImgToCycleTypeBtn {
-    
-    NSLog(@"返回的播放类型是 : %d", self.playType);
-    
+   
     switch (self.playType) {
         case 0:
             [self.cycleTypeBtn setBackgroundImage:[UIImage imageNamed:@"cycleTypeOrder39"] forState:UIControlStateNormal];
@@ -571,19 +596,15 @@ static const CGFloat kVolumeViewHeight = 160.f;
  */
 - (void)setImgToPlayBtn {
     
-    switch (self.playStatu) {
-        case 3:
-            [self.playBtn setBackgroundImage:[UIImage imageNamed:@"playPlay39"] forState:UIControlStateNormal];
-            [self stopPlaySlider];
-            [self.vPlayer VPGetCurrentProgress_Stop];
-            break;
-        case 4:
-            [self.playBtn setBackgroundImage:[UIImage imageNamed:@"playPause39"] forState:UIControlStateNormal];
-            [self resumePlaySlider];
-            [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:NO];
-            break;
-        default:
-            break;
+    if (self.playStatu == 2 ||
+        self.playStatu == 4) {  // 播放
+        [self.playBtn setBackgroundImage:[UIImage imageNamed:@"playPause39"] forState:UIControlStateNormal];
+//        [self resumePlaySlider];
+        [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
+    } else {    // 暂停
+        [self.playBtn setBackgroundImage:[UIImage imageNamed:@"playPlay39"] forState:UIControlStateNormal];
+//            [self stopPlaySlider];
+        [self.vPlayer VPGetCurrentProgress_Stop];
     }
 }
 
@@ -630,10 +651,11 @@ static const CGFloat kVolumeViewHeight = 160.f;
 
     [self setPlayStatuToNext];
     
-    if (self.playStatu == 3)
-        [self.vPlayer VPlay];
-    else
+    if (self.playStatu == 2 ||
+        self.playStatu == 4)
         [self.vPlayer VPause];
+    else
+        [self.vPlayer VPlay];
     
     [self setImgToPlayBtn];
 }
@@ -708,9 +730,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
     
     int cmd = self.cmdConfig.getCMD;
     
-//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//        
-//    });
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         
         [self setMusicInfoWithCMD:cmd];
@@ -723,12 +742,19 @@ static const CGFloat kVolumeViewHeight = 160.f;
     NSDictionary *tempDic = self.cmdConfig.cmdDic;
 
     switch (cmd) {
-        case CMD_GET_VOLUME_R | CMD_NOT_volume:  // 音量
+        case CMD_GET_VOLUME_R:  // 音量
         {
             
             self.playVolume = [self getValueDic:tempDic CMD:cmd];
             
             NSLog(@"获取音量大小 : %d", self.playVolume);
+        }
+        case CMD_NOT_volume:  // 音量
+        {
+            
+            self.playVolume = [self getValueDic:tempDic CMD:cmd];
+            
+            NSLog(@"通知 -- 音量大小 : %d", self.playVolume);
         }
             break;
         case CMD_GET_PLAYSTATE_R:   //  播放状态
@@ -759,6 +785,12 @@ static const CGFloat kVolumeViewHeight = 160.f;
             break;
         case CMD_GET_currentDuration_R:     // 播放总时长
         {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                                         (int64_t)(0 * NSEC_PER_SEC)),
+                           dispatch_get_main_queue(), ^{
+                [NSThread sleepForTimeInterval:0.1];
+                [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
+            });
             self.playDuration = [self getValueDic:tempDic CMD:cmd];
             
             NSLog(@"获取播放总时长 : %d", self.playDuration);
@@ -766,10 +798,11 @@ static const CGFloat kVolumeViewHeight = 160.f;
             break;
         case CMD_GET_current_musicInfo_R:   // 音乐信息
         {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [NSThread sleepForTimeInterval:0.1];
                 [self.vPlayer VPGetDuration];
             });
+            
             self.playInfo = (NSDictionary *)[self getObjDic:tempDic CMD:cmd];
             
             NSLog(@"获取音乐信息 : %@", self.playInfo);
@@ -778,10 +811,17 @@ static const CGFloat kVolumeViewHeight = 160.f;
             break;
         case CMD_NOT_controlPlay:
         {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [NSThread sleepForTimeInterval:0.1];
                 [self.vPlayer VPGetPlayMusicInfo];
             });
+//            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//                
+//                
+//            });
+
+
+            NSLog(@"通知 -- 歌曲下标 : %d", [self getValueDic:tempDic CMD:cmd]);
         }
             break;
         case CMD_GET_playAlbum_R:
