@@ -298,10 +298,10 @@ static UIColor *kContentBgColor = nil;
         [CommonUtil addKVNToMainView:self];
     });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        [self reloadData];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        
+//        [self reloadData];
+//    });
     
     _netWork = [MSMainNetWork shareManager];
     
@@ -649,8 +649,6 @@ static UIColor *kContentBgColor = nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
     
 //    if ([GCDAsyncSocketManager sharedInstance].connectStatus == 1) {    // 已连接
 //        

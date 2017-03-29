@@ -27,7 +27,7 @@
 
 static const NSInteger kPageCount = 20;
 
-static NSInteger kPageNum = 0;
+static NSInteger kPageNum = 1;
 
 
 

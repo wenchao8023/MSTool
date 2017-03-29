@@ -231,10 +231,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        
-        
-        NSArray *selArr = @[@"VPGetDuration",
-                            @"VPGetPlayMusicInfo",
+        NSArray *selArr = @[@"VPGetPlayMusicInfo",
                             @"VPGetPlayStatu",
                             @"VPGetPlayType",
                             @"VPGetVolume",
@@ -557,19 +554,23 @@ static const CGFloat kVolumeViewHeight = 160.f;
 // 设置背景、专辑图片
 -(void)setImagesWithUrlStr:(NSString *)urlStr {
     
-    [self.middleImageV sd_setImageWithURL:[NSURL URLWithString:urlStr]
-                         placeholderImage:self.defaultImage];
-    
-    [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:urlStr]
-                        placeholderImage:self.defaultImage];
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    if (urlStr.length) {
         
-        self.bgImageView.image = [CommonUtil coreBlurImage:self.bgImageView.image
-                                            withBlurNumber:0.5];
-    });
-  
-    
+        [self.middleImageV sd_setImageWithURL:[NSURL URLWithString:urlStr]
+                             placeholderImage:self.defaultImage];
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            
+            self.bgImageView.image = [CommonUtil coreBlurImage:[[UIImage alloc]
+                                                                initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlStr]]]
+                                                withBlurNumber:0.5];
+        });
+    } else {
+        
+        self.middleImageV.image = self.defaultImage;
+        
+        self.bgImageView.image = self.defaultImage;
+    }
 }
 
 // 设置循环模式按钮图片
@@ -774,6 +775,11 @@ static const CGFloat kVolumeViewHeight = 160.f;
         case CMD_GET_playProgress_R:    // 播放进度
         {
             self.playProgress = [self getValueDic:tempDic CMD:cmd];
+            
+            if (self.playDuration <= 0) {
+                
+                [self.vPlayer VPGetDuration];
+            }
         }
             break;
         case CMD_GET_currentPlayStyle_R:    // 播放模式
@@ -785,12 +791,12 @@ static const CGFloat kVolumeViewHeight = 160.f;
             break;
         case CMD_GET_currentDuration_R:     // 播放总时长
         {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
-                                         (int64_t)(0 * NSEC_PER_SEC)),
-                           dispatch_get_main_queue(), ^{
-                [NSThread sleepForTimeInterval:0.1];
-                [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
-            });
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+//                                         (int64_t)(0 * NSEC_PER_SEC)),
+//                           dispatch_get_main_queue(), ^{
+//                [NSThread sleepForTimeInterval:0.1];
+//                [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
+//            });
             self.playDuration = [self getValueDic:tempDic CMD:cmd];
             
             NSLog(@"获取播放总时长 : %d", self.playDuration);
@@ -798,11 +804,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
             break;
         case CMD_GET_current_musicInfo_R:   // 音乐信息
         {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [NSThread sleepForTimeInterval:0.1];
-                [self.vPlayer VPGetDuration];
-            });
-            
             self.playInfo = (NSDictionary *)[self getObjDic:tempDic CMD:cmd];
             
             NSLog(@"获取音乐信息 : %@", self.playInfo);
@@ -815,10 +816,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
                 [NSThread sleepForTimeInterval:0.1];
                 [self.vPlayer VPGetPlayMusicInfo];
             });
-//            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//                
-//                
-//            });
 
 
             NSLog(@"通知 -- 歌曲下标 : %d", [self getValueDic:tempDic CMD:cmd]);
