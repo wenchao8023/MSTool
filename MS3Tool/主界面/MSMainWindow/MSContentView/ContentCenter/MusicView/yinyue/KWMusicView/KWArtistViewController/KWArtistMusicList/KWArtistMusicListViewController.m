@@ -49,6 +49,11 @@ static const NSInteger kLimitN = 30;
     self.view.backgroundColor = WCBgGray;
     
     self.headLabel.text = self.artistModel.name;
+    
+    if ([[MSFooterManager shareManager] getHiddenState]) {
+        
+        [[MSFooterManager shareManager] setWindowUnHidden];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {

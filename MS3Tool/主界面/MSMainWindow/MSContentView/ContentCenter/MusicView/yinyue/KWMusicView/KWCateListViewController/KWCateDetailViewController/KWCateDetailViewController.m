@@ -48,6 +48,11 @@ static const CGFloat kPlayAllViewHeight = 60.f;
     self.view.backgroundColor = WCBgGray;
     
     self.headLabel.text = [self.headDic objectForKey:@"name"];
+    
+    if ([[MSFooterManager shareManager] getHiddenState]) {
+        
+        [[MSFooterManager shareManager] setWindowUnHidden];
+    }
 }
 
 - (void)viewDidLoad {

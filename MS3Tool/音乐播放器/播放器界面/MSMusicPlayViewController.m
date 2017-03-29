@@ -559,17 +559,18 @@ static const CGFloat kVolumeViewHeight = 160.f;
         [self.middleImageV sd_setImageWithURL:[NSURL URLWithString:urlStr]
                              placeholderImage:self.defaultImage];
         
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            
-            self.bgImageView.image = [CommonUtil coreBlurImage:[[UIImage alloc]
-                                                                initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlStr]]]
+        [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:self.defaultImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+           
+            self.bgImageView.image = [CommonUtil coreBlurImage:image
                                                 withBlurNumber:0.5];
-        });
+        }];
+        
     } else {
         
         self.middleImageV.image = self.defaultImage;
         
-        self.bgImageView.image = self.defaultImage;
+        self.bgImageView.image = [CommonUtil coreBlurImage:self.defaultImage
+                                            withBlurNumber:0.5];
     }
 }
 

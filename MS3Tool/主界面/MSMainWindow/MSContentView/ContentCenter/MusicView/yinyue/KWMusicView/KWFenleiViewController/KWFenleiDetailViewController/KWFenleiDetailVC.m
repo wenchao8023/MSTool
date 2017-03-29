@@ -42,6 +42,11 @@ static const NSInteger kLimitN = 30;
     
     self.navigationItem.leftBarButtonItem = [WenChaoControl createNaviBackButtonTarget:self Action:@selector(clickBack)];
     
+    if ([[MSFooterManager shareManager] getHiddenState]) {
+        
+        [[MSFooterManager shareManager] setWindowUnHidden];
+    }
+    
 }
 -(void)clickBack {
     
