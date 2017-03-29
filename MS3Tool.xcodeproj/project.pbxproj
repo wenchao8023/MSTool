@@ -60,14 +60,7 @@
 		9485EADC1E6E9EC2002BB589 /* KWArtistMusicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9485EADA1E6E9EC2002BB589 /* KWArtistMusicCell.xib */; };
 		9485EB5E1E6ED1EE002BB589 /* KWFenleiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9485EB5D1E6ED1EE002BB589 /* KWFenleiViewController.m */; };
 		9485EB611E6ED54E002BB589 /* KWFenleiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9485EB601E6ED54E002BB589 /* KWFenleiModel.m */; };
-		9486C43F1E534E7300A5A9E8 /* smartHomeHeadImg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9486C43E1E534E7300A5A9E8 /* smartHomeHeadImg.png */; };
 		948E1CF31E5E809A001C01B9 /* FooterViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1C6C1E5E809A001C01B9 /* FooterViewModel.m */; };
-		948E1CF41E5E809A001C01B9 /* botto_music_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 948E1C6F1E5E809A001C01B9 /* botto_music_play.png */; };
-		948E1CF51E5E809A001C01B9 /* botto_music_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 948E1C701E5E809A001C01B9 /* botto_music_play@2x.png */; };
-		948E1CF61E5E809A001C01B9 /* botto_music_play@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 948E1C711E5E809A001C01B9 /* botto_music_play@3x.png */; };
-		948E1CF71E5E809A001C01B9 /* bottom_music_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 948E1C741E5E809A001C01B9 /* bottom_music_pause.png */; };
-		948E1CF81E5E809A001C01B9 /* bottom_music_pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 948E1C751E5E809A001C01B9 /* bottom_music_pause@2x.png */; };
-		948E1CF91E5E809A001C01B9 /* bottom_music_pause@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 948E1C761E5E809A001C01B9 /* bottom_music_pause@3x.png */; };
 		948E1CFA1E5E809A001C01B9 /* MSFooterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1C781E5E809A001C01B9 /* MSFooterManager.m */; };
 		948E1CFB1E5E809A001C01B9 /* MusicFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1C7A1E5E809A001C01B9 /* MusicFooterView.m */; };
 		948E1CFC1E5E809A001C01B9 /* MusicFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 948E1C7B1E5E809A001C01B9 /* MusicFooterView.xib */; };
@@ -142,6 +135,26 @@
 		94942EB51DD95AFF00B45898 /* GCDAysncSocketDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942EB41DD95AFF00B45898 /* GCDAysncSocketDataManager.m */; };
 		9494C0A21E6CF4A600A1F011 /* KWMusicNet.m in Sources */ = {isa = PBXBuildFile; fileRef = 9494C0A11E6CF4A600A1F011 /* KWMusicNet.m */; };
 		949640761E8B8CDD0004B24E /* MSMusicPlayerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 949640751E8B8CDD0004B24E /* MSMusicPlayerConfig.m */; };
+		9496408F1E8BB95E0004B24E /* SmartHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 949640791E8BB95E0004B24E /* SmartHomeCell.m */; };
+		949640901E8BB95E0004B24E /* SmartHomeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9496407A1E8BB95E0004B24E /* SmartHomeCell.xib */; };
+		949640911E8BB95E0004B24E /* bx-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 9496407C1E8BB95E0004B24E /* bx-01.png */; };
+		949640921E8BB95E0004B24E /* cl-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 9496407D1E8BB95E0004B24E /* cl-01.png */; };
+		949640931E8BB95E0004B24E /* cyj-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 9496407E1E8BB95E0004B24E /* cyj-01.png */; };
+		949640941E8BB95E0004B24E /* cz-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 9496407F1E8BB95E0004B24E /* cz-01.png */; };
+		949640951E8BB95E0004B24E /* d-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 949640801E8BB95E0004B24E /* d-01.png */; };
+		949640961E8BB95E0004B24E /* fg-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 949640811E8BB95E0004B24E /* fg-01.png */; };
+		949640971E8BB95E0004B24E /* fs-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 949640821E8BB95E0004B24E /* fs-01.png */; };
+		949640981E8BB95E0004B24E /* jhq-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 949640831E8BB95E0004B24E /* jhq-01.png */; };
+		949640991E8BB95E0004B24E /* jsq-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 949640841E8BB95E0004B24E /* jsq-01.png */; };
+		9496409A1E8BB95E0004B24E /* kg-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 949640851E8BB95E0004B24E /* kg-01.png */; };
+		9496409B1E8BB95E0004B24E /* kt-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 949640861E8BB95E0004B24E /* kt-01.png */; };
+		9496409C1E8BB95E0004B24E /* rsh-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 949640871E8BB95E0004B24E /* rsh-01.png */; };
+		9496409D1E8BB95E0004B24E /* rsq-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 949640881E8BB95E0004B24E /* rsq-01.png */; };
+		9496409E1E8BB95E0004B24E /* smartHomeHeadImg.png in Resources */ = {isa = PBXBuildFile; fileRef = 949640891E8BB95E0004B24E /* smartHomeHeadImg.png */; };
+		9496409F1E8BB95E0004B24E /* wbl-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 9496408A1E8BB95E0004B24E /* wbl-01.png */; };
+		949640A01E8BB95E0004B24E /* xyj-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 9496408B1E8BB95E0004B24E /* xyj-01.png */; };
+		949640A11E8BB95E0004B24E /* yj-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 9496408C1E8BB95E0004B24E /* yj-01.png */; };
+		949640A21E8BB95E0004B24E /* SmartHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9496408E1E8BB95E0004B24E /* SmartHomeVC.m */; };
 		9496A4A41DE5825A009CEDEB /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9496A4A31DE5825A009CEDEB /* UIImageView+Extension.m */; };
 		94971CF11DC19311007D472E /* ConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94971CF01DC19311007D472E /* ConnectViewController.m */; };
 		94971D031DC19D22007D472E /* UIButton+UnderlineNone.m in Sources */ = {isa = PBXBuildFile; fileRef = 94971D001DC19D22007D472E /* UIButton+UnderlineNone.m */; };
@@ -183,8 +196,6 @@
 		9499C65B1E72C21A0044500F /* KMSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9499C6531E72C21A0044500F /* KMSearchModel.m */; };
 		9499C65C1E72C21A0044500F /* KugouMusicSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9499C6551E72C21A0044500F /* KugouMusicSearchVC.m */; };
 		94A2A69F1DD04EA200B48098 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 94A2A69E1DD04EA200B48098 /* libsqlite3.tbd */; };
-		94A73DE41DC8953B00F4B161 /* VoiceCommandsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A73DE31DC8953B00F4B161 /* VoiceCommandsVC.m */; };
-		94A73DE81DC8A2BD00F4B161 /* VoiceBoxSettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A73DE71DC8A2BD00F4B161 /* VoiceBoxSettingVC.m */; };
 		94A864EB1E4C5EED00F52CFF /* ConnectSet2.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A864E91E4C5EED00F52CFF /* ConnectSet2.m */; };
 		94A864EC1E4C5EED00F52CFF /* ConnectSet2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94A864EA1E4C5EED00F52CFF /* ConnectSet2.xib */; };
 		94B34E1D1E6E8859009CD1F6 /* KWCateDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B34E121E6E8859009CD1F6 /* KWCateDetailViewController.m */; };
@@ -214,25 +225,6 @@
 		94BD08ED1E71749C007B09FC /* volume39.png in Resources */ = {isa = PBXBuildFile; fileRef = 94BD08DE1E71749C007B09FC /* volume39.png */; };
 		94BD19F51E6FA7D100536AD2 /* KWFenleiDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BD19F41E6FA7D100536AD2 /* KWFenleiDetailVC.m */; };
 		94BD19F81E6FA83600536AD2 /* KWFenleiDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BD19F71E6FA83600536AD2 /* KWFenleiDetailModel.m */; };
-		94D185D61E53399600BCAB8E /* SmartHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D185D51E53399600BCAB8E /* SmartHomeVC.m */; };
-		94D185DA1E533B1100BCAB8E /* SmartHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D185D81E533B1100BCAB8E /* SmartHomeCell.m */; };
-		94D185DB1E533B1100BCAB8E /* SmartHomeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94D185D91E533B1100BCAB8E /* SmartHomeCell.xib */; };
-		94D185ED1E5346FB00BCAB8E /* bx-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185DD1E5346FB00BCAB8E /* bx-01.png */; };
-		94D185EE1E5346FB00BCAB8E /* cl-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185DE1E5346FB00BCAB8E /* cl-01.png */; };
-		94D185EF1E5346FB00BCAB8E /* cyj-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185DF1E5346FB00BCAB8E /* cyj-01.png */; };
-		94D185F01E5346FB00BCAB8E /* cz-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185E01E5346FB00BCAB8E /* cz-01.png */; };
-		94D185F11E5346FB00BCAB8E /* d-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185E11E5346FB00BCAB8E /* d-01.png */; };
-		94D185F21E5346FB00BCAB8E /* fg-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185E21E5346FB00BCAB8E /* fg-01.png */; };
-		94D185F31E5346FB00BCAB8E /* fs-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185E31E5346FB00BCAB8E /* fs-01.png */; };
-		94D185F41E5346FB00BCAB8E /* jhq-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185E41E5346FB00BCAB8E /* jhq-01.png */; };
-		94D185F51E5346FB00BCAB8E /* jsq-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185E51E5346FB00BCAB8E /* jsq-01.png */; };
-		94D185F61E5346FB00BCAB8E /* kg-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185E61E5346FB00BCAB8E /* kg-01.png */; };
-		94D185F71E5346FB00BCAB8E /* kt-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185E71E5346FB00BCAB8E /* kt-01.png */; };
-		94D185F81E5346FB00BCAB8E /* rsh-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185E81E5346FB00BCAB8E /* rsh-01.png */; };
-		94D185F91E5346FB00BCAB8E /* rsq-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185E91E5346FB00BCAB8E /* rsq-01.png */; };
-		94D185FA1E5346FB00BCAB8E /* wbl-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185EA1E5346FB00BCAB8E /* wbl-01.png */; };
-		94D185FB1E5346FB00BCAB8E /* xyj-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185EB1E5346FB00BCAB8E /* xyj-01.png */; };
-		94D185FC1E5346FB00BCAB8E /* yj-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D185EC1E5346FB00BCAB8E /* yj-01.png */; };
 		94E148F31E6D06BA0087476D /* KWMusicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E148F21E6D06BA0087476D /* KWMusicView.m */; };
 		94E49ACB1E51E74500F8D029 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E49A991E51E74500F8D029 /* FMDatabase.m */; };
 		94E49ACC1E51E74500F8D029 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E49A9B1E51E74500F8D029 /* FMDatabaseAdditions.m */; };
@@ -359,15 +351,8 @@
 		9485EB5D1E6ED1EE002BB589 /* KWFenleiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KWFenleiViewController.m; sourceTree = "<group>"; };
 		9485EB5F1E6ED54E002BB589 /* KWFenleiModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KWFenleiModel.h; sourceTree = "<group>"; };
 		9485EB601E6ED54E002BB589 /* KWFenleiModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KWFenleiModel.m; sourceTree = "<group>"; };
-		9486C43E1E534E7300A5A9E8 /* smartHomeHeadImg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smartHomeHeadImg.png; sourceTree = "<group>"; };
 		948E1C6B1E5E809A001C01B9 /* FooterViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FooterViewModel.h; sourceTree = "<group>"; };
 		948E1C6C1E5E809A001C01B9 /* FooterViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FooterViewModel.m; sourceTree = "<group>"; };
-		948E1C6F1E5E809A001C01B9 /* botto_music_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = botto_music_play.png; sourceTree = "<group>"; };
-		948E1C701E5E809A001C01B9 /* botto_music_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "botto_music_play@2x.png"; sourceTree = "<group>"; };
-		948E1C711E5E809A001C01B9 /* botto_music_play@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "botto_music_play@3x.png"; sourceTree = "<group>"; };
-		948E1C741E5E809A001C01B9 /* bottom_music_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_music_pause.png; sourceTree = "<group>"; };
-		948E1C751E5E809A001C01B9 /* bottom_music_pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom_music_pause@2x.png"; sourceTree = "<group>"; };
-		948E1C761E5E809A001C01B9 /* bottom_music_pause@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom_music_pause@3x.png"; sourceTree = "<group>"; };
 		948E1C771E5E809A001C01B9 /* MSFooterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFooterManager.h; sourceTree = "<group>"; };
 		948E1C781E5E809A001C01B9 /* MSFooterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSFooterManager.m; sourceTree = "<group>"; };
 		948E1C791E5E809A001C01B9 /* MusicFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicFooterView.h; sourceTree = "<group>"; };
@@ -482,6 +467,28 @@
 		9494C0A11E6CF4A600A1F011 /* KWMusicNet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KWMusicNet.m; sourceTree = "<group>"; };
 		949640741E8B8CDD0004B24E /* MSMusicPlayerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMusicPlayerConfig.h; sourceTree = "<group>"; };
 		949640751E8B8CDD0004B24E /* MSMusicPlayerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMusicPlayerConfig.m; sourceTree = "<group>"; };
+		949640781E8BB95E0004B24E /* SmartHomeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartHomeCell.h; sourceTree = "<group>"; };
+		949640791E8BB95E0004B24E /* SmartHomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartHomeCell.m; sourceTree = "<group>"; };
+		9496407A1E8BB95E0004B24E /* SmartHomeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SmartHomeCell.xib; sourceTree = "<group>"; };
+		9496407C1E8BB95E0004B24E /* bx-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bx-01.png"; sourceTree = "<group>"; };
+		9496407D1E8BB95E0004B24E /* cl-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cl-01.png"; sourceTree = "<group>"; };
+		9496407E1E8BB95E0004B24E /* cyj-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cyj-01.png"; sourceTree = "<group>"; };
+		9496407F1E8BB95E0004B24E /* cz-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cz-01.png"; sourceTree = "<group>"; };
+		949640801E8BB95E0004B24E /* d-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "d-01.png"; sourceTree = "<group>"; };
+		949640811E8BB95E0004B24E /* fg-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fg-01.png"; sourceTree = "<group>"; };
+		949640821E8BB95E0004B24E /* fs-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fs-01.png"; sourceTree = "<group>"; };
+		949640831E8BB95E0004B24E /* jhq-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jhq-01.png"; sourceTree = "<group>"; };
+		949640841E8BB95E0004B24E /* jsq-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jsq-01.png"; sourceTree = "<group>"; };
+		949640851E8BB95E0004B24E /* kg-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kg-01.png"; sourceTree = "<group>"; };
+		949640861E8BB95E0004B24E /* kt-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kt-01.png"; sourceTree = "<group>"; };
+		949640871E8BB95E0004B24E /* rsh-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsh-01.png"; sourceTree = "<group>"; };
+		949640881E8BB95E0004B24E /* rsq-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsq-01.png"; sourceTree = "<group>"; };
+		949640891E8BB95E0004B24E /* smartHomeHeadImg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smartHomeHeadImg.png; sourceTree = "<group>"; };
+		9496408A1E8BB95E0004B24E /* wbl-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wbl-01.png"; sourceTree = "<group>"; };
+		9496408B1E8BB95E0004B24E /* xyj-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xyj-01.png"; sourceTree = "<group>"; };
+		9496408C1E8BB95E0004B24E /* yj-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yj-01.png"; sourceTree = "<group>"; };
+		9496408D1E8BB95E0004B24E /* SmartHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartHomeVC.h; sourceTree = "<group>"; };
+		9496408E1E8BB95E0004B24E /* SmartHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartHomeVC.m; sourceTree = "<group>"; };
 		9496A4A21DE5825A009CEDEB /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
 		9496A4A31DE5825A009CEDEB /* UIImageView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Extension.m"; sourceTree = "<group>"; };
 		94971CEF1DC19311007D472E /* ConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectViewController.h; sourceTree = "<group>"; };
@@ -538,10 +545,6 @@
 		9499C6541E72C21A0044500F /* KugouMusicSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KugouMusicSearchVC.h; sourceTree = "<group>"; };
 		9499C6551E72C21A0044500F /* KugouMusicSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KugouMusicSearchVC.m; sourceTree = "<group>"; };
 		94A2A69E1DD04EA200B48098 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		94A73DE21DC8953B00F4B161 /* VoiceCommandsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceCommandsVC.h; sourceTree = "<group>"; };
-		94A73DE31DC8953B00F4B161 /* VoiceCommandsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceCommandsVC.m; sourceTree = "<group>"; };
-		94A73DE61DC8A2BD00F4B161 /* VoiceBoxSettingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceBoxSettingVC.h; sourceTree = "<group>"; };
-		94A73DE71DC8A2BD00F4B161 /* VoiceBoxSettingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceBoxSettingVC.m; sourceTree = "<group>"; };
 		94A864E81E4C5EED00F52CFF /* ConnectSet2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectSet2.h; sourceTree = "<group>"; };
 		94A864E91E4C5EED00F52CFF /* ConnectSet2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectSet2.m; sourceTree = "<group>"; };
 		94A864EA1E4C5EED00F52CFF /* ConnectSet2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectSet2.xib; sourceTree = "<group>"; };
@@ -581,27 +584,6 @@
 		94BD19F41E6FA7D100536AD2 /* KWFenleiDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KWFenleiDetailVC.m; sourceTree = "<group>"; };
 		94BD19F61E6FA83600536AD2 /* KWFenleiDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KWFenleiDetailModel.h; sourceTree = "<group>"; };
 		94BD19F71E6FA83600536AD2 /* KWFenleiDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KWFenleiDetailModel.m; sourceTree = "<group>"; };
-		94D185D41E53399600BCAB8E /* SmartHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartHomeVC.h; sourceTree = "<group>"; };
-		94D185D51E53399600BCAB8E /* SmartHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartHomeVC.m; sourceTree = "<group>"; };
-		94D185D71E533B1100BCAB8E /* SmartHomeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartHomeCell.h; sourceTree = "<group>"; };
-		94D185D81E533B1100BCAB8E /* SmartHomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartHomeCell.m; sourceTree = "<group>"; };
-		94D185D91E533B1100BCAB8E /* SmartHomeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SmartHomeCell.xib; sourceTree = "<group>"; };
-		94D185DD1E5346FB00BCAB8E /* bx-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bx-01.png"; sourceTree = "<group>"; };
-		94D185DE1E5346FB00BCAB8E /* cl-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cl-01.png"; sourceTree = "<group>"; };
-		94D185DF1E5346FB00BCAB8E /* cyj-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cyj-01.png"; sourceTree = "<group>"; };
-		94D185E01E5346FB00BCAB8E /* cz-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cz-01.png"; sourceTree = "<group>"; };
-		94D185E11E5346FB00BCAB8E /* d-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "d-01.png"; sourceTree = "<group>"; };
-		94D185E21E5346FB00BCAB8E /* fg-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fg-01.png"; sourceTree = "<group>"; };
-		94D185E31E5346FB00BCAB8E /* fs-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fs-01.png"; sourceTree = "<group>"; };
-		94D185E41E5346FB00BCAB8E /* jhq-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jhq-01.png"; sourceTree = "<group>"; };
-		94D185E51E5346FB00BCAB8E /* jsq-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jsq-01.png"; sourceTree = "<group>"; };
-		94D185E61E5346FB00BCAB8E /* kg-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kg-01.png"; sourceTree = "<group>"; };
-		94D185E71E5346FB00BCAB8E /* kt-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kt-01.png"; sourceTree = "<group>"; };
-		94D185E81E5346FB00BCAB8E /* rsh-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsh-01.png"; sourceTree = "<group>"; };
-		94D185E91E5346FB00BCAB8E /* rsq-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsq-01.png"; sourceTree = "<group>"; };
-		94D185EA1E5346FB00BCAB8E /* wbl-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wbl-01.png"; sourceTree = "<group>"; };
-		94D185EB1E5346FB00BCAB8E /* xyj-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xyj-01.png"; sourceTree = "<group>"; };
-		94D185EC1E5346FB00BCAB8E /* yj-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yj-01.png"; sourceTree = "<group>"; };
 		94E148F11E6D06BA0087476D /* KWMusicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KWMusicView.h; sourceTree = "<group>"; };
 		94E148F21E6D06BA0087476D /* KWMusicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KWMusicView.m; sourceTree = "<group>"; };
 		94E49A961E51E74500F8D029 /* XMSDKDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMSDKDownloadManager.h; sourceTree = "<group>"; };
@@ -777,9 +759,6 @@
 				94971CEE1DC192A0007D472E /* 连接界面 */,
 				948E1C691E5E809A001C01B9 /* 主界面 */,
 				947597CE1E641F25003551E4 /* 音乐 */,
-				94A73DE11DC894D300F4B161 /* 语音控制 */,
-				94A73DE51DC8A2A800F4B161 /* 音箱设置 */,
-				94A73DE91DC8B02B00F4B161 /* 智能家居 */,
 				948E1D3B1E5E8301001C01B9 /* 音乐播放器 */,
 				94480D311DAF8614004DB372 /* Main.storyboard */,
 				94480D341DAF8614004DB372 /* Assets.xcassets */,
@@ -951,7 +930,6 @@
 			children = (
 				948E1C6B1E5E809A001C01B9 /* FooterViewModel.h */,
 				948E1C6C1E5E809A001C01B9 /* FooterViewModel.m */,
-				948E1C6D1E5E809A001C01B9 /* images */,
 				948E1C771E5E809A001C01B9 /* MSFooterManager.h */,
 				948E1C781E5E809A001C01B9 /* MSFooterManager.m */,
 				948E1C791E5E809A001C01B9 /* MusicFooterView.h */,
@@ -959,43 +937,6 @@
 				948E1C7B1E5E809A001C01B9 /* MusicFooterView.xib */,
 			);
 			path = MSFooterWindow;
-			sourceTree = "<group>";
-		};
-		948E1C6D1E5E809A001C01B9 /* images */ = {
-			isa = PBXGroup;
-			children = (
-				948E1C6E1E5E809A001C01B9 /* botto_music_play */,
-				948E1C721E5E809A001C01B9 /* bottom_music_collect */,
-				948E1C731E5E809A001C01B9 /* bottom_music_pause */,
-			);
-			path = images;
-			sourceTree = "<group>";
-		};
-		948E1C6E1E5E809A001C01B9 /* botto_music_play */ = {
-			isa = PBXGroup;
-			children = (
-				948E1C6F1E5E809A001C01B9 /* botto_music_play.png */,
-				948E1C701E5E809A001C01B9 /* botto_music_play@2x.png */,
-				948E1C711E5E809A001C01B9 /* botto_music_play@3x.png */,
-			);
-			path = botto_music_play;
-			sourceTree = "<group>";
-		};
-		948E1C721E5E809A001C01B9 /* bottom_music_collect */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = bottom_music_collect;
-			sourceTree = "<group>";
-		};
-		948E1C731E5E809A001C01B9 /* bottom_music_pause */ = {
-			isa = PBXGroup;
-			children = (
-				948E1C741E5E809A001C01B9 /* bottom_music_pause.png */,
-				948E1C751E5E809A001C01B9 /* bottom_music_pause@2x.png */,
-				948E1C761E5E809A001C01B9 /* bottom_music_pause@3x.png */,
-			);
-			path = bottom_music_pause;
 			sourceTree = "<group>";
 		};
 		948E1C7C1E5E809A001C01B9 /* MSMainWindow */ = {
@@ -1428,6 +1369,43 @@
 			path = KuWoMusicNet;
 			sourceTree = "<group>";
 		};
+		949640771E8BB95E0004B24E /* SmartHomeVC */ = {
+			isa = PBXGroup;
+			children = (
+				949640781E8BB95E0004B24E /* SmartHomeCell.h */,
+				949640791E8BB95E0004B24E /* SmartHomeCell.m */,
+				9496407A1E8BB95E0004B24E /* SmartHomeCell.xib */,
+				9496407B1E8BB95E0004B24E /* smartHomeImg */,
+				9496408D1E8BB95E0004B24E /* SmartHomeVC.h */,
+				9496408E1E8BB95E0004B24E /* SmartHomeVC.m */,
+			);
+			path = SmartHomeVC;
+			sourceTree = "<group>";
+		};
+		9496407B1E8BB95E0004B24E /* smartHomeImg */ = {
+			isa = PBXGroup;
+			children = (
+				9496407C1E8BB95E0004B24E /* bx-01.png */,
+				9496407D1E8BB95E0004B24E /* cl-01.png */,
+				9496407E1E8BB95E0004B24E /* cyj-01.png */,
+				9496407F1E8BB95E0004B24E /* cz-01.png */,
+				949640801E8BB95E0004B24E /* d-01.png */,
+				949640811E8BB95E0004B24E /* fg-01.png */,
+				949640821E8BB95E0004B24E /* fs-01.png */,
+				949640831E8BB95E0004B24E /* jhq-01.png */,
+				949640841E8BB95E0004B24E /* jsq-01.png */,
+				949640851E8BB95E0004B24E /* kg-01.png */,
+				949640861E8BB95E0004B24E /* kt-01.png */,
+				949640871E8BB95E0004B24E /* rsh-01.png */,
+				949640881E8BB95E0004B24E /* rsq-01.png */,
+				949640891E8BB95E0004B24E /* smartHomeHeadImg.png */,
+				9496408A1E8BB95E0004B24E /* wbl-01.png */,
+				9496408B1E8BB95E0004B24E /* xyj-01.png */,
+				9496408C1E8BB95E0004B24E /* yj-01.png */,
+			);
+			path = smartHomeImg;
+			sourceTree = "<group>";
+		};
 		94971CEE1DC192A0007D472E /* 连接界面 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1487,6 +1465,7 @@
 		9499C59F1E7283740044500F /* VoiceDetailVC */ = {
 			isa = PBXGroup;
 			children = (
+				949640771E8BB95E0004B24E /* SmartHomeVC */,
 				9499C5A01E7283A20044500F /* MSVoicecommandViewController.h */,
 				9499C5A11E7283A20044500F /* MSVoicecommandViewController.m */,
 				9499C5A31E72921F0044500F /* MSVoiceSettingViewController.h */,
@@ -1565,40 +1544,6 @@
 			path = KWSearchViewController;
 			sourceTree = "<group>";
 		};
-		94A73DE11DC894D300F4B161 /* 语音控制 */ = {
-			isa = PBXGroup;
-			children = (
-				94A73DE21DC8953B00F4B161 /* VoiceCommandsVC.h */,
-				94A73DE31DC8953B00F4B161 /* VoiceCommandsVC.m */,
-			);
-			name = "语音控制";
-			path = VoiceCommandsVC;
-			sourceTree = "<group>";
-		};
-		94A73DE51DC8A2A800F4B161 /* 音箱设置 */ = {
-			isa = PBXGroup;
-			children = (
-				94A73DE61DC8A2BD00F4B161 /* VoiceBoxSettingVC.h */,
-				94A73DE71DC8A2BD00F4B161 /* VoiceBoxSettingVC.m */,
-			);
-			name = "音箱设置";
-			path = VoiceBoxSettingVC;
-			sourceTree = "<group>";
-		};
-		94A73DE91DC8B02B00F4B161 /* 智能家居 */ = {
-			isa = PBXGroup;
-			children = (
-				94D185DC1E5346FB00BCAB8E /* smartHomeImg */,
-				94D185D41E53399600BCAB8E /* SmartHomeVC.h */,
-				94D185D51E53399600BCAB8E /* SmartHomeVC.m */,
-				94D185D71E533B1100BCAB8E /* SmartHomeCell.h */,
-				94D185D81E533B1100BCAB8E /* SmartHomeCell.m */,
-				94D185D91E533B1100BCAB8E /* SmartHomeCell.xib */,
-			);
-			name = "智能家居";
-			path = SmartHomeVC;
-			sourceTree = "<group>";
-		};
 		94B34E0F1E6E8859009CD1F6 /* KWCateListViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1672,30 +1617,6 @@
 				94BD19F71E6FA83600536AD2 /* KWFenleiDetailModel.m */,
 			);
 			path = KWFenleiDetailViewController;
-			sourceTree = "<group>";
-		};
-		94D185DC1E5346FB00BCAB8E /* smartHomeImg */ = {
-			isa = PBXGroup;
-			children = (
-				9486C43E1E534E7300A5A9E8 /* smartHomeHeadImg.png */,
-				94D185DD1E5346FB00BCAB8E /* bx-01.png */,
-				94D185DE1E5346FB00BCAB8E /* cl-01.png */,
-				94D185DF1E5346FB00BCAB8E /* cyj-01.png */,
-				94D185E01E5346FB00BCAB8E /* cz-01.png */,
-				94D185E11E5346FB00BCAB8E /* d-01.png */,
-				94D185E21E5346FB00BCAB8E /* fg-01.png */,
-				94D185E31E5346FB00BCAB8E /* fs-01.png */,
-				94D185E41E5346FB00BCAB8E /* jhq-01.png */,
-				94D185E51E5346FB00BCAB8E /* jsq-01.png */,
-				94D185E61E5346FB00BCAB8E /* kg-01.png */,
-				94D185E71E5346FB00BCAB8E /* kt-01.png */,
-				94D185E81E5346FB00BCAB8E /* rsh-01.png */,
-				94D185E91E5346FB00BCAB8E /* rsq-01.png */,
-				94D185EA1E5346FB00BCAB8E /* wbl-01.png */,
-				94D185EB1E5346FB00BCAB8E /* xyj-01.png */,
-				94D185EC1E5346FB00BCAB8E /* yj-01.png */,
-			);
-			path = smartHomeImg;
 			sourceTree = "<group>";
 		};
 		94E148DB1E6D04C40087476D /* yinyue */ = {
@@ -1951,45 +1872,45 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				949640A11E8BB95E0004B24E /* yj-01.png in Resources */,
+				949640991E8BB95E0004B24E /* jsq-01.png in Resources */,
 				94BD08E11E71749C007B09FC /* collect39.png in Resources */,
 				948E1CFF1E5E809A001C01B9 /* 001headBar_menu@3x.png in Resources */,
-				94D185FB1E5346FB00BCAB8E /* xyj-01.png in Resources */,
-				94D185EE1E5346FB00BCAB8E /* cl-01.png in Resources */,
 				9499C6451E72B85A0044500F /* dizhi.png in Resources */,
+				949640931E8BB95E0004B24E /* cyj-01.png in Resources */,
+				949640911E8BB95E0004B24E /* bx-01.png in Resources */,
 				948E1D061E5E809A001C01B9 /* gengduo.png in Resources */,
-				94D185F71E5346FB00BCAB8E /* kt-01.png in Resources */,
 				941632051E7644EB0061C2B1 /* smarthome.png in Resources */,
-				94D185F21E5346FB00BCAB8E /* fg-01.png in Resources */,
 				9499C5CD1E72A2E20044500F /* backRightBlue.png in Resources */,
 				9499C5C91E72A2E20044500F /* backDownBlue.png in Resources */,
 				94480D381DAF8614004DB372 /* LaunchScreen.storyboard in Resources */,
+				949640921E8BB95E0004B24E /* cl-01.png in Resources */,
 				94BD08E41E71749C007B09FC /* cycleTypeSingle39.png in Resources */,
 				948E1D941E5E8301001C01B9 /* MSMusicAlbumCell.xib in Resources */,
 				948E1D011E5E809A001C01B9 /* Main_llike.png in Resources */,
-				948E1CF61E5E809A001C01B9 /* botto_music_play@3x.png in Resources */,
 				948E1D051E5E809A001C01B9 /* redian.png in Resources */,
-				94D185F41E5346FB00BCAB8E /* jhq-01.png in Resources */,
+				949640971E8BB95E0004B24E /* fs-01.png in Resources */,
+				949640A01E8BB95E0004B24E /* xyj-01.png in Resources */,
+				9496409E1E8BB95E0004B24E /* smartHomeHeadImg.png in Resources */,
 				948E1D131E5E809A001C01B9 /* gengduo_myAlbum@3x.png in Resources */,
 				9499C5D61E72ADDA0044500F /* voicebgConnect.png in Resources */,
 				948E1CFE1E5E809A001C01B9 /* 001headBar_menu@2x.png in Resources */,
 				9485EADC1E6E9EC2002BB589 /* KWArtistMusicCell.xib in Resources */,
 				948E1D371E5E809A001C01B9 /* UserFooterview.xib in Resources */,
 				9499C6471E72B85A0044500F /* shisitai.png in Resources */,
-				948E1CF41E5E809A001C01B9 /* botto_music_play.png in Resources */,
-				94D185FC1E5346FB00BCAB8E /* yj-01.png in Resources */,
 				94B34E221E6E8859009CD1F6 /* KWCateListCell.xib in Resources */,
-				94D185F01E5346FB00BCAB8E /* cz-01.png in Resources */,
 				9499C63B1E72B7BE0044500F /* fengge.png in Resources */,
 				9499C63D1E72B7BE0044500F /* xinqing.png in Resources */,
+				949640951E8BB95E0004B24E /* d-01.png in Resources */,
 				94BD08E71E71749C007B09FC /* playLastSong39.png in Resources */,
 				948E1CFC1E5E809A001C01B9 /* MusicFooterView.xib in Resources */,
 				94480D351DAF8614004DB372 /* Assets.xcassets in Resources */,
-				9486C43F1E534E7300A5A9E8 /* smartHomeHeadImg.png in Resources */,
 				9499C63E1E72B7BE0044500F /* yuyan.png in Resources */,
 				948E1D101E5E809A001C01B9 /* lianjie@3x.png in Resources */,
-				94D185F51E5346FB00BCAB8E /* jsq-01.png in Resources */,
 				9475985A1E641F25003551E4 /* ItemCell.xib in Resources */,
 				948E1D161E5E809A001C01B9 /* MSMainAlbumCell.xib in Resources */,
+				9496409F1E8BB95E0004B24E /* wbl-01.png in Resources */,
+				9496409B1E8BB95E0004B24E /* kt-01.png in Resources */,
 				94B34E1F1E6E8859009CD1F6 /* KWCateMusicCell.xib in Resources */,
 				948E1D121E5E809A001C01B9 /* gengduo_myAlbum@2x.png in Resources */,
 				948E1D081E5E809A001C01B9 /* play_music.png in Resources */,
@@ -2001,13 +1922,13 @@
 				9499C6581E72C21A0044500F /* KMRecordCell.xib in Resources */,
 				94045B391E6D0C32003D26B0 /* KWCategoryCell.xib in Resources */,
 				94BD08ED1E71749C007B09FC /* volume39.png in Resources */,
+				9496409D1E8BB95E0004B24E /* rsq-01.png in Resources */,
 				948E1CFD1E5E809A001C01B9 /* 001headBar_menu.png in Resources */,
-				94D185F81E5346FB00BCAB8E /* rsh-01.png in Resources */,
 				948E1D0D1E5E809A001C01B9 /* zanting@3x.png in Resources */,
 				94BD08E81E71749C007B09FC /* playNext39.png in Resources */,
+				949640941E8BB95E0004B24E /* cz-01.png in Resources */,
+				949640981E8BB95E0004B24E /* jhq-01.png in Resources */,
 				9499C5D01E72A2E20044500F /* backUpWhite.png in Resources */,
-				94D185EF1E5346FB00BCAB8E /* cyj-01.png in Resources */,
-				94D185F11E5346FB00BCAB8E /* d-01.png in Resources */,
 				948E1D031E5E809A001C01B9 /* shezhi.png in Resources */,
 				9499C5CB1E72A2E20044500F /* backLeftBlue.png in Resources */,
 				947598491E641F25003551E4 /* playcount-01.png in Resources */,
@@ -2019,55 +1940,49 @@
 				9499C63A1E72B7BE0044500F /* changjing.png in Resources */,
 				948E1D141E5E809A001C01B9 /* playDefualtImg.png in Resources */,
 				94B34E2D1E6E8AA1009CD1F6 /* KWArtistCell.xib in Resources */,
-				94D185ED1E5346FB00BCAB8E /* bx-01.png in Resources */,
 				948E1D111E5E809A001C01B9 /* gengduo_myAlbum.png in Resources */,
 				94A864EC1E4C5EED00F52CFF /* ConnectSet2.xib in Resources */,
-				94D185DB1E533B1100BCAB8E /* SmartHomeCell.xib in Resources */,
 				9499B5B81E4D57BB00531DAF /* latestCell.xib in Resources */,
 				948E1D0F1E5E809A001C01B9 /* lianjie@2x.png in Resources */,
 				9499C5CF1E72A2E20044500F /* backUPBlue.png in Resources */,
 				948E1D181E5E809A001C01B9 /* MSMainButtonsView.xib in Resources */,
 				9499C5CC1E72A2E20044500F /* backLeftWhite.png in Resources */,
 				94BD08E91E71749C007B09FC /* playPause39.png in Resources */,
+				9496409A1E8BB95E0004B24E /* kg-01.png in Resources */,
 				9499C63C1E72B7BE0044500F /* tese.png in Resources */,
 				948E1D901E5E8301001C01B9 /* MSMusicPlayViewController.xib in Resources */,
 				94BD08E01E71749C007B09FC /* back39.png in Resources */,
-				948E1CF51E5E809A001C01B9 /* botto_music_play@2x.png in Resources */,
-				94D185F91E5346FB00BCAB8E /* rsq-01.png in Resources */,
 				948E1D311E5E809A001C01B9 /* ZhuboCell.xib in Resources */,
 				9499C63F1E72B7BE0044500F /* zhuti.png in Resources */,
+				949640961E8BB95E0004B24E /* fg-01.png in Resources */,
 				9499C5CA1E72A2E20044500F /* backDownWhite.png in Resources */,
 				948E1D2A1E5E809A001C01B9 /* CategoryCell.xib in Resources */,
-				948E1CF81E5E809A001C01B9 /* bottom_music_pause@2x.png in Resources */,
 				94FB0ACD1E66769300140131 /* MSMusicPlayVC1.xib in Resources */,
 				94BD08E51E71749C007B09FC /* Functionmenu39.png in Resources */,
 				948E1D241E5E809A001C01B9 /* BroadCastView.xib in Resources */,
 				947598481E641F25003551E4 /* CDTableViewCell.xib in Resources */,
+				9496409C1E8BB95E0004B24E /* rsh-01.png in Resources */,
 				948E1D1D1E5E809A001C01B9 /* BangdanCell.xib in Resources */,
 				9475985C1E641F25003551E4 /* RankAlbumCell.xib in Resources */,
 				948E1D0C1E5E809A001C01B9 /* zanting@2x.png in Resources */,
 				948E1D271E5E809A001C01B9 /* ProvinceSelectedCell.xib in Resources */,
-				94D185F31E5346FB00BCAB8E /* fs-01.png in Resources */,
 				94FD21C91E690857009388BA /* MSVoiceView.xib in Resources */,
 				948E1D001E5E809A001C01B9 /* time.png in Resources */,
 				94BD08DF1E71749C007B09FC /* addAlbum39.png in Resources */,
-				94D185FA1E5346FB00BCAB8E /* wbl-01.png in Resources */,
 				948E1D071E5E809A001C01B9 /* music_menu.png in Resources */,
 				94BD08EA1E71749C007B09FC /* playPlay39.png in Resources */,
+				949640901E8BB95E0004B24E /* SmartHomeCell.xib in Resources */,
 				948E1D0E1E5E809A001C01B9 /* lianjie.png in Resources */,
 				9499C5AA1E7294720044500F /* VoiceSettingCell.xib in Resources */,
 				9499C5CE1E72A2E20044500F /* backRightWhite.png in Resources */,
 				948E1D751E5E8301001C01B9 /* cm2_default_play_bg@3x.jpg in Resources */,
-				948E1CF71E5E809A001C01B9 /* bottom_music_pause.png in Resources */,
 				94BD08EB1E71749C007B09FC /* share39.png in Resources */,
 				948E1D021E5E809A001C01B9 /* bendiyinyu.png in Resources */,
-				948E1CF91E5E809A001C01B9 /* bottom_music_pause@3x.png in Resources */,
 				948E1D0B1E5E809A001C01B9 /* zanting.png in Resources */,
 				94BD08E21E71749C007B09FC /* cycleTypeDisorder39.png in Resources */,
 				9499C6481E72B85A0044500F /* wangluotai.png in Resources */,
 				947598461E641F25003551E4 /* CDCollectionCell.xib in Resources */,
 				94480D331DAF8614004DB372 /* Main.storyboard in Resources */,
-				94D185F61E5346FB00BCAB8E /* kg-01.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2140,6 +2055,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9496408F1E8BB95E0004B24E /* SmartHomeCell.m in Sources */,
 				94045B381E6D0C32003D26B0 /* KWCategoryCell.m in Sources */,
 				9499C6591E72C21A0044500F /* KMSearchCell.m in Sources */,
 				941632011E7639D10061C2B1 /* NewHandHelpViewController.m in Sources */,
@@ -2147,7 +2063,6 @@
 				948E1D261E5E809A001C01B9 /* ProvinceSelectedCell.m in Sources */,
 				94B34E281E6E8A33009CD1F6 /* KWArtistViewController.m in Sources */,
 				948E1CFA1E5E809A001C01B9 /* MSFooterManager.m in Sources */,
-				94A73DE81DC8A2BD00F4B161 /* VoiceBoxSettingVC.m in Sources */,
 				948E1D2C1E5E809A001C01B9 /* MSMusicSliderView.m in Sources */,
 				9485EB5E1E6ED1EE002BB589 /* KWFenleiViewController.m in Sources */,
 				94971D041DC19D22007D472E /* WenChaoControl.m in Sources */,
@@ -2158,7 +2073,6 @@
 				9475985E1E641F25003551E4 /* RankVC.m in Sources */,
 				94E148F31E6D06BA0087476D /* KWMusicView.m in Sources */,
 				9475985F1E641F25003551E4 /* RankVC2.m in Sources */,
-				94A73DE41DC8953B00F4B161 /* VoiceCommandsVC.m in Sources */,
 				947598471E641F25003551E4 /* CDTableViewCell.m in Sources */,
 				948E1D381E5E809A001C01B9 /* MSMainNetWork.m in Sources */,
 				948E1D211E5E809A001C01B9 /* BroadCastContentView.m in Sources */,
@@ -2187,7 +2101,6 @@
 				94353DE21DE2CD850039F844 /* UIViewController+Extension.m in Sources */,
 				948E1D961E5E8301001C01B9 /* MSMusicAlbumView.m in Sources */,
 				948E1D301E5E809A001C01B9 /* ZhuboCell.m in Sources */,
-				94D185DA1E533B1100BCAB8E /* SmartHomeCell.m in Sources */,
 				949640761E8B8CDD0004B24E /* MSMusicPlayerConfig.m in Sources */,
 				948E1D341E5E809A001C01B9 /* MSMainLeftView.m in Sources */,
 				948E1D9D1E5E833E001C01B9 /* CMDDataConfig.m in Sources */,
@@ -2213,6 +2126,7 @@
 				94BD19F51E6FA7D100536AD2 /* KWFenleiDetailVC.m in Sources */,
 				9499B5B71E4D57BB00531DAF /* latestCell.m in Sources */,
 				948E1CF31E5E809A001C01B9 /* FooterViewModel.m in Sources */,
+				949640A21E8BB95E0004B24E /* SmartHomeVC.m in Sources */,
 				9494C0A21E6CF4A600A1F011 /* KWMusicNet.m in Sources */,
 				94F532181E7940E2004DC4FC /* MSMusicInfoInBox.m in Sources */,
 				947598441E641F25003551E4 /* CategoryDetailVC1.m in Sources */,
@@ -2244,7 +2158,6 @@
 				94942EB51DD95AFF00B45898 /* GCDAysncSocketDataManager.m in Sources */,
 				9499C5A91E7294720044500F /* VoiceSettingCell.m in Sources */,
 				944DFFE41DED2B91008D3E50 /* CABasicAnimation+Extension.m in Sources */,
-				94D185D61E53399600BCAB8E /* SmartHomeVC.m in Sources */,
 				94E92CEA1E6D144A00E08193 /* KWCategoryListModel.m in Sources */,
 				948E1D1B1E5E809A001C01B9 /* MSSliderView.m in Sources */,
 				9485EADB1E6E9EC2002BB589 /* KWArtistMusicCell.m in Sources */,

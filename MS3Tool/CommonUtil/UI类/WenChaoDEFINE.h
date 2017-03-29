@@ -16,9 +16,9 @@
 /**
  *  设置通知
  */
-#define NOTIFY_PLAYSTATUS       @"notifyPlaystatus"             //播放状态
-#define NOTIFY_SETTRACKARRAY    @"notifySetTrackArray"          //播放列表
-#define NOTIFY_PROGRESS          @"notifyProgress"              //播放进度
+//#define NOTIFY_PLAYSTATUS       @"notifyPlaystatus"             //播放状态
+//#define NOTIFY_SETTRACKARRAY    @"notifySetTrackArray"          //播放列表
+//#define NOTIFY_PROGRESS          @"notifyProgress"              //播放进度
 #define NOTIFY_BUTTONINDEX      @"buttonIndexChange"            //pageViewController控制页面
 #define NOTIFY_CONTROLLERCOUNT  @"naviViewsControllerCount"     //返回到了根导航
 #define NOTIFY_CMDDATARETURN    @"notifyCMDDataReturn"          //音箱返回数据
@@ -82,7 +82,7 @@
 #define WCBgGray [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1] // 背景灰 - 视图背景色
 
 // 视图背景颜色
-#define VIEW_BACKGROUNDCOLOR [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]
+//#define VIEW_BACKGROUNDCOLOR [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]
 
 //自定义颜色，直接填入整数
 #define WCColor(r, g, b, a) [UIColor colorWithRed:r / 255.f green:g / 255.f blue:b / 255.f alpha:a]

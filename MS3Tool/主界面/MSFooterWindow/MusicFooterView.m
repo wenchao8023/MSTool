@@ -81,8 +81,6 @@
         
         self.frame = frame;
         
-//        self.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.1];
-        
         [self initDataContainer];
         
         [self createUI];
@@ -204,7 +202,7 @@
     self.swipeType = 1;
     
     
-    [self addNotifycation];
+//    [self addNotifycation];
 }
 
 
@@ -358,25 +356,25 @@
 
 
 #pragma mark - addNotifycation
--(void)addNotifycation {
-    
-    NSOperationQueue *obq = [NSOperationQueue currentQueue];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:NOTIFY_PLAYSTATUS object:nil queue:obq usingBlock:^(NSNotification * _Nonnull note) {
-   
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [self setPlayButtonImage];
-            
-            [self setRotate];
-            
-            [self resetSubviews];
-        });
-        
-        
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_PLAYSTATUS object:nil];
-    }];
-}
+//-(void)addNotifycation {
+//    
+////    NSOperationQueue *obq = [NSOperationQueue currentQueue];
+////    
+////    [[NSNotificationCenter defaultCenter] addObserverForName:NOTIFY_PLAYSTATUS object:nil queue:obq usingBlock:^(NSNotification * _Nonnull note) {
+////   
+////        dispatch_async(dispatch_get_main_queue(), ^{
+////            
+////            [self setPlayButtonImage];
+////            
+////            [self setRotate];
+////            
+////            [self resetSubviews];
+////        });
+////        
+////        
+////        [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_PLAYSTATUS object:nil];
+////    }];
+//}
 
 #pragma mark - UIScrollViewDelegate
 // 处理滑动切歌时的逻辑

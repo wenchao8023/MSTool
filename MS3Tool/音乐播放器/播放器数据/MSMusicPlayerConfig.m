@@ -324,12 +324,12 @@ static MSMusicPlayerConfig *manager = nil;
  */
 -(void)postNotifycationWithStatus:(NSInteger)status {
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_SETTRACKARRAY object:@(status)];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_SETTRACKARRAY object:@(status)];
 }
 
 -(void)dealloc {
     
-    [[NSNotificationCenter defaultCenter] removeObserver:manager name:NOTIFY_SETTRACKARRAY object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:manager name:NOTIFY_SETTRACKARRAY object:nil];
 }
 
 @end

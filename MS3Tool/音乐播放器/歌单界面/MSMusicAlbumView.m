@@ -288,22 +288,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    [self playMusicWithIndexPath:indexPath];
+    [[VoicePlayer shareInstace] VPSetPlayMusicInAlbum:0 index:(int)indexPath.row];
 }
 
 
-//- (void)playMusicWithIndexPath:(NSIndexPath *)indexPath {
-//    
-//    MSMusicPlayerConfig *config = [MSMusicPlayerConfig sharedInstance];
-//    
-//    config.playIndex = indexPath.row;
-//    
-//    [self.playingTableView reloadData];
-//}
-
 #pragma mark - addNotifycation
 -(void)addNotifycation {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(musicStatus:) name:NOTIFY_PLAYSTATUS object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(musicStatus:) name:NOTIFY_PLAYSTATUS object:nil];
 }
 /**
  *  status
@@ -325,7 +316,7 @@
 }
 
 -(void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_PLAYSTATUS object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_PLAYSTATUS object:nil];
 }
 
 

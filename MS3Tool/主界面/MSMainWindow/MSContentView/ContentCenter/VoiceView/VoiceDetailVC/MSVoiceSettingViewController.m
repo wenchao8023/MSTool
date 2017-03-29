@@ -40,6 +40,7 @@
     
     self.navigationItem.leftBarButtonItem = [WenChaoControl createNaviBackButtonTarget:self Action:@selector(clickBack)];
     
+    [[MSFooterManager shareManager] setWindowHidden];
 }
 -(void)clickBack {
     
@@ -66,7 +67,7 @@
     
     if (!_descString) {
         
-        _descString = @"还原所有设置，音箱将恢复出厂状态，抹掉所有账户内容及网络设置，不可找回，请慎用！！！";
+        _descString = @"还原所有设置, 音箱将恢复出厂状态\n抹掉所有账户内容及网络设置, 不可找回\n请慎用！！！";
     }
     
     return _descString;
@@ -128,7 +129,7 @@
     [footerView addSubview:resetBtn];
     
     
-    UILabel *descLabel = [WenChaoControl createLabelWithFrame:CGRectMake(20, 70, WIDTH - 40, 50) Font:14 Text:self.descString textAlignment:0];
+    UILabel *descLabel = [WenChaoControl createLabelWithFrame:CGRectMake(20, 70, WIDTH - 40, 90) Font:14 Text:self.descString textAlignment:0];
     
     descLabel.numberOfLines = 0;
     

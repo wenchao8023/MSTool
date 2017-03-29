@@ -282,7 +282,10 @@ static UIColor *kContentBgColor = nil;
             
             [self.collectionView5 reloadData];
             
-            [KVNProgress dismiss];
+            if ([KVNProgress isVisible]) {
+                
+                [KVNProgress dismiss];
+            }
             
             [self.bgScrollView.mj_header endRefreshing];
         });
@@ -296,6 +299,14 @@ static UIColor *kContentBgColor = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [CommonUtil addKVNToMainView:self];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            if ([KVNProgress isVisible]) {
+                
+                [KVNProgress dismiss];
+            }
+        });
     });
     
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

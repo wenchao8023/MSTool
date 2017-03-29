@@ -730,12 +730,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
             break;
         case CMD_GET_currentDuration_R:     // 播放总时长
         {
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
-//                                         (int64_t)(0 * NSEC_PER_SEC)),
-//                           dispatch_get_main_queue(), ^{
-//                [NSThread sleepForTimeInterval:0.1];
-//                [self.vPlayer VPGetCurrentProgressIsLastFiveSeconds:YES];
-//            });
+
             self.playDuration = [self getValueDic:tempDic CMD:cmd];
             
             NSLog(@"获取播放总时长 : %d", self.playDuration);
@@ -755,8 +750,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
                 [NSThread sleepForTimeInterval:0.1];
                 [self.vPlayer VPGetPlayMusicInfo];
             });
-
-
             NSLog(@"通知 -- 歌曲下标 : %d", [self getValueDic:tempDic CMD:cmd]);
         }
             break;
@@ -775,8 +768,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
             break;
     }
 }
-
-
 
 - (int)getValueDic:(NSDictionary *)dic CMD:(int)cmd {
     
