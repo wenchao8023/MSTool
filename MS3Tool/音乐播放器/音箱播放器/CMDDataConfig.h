@@ -12,8 +12,8 @@
 
 @property (nonatomic, assign) int getCMD;
 
-//  判断播放列表是否有改变(重新获取)
-@property (nonatomic, assign) BOOL isAlbumChange;
+//  判断播放列表是否正在请求，因为获取播放列表需要不停的获取，知道获取到完整的播放列表
+@property (nonatomic, assign) BOOL isAlbumChanging;
 
 @property (nonatomic, assign) int playIndex;
 

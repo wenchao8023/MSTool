@@ -20,11 +20,11 @@ typedef void(^CloseAlbum)();
 
 @property (nonatomic, copy) CloseAlbum closeAlbum;
 
+- (void)loadData ;
 
-
-- (void) setBgColorTypeDark ;
-
-- (void) setBgColorTypeLight ;
+//- (void) setBgColorTypeDark ;
+//
+//- (void) setBgColorTypeLight ;
 
 
 @end

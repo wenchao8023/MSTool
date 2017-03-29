@@ -10,7 +10,7 @@
 
 #import "MSMusicAlbumCell.h"
 
-#import "MSMusicPlayerConfig.h"
+//#import "MSMusicPlayerConfig.h"
 
 
 
@@ -56,6 +56,8 @@
         [self loadData];
         
         [self addNotifycation];
+        
+        [self setBgColorTypeDark];
     }
     
     return self;
@@ -80,7 +82,7 @@
 
 -(void)loadPlayingDataArray {
     
-    if ([CMDDataConfig shareInstance].isAlbumChange) {
+    if ([CMDDataConfig shareInstance].isAlbumChanging) {
         
         [self.playingDataArray removeAllObjects];
         
@@ -93,7 +95,6 @@
             [self.playingDataArray addObject:model];
         }
         
-//        [[CMDDataConfig shareInstance] setIsAlbumChange:NO];
         
         [self.playingTableView reloadData];
     }
@@ -254,28 +255,28 @@
           
             NSLog(@"indepath for cell is : %ld", (long)indexPath.row);
             
-            [sself delCellWithIndex:indexPath.row];
+//            [sself delCellWithIndex:indexPath.row];
         };
     }
     
     return cell;
 }
 
-- (void) delCellWithIndex:(NSInteger)index {
-    
-    MSMusicPlayerConfig *config = [MSMusicPlayerConfig sharedInstance];
-    
-    if (config.playAlbum.count > 1) {
-        
-        [config delModelFromMusicArrayWithIndex:index];
-        
-    } else {
-        
-        NSLog(@"清空当前播放列表");
-    }
-    
-    [self loadPlayingDataArray];
-}
+//- (void) delCellWithIndex:(NSInteger)index {
+//    
+//    MSMusicPlayerConfig *config = [MSMusicPlayerConfig sharedInstance];
+//    
+//    if (config.playAlbum.count > 1) {
+//        
+//        [config delModelFromMusicArrayWithIndex:index];
+//        
+//    } else {
+//        
+//        NSLog(@"清空当前播放列表");
+//    }
+//    
+//    [self loadPlayingDataArray];
+//}
 
 
 
@@ -287,18 +288,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self playMusicWithIndexPath:indexPath];
+//    [self playMusicWithIndexPath:indexPath];
 }
 
 
-- (void)playMusicWithIndexPath:(NSIndexPath *)indexPath {
-    
-    MSMusicPlayerConfig *config = [MSMusicPlayerConfig sharedInstance];
-    
-    config.playIndex = indexPath.row;
-    
-    [self.playingTableView reloadData];
-}
+//- (void)playMusicWithIndexPath:(NSIndexPath *)indexPath {
+//    
+//    MSMusicPlayerConfig *config = [MSMusicPlayerConfig sharedInstance];
+//    
+//    config.playIndex = indexPath.row;
+//    
+//    [self.playingTableView reloadData];
+//}
 
 #pragma mark - addNotifycation
 -(void)addNotifycation {

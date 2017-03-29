@@ -8,8 +8,6 @@
 
 #import "MSMusicPlayViewController.h"
 
-#import "MSMusicAlbumView.h"
-
 #import "MSFooterManager.h"
 
 
@@ -75,8 +73,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
 
 @property (nonatomic, strong) UIView *volumeView;                 //音量视图
 
-@property (nonatomic, strong) MSMusicAlbumView *albumView;
-
 @property (nonatomic, strong, nonnull) CMDDataConfig *cmdConfig;
 
 @property (nonatomic, strong, nonnull) VoicePlayer *vPlayer;
@@ -131,11 +127,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
         [[MSFooterManager shareManager] setWindowHidden];
     }];
     
-//    if (![self.playInfo count]) {
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            [self.vPlayer VPGetPlayMusicInfo];
-//        });
-//    }
 
 }
 -(UIStatusBarStyle)preferredStatusBarStyle {
@@ -302,12 +293,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
     [self.view sendSubviewToBack:self.bgImageView];
     
     /**
-     * 创建歌单视图
-     */
-//    [self createAlbumView];
-    [self.view addSubview:self.albumBgView];
-    
-    /**
      * 创建音量视图
      */
     [self.view addSubview:self.volumeView];
@@ -321,27 +306,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
      *  给button赋值，程序上一次记录的
      */
     [self setImgToCycleTypeBtn];
-
-    // 关闭歌单
-    __weak typeof(&*self) sself = self;
-    
-    self.albumView.closeAlbum = ^() {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [UIView animateWithDuration:0.4 animations:^{
-                
-                sself.albumBgView.y = SCREENH;
-                
-            } completion:^(BOOL finished) {
-                
-                if (finished) {
-                    
-                    [sself.albumBgView removeFromSuperview];
-                }
-            }];
-        });
-    };
 }
 
 - (void)setMiddldImageLayer {
@@ -388,30 +352,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
     }
     
     return _bgImageView;
-}
-
--(MSMusicAlbumView *)albumView {
-    
-    if (!_albumView) {
-        
-        _albumView = [[MSMusicAlbumView alloc] initWithFrame:CGRectMake(0, 0, SCREENW, SCREENH)];
-    }
-    
-    return _albumView;
-}
-
--(UIView *)albumBgView {
-    
-    if (!_albumBgView) {
-        
-        _albumBgView = [[UIView alloc] initWithFrame:self.view.bounds];
-        
-        _albumBgView.y = SCREENH;
-        
-        [_albumBgView addSubview:self.albumView];
-    }
-    
-    return _albumBgView;
 }
 
 -(UIView *)volumeView {
@@ -670,8 +610,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
 
 - (IBAction)clickToAddMenu:(id)sender {
     NSLog(@"歌单");
-    
-//    [self.vPlayer VPGetPlayAlbum_begin:0];
 
     // 打开歌单
     [[MSFooterManager shareManager] openAlbumViewInPlayVC];

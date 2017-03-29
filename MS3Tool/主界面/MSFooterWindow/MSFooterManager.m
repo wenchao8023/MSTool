@@ -18,7 +18,6 @@
 
 #import "MSMusicAlbumView.h"
 
-//#import "GCDAsyncSocketManager.h"
 
 
 typedef enum : NSInteger {
@@ -38,9 +37,6 @@ typedef enum : NSInteger {
     scrollView_tag
     
 }ViewsTag;
-
-
-
 
 
 @interface MSFooterManager ()
@@ -185,17 +181,6 @@ static MSFooterManager *manager = nil;
     return manager.footerWindow;
 }
 
-- (void) layOutFooterWindow {
-    
-    for (UIView *obj in _footerWindow.subviews) {
-        
-        if ([obj isKindOfClass:[UIView class]]) {
-            
-            obj.backgroundColor = [UIColor redColor];
-        }
-    }
-}
-
 #pragma mark - getWindow
 
 - (UIWindow *) getWindow {
@@ -243,7 +228,6 @@ static MSFooterManager *manager = nil;
 - (void) tapOne {
     
     NSLog(@"tapOne");
-    
 }
 
 
@@ -252,97 +236,82 @@ static MSFooterManager *manager = nil;
 #pragma mark -- openAlbumView -> PlayVC
 - (void) openAlbumViewInPlayVC {
     
-    self.albumStyle = albumTypeDarkInPlayVC;
+    _albumStyle = albumTypeDarkInPlayVC;
     
+    [self.albumView loadData];
     [self setWindowUnHidden];
     
+    self.footerWindow.backgroundColor = WCClear;
+    
     _footerView.hidden = YES;
-    
-    [_albumView setBgColorTypeDark];
-    
     _albumView.hidden = NO;
     
     CGRect frame = self.footerWindow.frame;
     
     frame.origin.y = 0;
  
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.1 animations:^{
 
         self.footerWindow.frame = frame;
-
+    } completion:^(BOOL finished) {
+        
+        if (finished) {
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                [self addEffectView];
+            }];
+        }
     }];
-    
-    [self performSelector:@selector(addEffectView) withObject:nil afterDelay:0.5];
 }
 
 #pragma mark -- closeAlbumView -> PlayVC
 - (void) closeAlbumViewFromPlayVC {
 
-//    [self removeEffectView];
+    self.footerWindow.backgroundColor = WCClear;
     
     CGRect frame = self.footerWindow.frame;
-    
     frame.origin.y = HEIGHT - kFooterViewHeight;
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         
         self.footerWindow.frame = frame;
         
     } completion:^(BOOL finished) {
         
         if (finished) {
-            
             _footerView.hidden = NO;
-            
             _albumView.hidden = YES;
-            
+            [self removeEffectView];
             [self setWindowHidden];
         }
+        
     }];
-    
-    [self performSelector:@selector(removeEffectView) withObject:nil afterDelay:0.5];
 }
 
 #pragma mark -- openAlbumView -> MainVC
 - (void) openAlbumViewInMainVC {
-    
-    self.albumStyle = albumTypeLightInMainVC;
 
-    CGRect Vframe = self.footerView.frame;
+    _albumStyle = albumTypeLightInMainVC;
     
-    Vframe.origin.y = kFooterViewHeight;
+    [self.albumView loadData];
     
-    [self addEffectView];
+    self.footerWindow.backgroundColor = WCClear;
     
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        self.footerView.frame = Vframe;
-        
+    self.footerView.hidden = YES;
+    
+    _albumView.hidden = NO;
+    
+    CGRect frame = self.footerWindow.frame;
+    frame.origin.y = 0;
+    
+    [UIView animateWithDuration:0.1 animations:^{
+        self.footerWindow.frame = frame;
     } completion:^(BOOL finished) {
         
         if (finished) {
             
-            self.footerView.hidden = YES;
-            
-            _albumView.hidden = NO;
-            
-//            [_albumView setBgColorTypeLight];
-            [_albumView setBgColorTypeDark];
-            
-            CGRect frame = self.footerWindow.frame;
-            
-            frame.origin.y = 0;
-            
-            [UIView animateWithDuration:0.4 animations:^{
-                
-                self.footerWindow.frame = frame;
-                
-            } completion:^(BOOL finished) {
-                
-                if (finished) {
-                    
-                    [self addEffectView];
-                }
+            [UIView animateWithDuration:0.3 animations:^{
+                [self addEffectView];
             }];
         }
     }];
@@ -350,45 +319,30 @@ static MSFooterManager *manager = nil;
 
 #pragma mark -- closeAlbumView -> MainVC
 - (void) closeAlbumViewFromMainVC {
-    
-    [self removeEffectView];
+
+    self.footerWindow.backgroundColor = WCClear;
     
     CGRect frame = self.footerWindow.frame;
-    
     frame.origin.y = HEIGHT - kFooterViewHeight;
     
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         
         self.footerWindow.frame = frame;
         
     } completion:^(BOOL finished) {
         
         if (finished) {
-            
             _footerView.hidden = NO;
-            
             _albumView.hidden = YES;
-            
-            CGRect Vframe = self.footerView.frame;
-            
-            Vframe.origin.y = 0;
-            
-            [UIView animateWithDuration:0.3 animations:^{
-               
-                self.footerView.frame = Vframe;
-            }];
+            [self removeEffectView];
         }
     }];
 }
-
-
-
 
 #pragma mark - resignWindow
 - (void) resignWindow {
     
     [self.footerWindow resignKeyWindow];
-    
     self.footerWindow = nil;
 }
 

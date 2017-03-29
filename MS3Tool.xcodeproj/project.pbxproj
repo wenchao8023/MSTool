@@ -132,7 +132,6 @@
 		948E1D3A1E5E809A001C01B9 /* MSNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1CF21E5E809A001C01B9 /* MSNavigation.m */; };
 		948E1D751E5E8301001C01B9 /* cm2_default_play_bg@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 948E1D3D1E5E8301001C01B9 /* cm2_default_play_bg@3x.jpg */; };
 		948E1D8D1E5E8301001C01B9 /* MSMusicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1D601E5E8301001C01B9 /* MSMusicModel.m */; };
-		948E1D8E1E5E8301001C01B9 /* MSMusicPlayerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1D621E5E8301001C01B9 /* MSMusicPlayerConfig.m */; };
 		948E1D8F1E5E8301001C01B9 /* MSMusicPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1D651E5E8301001C01B9 /* MSMusicPlayViewController.m */; };
 		948E1D901E5E8301001C01B9 /* MSMusicPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 948E1D661E5E8301001C01B9 /* MSMusicPlayViewController.xib */; };
 		948E1D931E5E8301001C01B9 /* MSMusicAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1D6C1E5E8301001C01B9 /* MSMusicAlbumCell.m */; };
@@ -142,6 +141,7 @@
 		948E1D9E1E5E833E001C01B9 /* VoicePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 948E1D9C1E5E833E001C01B9 /* VoicePlayer.m */; };
 		94942EB51DD95AFF00B45898 /* GCDAysncSocketDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942EB41DD95AFF00B45898 /* GCDAysncSocketDataManager.m */; };
 		9494C0A21E6CF4A600A1F011 /* KWMusicNet.m in Sources */ = {isa = PBXBuildFile; fileRef = 9494C0A11E6CF4A600A1F011 /* KWMusicNet.m */; };
+		949640761E8B8CDD0004B24E /* MSMusicPlayerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 949640751E8B8CDD0004B24E /* MSMusicPlayerConfig.m */; };
 		9496A4A41DE5825A009CEDEB /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9496A4A31DE5825A009CEDEB /* UIImageView+Extension.m */; };
 		94971CF11DC19311007D472E /* ConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94971CF01DC19311007D472E /* ConnectViewController.m */; };
 		94971D031DC19D22007D472E /* UIButton+UnderlineNone.m in Sources */ = {isa = PBXBuildFile; fileRef = 94971D001DC19D22007D472E /* UIButton+UnderlineNone.m */; };
@@ -462,8 +462,6 @@
 		948E1D3D1E5E8301001C01B9 /* cm2_default_play_bg@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "cm2_default_play_bg@3x.jpg"; sourceTree = "<group>"; };
 		948E1D5F1E5E8301001C01B9 /* MSMusicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMusicModel.h; sourceTree = "<group>"; };
 		948E1D601E5E8301001C01B9 /* MSMusicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMusicModel.m; sourceTree = "<group>"; };
-		948E1D611E5E8301001C01B9 /* MSMusicPlayerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMusicPlayerConfig.h; sourceTree = "<group>"; };
-		948E1D621E5E8301001C01B9 /* MSMusicPlayerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMusicPlayerConfig.m; sourceTree = "<group>"; };
 		948E1D641E5E8301001C01B9 /* MSMusicPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMusicPlayViewController.h; sourceTree = "<group>"; };
 		948E1D651E5E8301001C01B9 /* MSMusicPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMusicPlayViewController.m; sourceTree = "<group>"; };
 		948E1D661E5E8301001C01B9 /* MSMusicPlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSMusicPlayViewController.xib; sourceTree = "<group>"; };
@@ -482,6 +480,8 @@
 		94942EBA1DD9675300B45898 /* GCDHeaderFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDHeaderFile.h; sourceTree = "<group>"; };
 		9494C0A01E6CF4A600A1F011 /* KWMusicNet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KWMusicNet.h; sourceTree = "<group>"; };
 		9494C0A11E6CF4A600A1F011 /* KWMusicNet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KWMusicNet.m; sourceTree = "<group>"; };
+		949640741E8B8CDD0004B24E /* MSMusicPlayerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMusicPlayerConfig.h; sourceTree = "<group>"; };
+		949640751E8B8CDD0004B24E /* MSMusicPlayerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMusicPlayerConfig.m; sourceTree = "<group>"; };
 		9496A4A21DE5825A009CEDEB /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
 		9496A4A31DE5825A009CEDEB /* UIImageView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Extension.m"; sourceTree = "<group>"; };
 		94971CEF1DC19311007D472E /* ConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectViewController.h; sourceTree = "<group>"; };
@@ -1340,8 +1340,8 @@
 			children = (
 				948E1D5F1E5E8301001C01B9 /* MSMusicModel.h */,
 				948E1D601E5E8301001C01B9 /* MSMusicModel.m */,
-				948E1D611E5E8301001C01B9 /* MSMusicPlayerConfig.h */,
-				948E1D621E5E8301001C01B9 /* MSMusicPlayerConfig.m */,
+				949640741E8B8CDD0004B24E /* MSMusicPlayerConfig.h */,
+				949640751E8B8CDD0004B24E /* MSMusicPlayerConfig.m */,
 			);
 			path = "播放器数据";
 			sourceTree = "<group>";
@@ -2188,6 +2188,7 @@
 				948E1D961E5E8301001C01B9 /* MSMusicAlbumView.m in Sources */,
 				948E1D301E5E809A001C01B9 /* ZhuboCell.m in Sources */,
 				94D185DA1E533B1100BCAB8E /* SmartHomeCell.m in Sources */,
+				949640761E8B8CDD0004B24E /* MSMusicPlayerConfig.m in Sources */,
 				948E1D341E5E809A001C01B9 /* MSMainLeftView.m in Sources */,
 				948E1D9D1E5E833E001C01B9 /* CMDDataConfig.m in Sources */,
 				948E1D8D1E5E8301001C01B9 /* MSMusicModel.m in Sources */,
@@ -2199,7 +2200,6 @@
 				94971D1B1DC20468007D472E /* CommonUtil.m in Sources */,
 				94169EBB1E83B51000FDB791 /* MSTCPManager.m in Sources */,
 				9485EAD41E6E9D70002BB589 /* KWArtistMusicModel.m in Sources */,
-				948E1D8E1E5E8301001C01B9 /* MSMusicPlayerConfig.m in Sources */,
 				948E1D1E1E5E809A001C01B9 /* BangdanView.m in Sources */,
 				948E1D931E5E8301001C01B9 /* MSMusicAlbumCell.m in Sources */,
 				947598591E641F25003551E4 /* ItemCell.m in Sources */,

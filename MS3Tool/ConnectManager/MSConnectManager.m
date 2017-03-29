@@ -134,11 +134,11 @@ static MSConnectManager *manager = nil;
     
     if (cmd == CMD_HANDSHAKE_R) {   // 握手返回
         
-        [self handShakeBack];
+                    [self handShakeBack];
         
     } else if (cmd == CMD_GET_SERVER_R) {   //  udp返回
         
-        [self udpBack:data];
+                    [self udpBack:data];
         
     } else if (cmd == CMD_GET_VOLUME_R ||               // value返回
                cmd == CMD_GET_PLAYSTATE_R ||
@@ -151,17 +151,17 @@ static MSConnectManager *manager = nil;
                cmd == CMD_NOT_controlPlay ||
                cmd == CMD_NOT_controlStatus) {
         
-        /* 设置播放列表成功之后需要重新获取播放列表 */
-        if (cmd == CMD_SET_currentPlayAlbum_R) {
-            
-            [[VoicePlayer shareInstace] VPGetPlayAlbum_begin:0];
-        }
-        
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.cmdConfig setDicWithCMD:cmd
-                                 andValue:[self.dataManager getValueWithData:data]];
-        });
+                    /* 设置播放列表成功之后需要重新获取播放列表 */
+                    if (cmd == CMD_SET_currentPlayAlbum_R) {
+                        
+                        [[VoicePlayer shareInstace] VPGetPlayAlbum_begin:0];
+                    }
+                    
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.cmdConfig setDicWithCMD:cmd
+                                             andValue:[self.dataManager getValueWithData:data]];
+                    });
         
         
     } else if (cmd == CMD_SET_VOLUME_R ||               // 命令码返回
@@ -173,52 +173,57 @@ static MSConnectManager *manager = nil;
                cmd == CMD_SET_currentPlayStyle_R ||
                cmd == CMD_SET_cancelCollect_R) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.cmdConfig setDicWithCMD:cmd andBool:YES];
-        });
-        
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.cmdConfig setDicWithCMD:cmd andBool:YES];
+                    });
+                    
     } else if (cmd == CMD_GET_playAlbum_R ||
                cmd == CMD_GET_current_musicInfo_R ||
                cmd == CMD_GET_record_musicInfo_R ||
                cmd == CMD_GET_voiceboxInfo_R ||
                cmd == CMD_NOT_collect) {                               // 字典返回
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            NSDictionary *getDataDic;
-            
-            if (cmd == CMD_GET_playAlbum_R) {   // 播放列表 或收藏列表
-                
-                NSInteger length = sizeof(get_return_playAlbum);
-                
-                for (int i = 0; (i + 1) * length <= data.length; i++) {
-                    
-                    NSData *tempData = [data subdataWithRange:NSMakeRange(i * length, length)];
-                    
-                    /* 播放列表中的歌曲信息 */
-                    NSDictionary *tempDic = [self.dataManager getPlayAlbum:tempData];
-                    
-                    int errNo = [self.dataManager getErrorNo:tempData];
-                    
-                    [self.cmdConfig setAlbumWithCMD:cmd
-                                              errNo:errNo
-                                                dic:tempDic];
-                }
-                
-            } else if (cmd == CMD_GET_voiceboxInfo_R) {   // 音箱信息
-                
-                getDataDic = [self.dataManager getVoiceBoxInfo:data];
-                
-            } else {    // 音乐信息
-                
-                getDataDic = [self.dataManager getMusicInfo:data];
-                
-                [self.cmdConfig setPlayIndex:[[getDataDic objectForKey:@"index"] intValue]];
-            }
-            
-            [self.cmdConfig setDicWithCMD:cmd
-                                   andDic:getDataDic];
-        });
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        NSDictionary *getDataDic;
+                        
+                        if (cmd == CMD_GET_playAlbum_R) {   // 播放列表 或收藏列表
+                            
+                            NSInteger length = sizeof(get_return_playAlbum);
+                            
+                            for (int i = 0; (i + 1) * length <= data.length; i++) {
+                                
+                                NSData *tempData = [data subdataWithRange:NSMakeRange(i * length, length)];
+                                
+                                /* 播放列表中的歌曲信息 */
+                                NSDictionary *tempDic = [self.dataManager getPlayAlbum:tempData];
+                                
+                                int errNo = [self.dataManager getErrorNo:tempData];
+                                
+                                [self.cmdConfig setAlbumWithCMD:cmd
+                                                          errNo:errNo
+                                                            dic:tempDic];
+                            }
+                            
+                        } else if (cmd == CMD_GET_voiceboxInfo_R) {   // 音箱信息
+                            
+                            getDataDic = [self.dataManager getVoiceBoxInfo:data];
+                            
+                        } else {    // 音乐信息
+                            
+                            getDataDic = [self.dataManager getMusicInfo:data];
+                            
+                            [self.cmdConfig setPlayIndex:[[getDataDic objectForKey:@"index"] intValue]];
+                        }
+                        
+                        [self.cmdConfig setDicWithCMD:cmd
+                                               andDic:getDataDic];
+                    });
+
+    } else if (cmd == CMD_NOT_album_change) {   // 通知 - 播放列表变化
+        
+                    NSLog(@"播放列表变化了");
+                    [[VoicePlayer shareInstace] VPGetPlayAlbum_begin:0];
     }
     
     self.cmdConfig.getCMD = cmd;
@@ -234,6 +239,8 @@ static MSConnectManager *manager = nil;
     [self.smartManager stopUdpTimer];
     
     [self.udpManager stopBroadCast];
+    
+    [[VoicePlayer shareInstace] VPGetPlayAlbum_begin:0];
 }
 
 - (void)udpBack:(NSData *)data {
