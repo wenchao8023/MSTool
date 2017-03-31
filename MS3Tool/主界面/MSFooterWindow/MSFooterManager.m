@@ -109,12 +109,11 @@ static MSFooterManager *manager = nil;
     _footerView.goMusicVC = ^() {
         
         NSLog(@"去播放器界面");
-
+        
         if ([[MSConnectManager sharedInstance] tcpConnectStatus])
             sself.goMusicVC();
         else
             [CommonUtil showAlertToUnConnected];
-        
     };
     
     _footerView.goAlbumView = ^() {

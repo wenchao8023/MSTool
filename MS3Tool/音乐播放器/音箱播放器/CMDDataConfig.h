@@ -49,4 +49,12 @@
 - (void)setAlbumEmpty ;
 
 
+/**
+ 根据 cmd 返回相应的数据
+
+ */
+- (int)getValueWithCMD:(int)cmd ;
+
+- (nonnull id)getObjDicWithCMD:(int)cmd ;
+
 @end

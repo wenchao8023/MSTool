@@ -10,9 +10,6 @@
 
 #import "MSMusicAlbumCell.h"
 
-//#import "MSMusicPlayerConfig.h"
-
-
 
 #define CONTENTHEIGHT SCREENH
 
@@ -55,9 +52,9 @@
         
         [self loadData];
         
-        [self addNotifycation];
-        
         [self setBgColorTypeDark];
+        
+        [self addNotifycation];
     }
     
     return self;
@@ -146,7 +143,7 @@
     
     _playingTableView.dataSource = self;
     
-    _playingTableView.backgroundColor = WCClear;
+    _playingTableView.backgroundColor = WCBlack;
     
     [self.bgScrollView addSubview:_playingTableView];
 }
@@ -155,8 +152,6 @@
     
 }
 - (void)createBottomButton {
-    
-//    _bottomButton = [WenChaoControl createButtonWithFrame:CGRectMake(0, CONTENTHEIGHT - HEIGHT_FOOTERVIEW, SCREENW, HEIGHT_FOOTERVIEW) ImageName:nil Target:self Action:@selector(close) Title:@"关闭"];
     
     _bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
@@ -239,23 +234,21 @@
         
         [cell configWithBoxMusic:self.playingDataArray[indexPath.row]];
         
+        [cell setUnselectedSong:self.cellColorUnselect];
+        
         if ([CMDDataConfig shareInstance].playIndex == indexPath.row) {
             
-            [cell setSelectedSong:self.cellColorSelected];
+            int playstatus = [[CMDDataConfig shareInstance] getValueWithCMD:CMD_NOT_controlStatus];
             
-        } else {
+            BOOL isPlaying = (playstatus == 2 || playstatus == 4) ? YES : NO;
             
-            [cell setUnselectedSong:self.cellColorUnselect];
+            [cell setSelectedSong:self.cellColorSelected isPlaying:(BOOL)isPlaying];   
         }
-        
-        __weak typeof(&*self) sself = self;
         
         // 删除 cell 的回调
         cell.delBlock = ^() {
           
             NSLog(@"indepath for cell is : %ld", (long)indexPath.row);
-            
-//            [sself delCellWithIndex:indexPath.row];
         };
     }
     
@@ -288,38 +281,33 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [[VoicePlayer shareInstace] VPSetPlayMusicInAlbum:0 index:(int)indexPath.row];
+    if ([[[[CMDDataConfig shareInstance] getObjDicWithCMD:CMD_GET_current_musicInfo_R] objectForKey:@"index"] integerValue] != indexPath.row) {
+        [[VoicePlayer shareInstace] VPSetPlayMusicInAlbum:0 index:(int)indexPath.row];
+    }
+    
 }
-
 
 #pragma mark - addNotifycation
 -(void)addNotifycation {
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(musicStatus:) name:NOTIFY_PLAYSTATUS object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getCMDData) name:NOTIFY_CMDDATARETURN object:nil];
 }
-/**
- *  status
- *      -1 := 切歌
- *       0 := 暂停
- *       1 := 播放
- */
--(void)musicStatus:(NSNotification *)notify {
+
+- (void)getCMDData {
     
-    // notify.object, notify.userInfo, notify.name
+    int cmd = [CMDDataConfig shareInstance].getCMD;
     
-    if ([notify.object integerValue] == -1) {
+    if (cmd == CMD_NOT_controlPlay) {
         
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            
-            [self loadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.playingTableView reloadData];
         });
     }
 }
-
--(void)dealloc {
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_PLAYSTATUS object:nil];
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_CMDDATARETURN object:nil];
 }
-
-
 
 
 #pragma mark - touchesBegan

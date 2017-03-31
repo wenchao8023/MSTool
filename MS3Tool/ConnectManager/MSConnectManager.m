@@ -156,8 +156,13 @@ static MSConnectManager *manager = nil;
                         
                         [[VoicePlayer shareInstace] VPGetPlayAlbum_begin:0];
                     }
-                    
-                    
+        
+                    if (cmd == CMD_NOT_controlPlay) {
+                        [self.cmdConfig setPlayIndex:[self.dataManager getValueWithData:data]];
+                        
+                        [[VoicePlayer shareInstace] VPGetPlayMusicInfo];
+                    }
+        
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.cmdConfig setDicWithCMD:cmd
                                              andValue:[self.dataManager getValueWithData:data]];
@@ -241,6 +246,10 @@ static MSConnectManager *manager = nil;
     [self.udpManager stopBroadCast];
     
     [[VoicePlayer shareInstace] VPGetPlayAlbum_begin:0];
+    
+    [[VoicePlayer shareInstace] VPGetPlayMusicInfo];
+    
+    [[VoicePlayer shareInstace] VPGetPlayStatu];
 }
 
 - (void)udpBack:(NSData *)data {

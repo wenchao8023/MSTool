@@ -79,7 +79,6 @@
     
     [self resetView];
     
-//    [self addNotify];
     [[CMDDataConfig shareInstance] addObserver:self forKeyPath:@"getCMD" options:NSKeyValueObservingOptionNew context:nil];
 }
 
@@ -93,15 +92,10 @@
         }
     }
 }
-//- (void)addNotify {
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clickBack) name:NOTIFY_CMDDATARETURN object:nil];
-//}
 
 
 - (void)dealloc {
     
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_CMDDATARETURN object:nil];
     [[CMDDataConfig shareInstance] removeObserver:self forKeyPath:@"getCMD"];
 }
 

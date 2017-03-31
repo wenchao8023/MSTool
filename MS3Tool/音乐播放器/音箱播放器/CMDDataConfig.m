@@ -172,6 +172,17 @@ static CMDDataConfig *manager = nil;
 }
 
 
+// 根据 cmd 返回相应的数据
+
+- (int)getValueWithCMD:(int)cmd {
+    return [[self.cmdDic objectForKey:[NSString stringWithFormat:@"%d", cmd]] intValue];
+}
+
+-(id)getObjDicWithCMD:(int)cmd {
+    return [self.cmdDic objectForKey:[NSString stringWithFormat:@"%d", cmd]];
+}
+
+
 /**
  更新播放列表
  

@@ -247,31 +247,31 @@ static const CGFloat kVolumeViewHeight = 160.f;
 
 - (void)loadLocalData {
 
-    NSDictionary *tempDic = self.cmdConfig.cmdDic;
-    
-    if ([self getValueDic:tempDic CMD:CMD_GET_VOLUME_R] != -1) {
-        self.playVolume = [self getValueDic:tempDic CMD:CMD_GET_VOLUME_R];
-    }
-    
-    if ([self getValueDic:tempDic CMD:CMD_GET_PLAYSTATE_R] != -1) {
-        self.playStatu = [self getValueDic:tempDic CMD:CMD_GET_PLAYSTATE_R];
-    }
-    
-    if ([self getValueDic:tempDic CMD:CMD_NOT_controlStatus] != -1) {
-        self.playStatu = [self getValueDic:tempDic CMD:CMD_NOT_controlStatus];
-    }
-    
-    if ([self getValueDic:tempDic CMD:CMD_GET_playProgress_R] != -1) {
-        self.playProgress = [self getValueDic:tempDic CMD:CMD_GET_playProgress_R];
-    }
-    
-    if ([self getValueDic:tempDic CMD:CMD_GET_currentPlayStyle_R] != -1) {
-        self.playType = [self getValueDic:tempDic CMD:CMD_GET_currentPlayStyle_R];
-    }
-    
-    if ([self getValueDic:tempDic CMD:CMD_GET_currentDuration_R] != -1) {
-        self.playDuration = [self getValueDic:tempDic CMD:CMD_GET_currentDuration_R];
-    }
+//    NSDictionary *tempDic = self.cmdConfig.cmdDic;
+//    
+//    if ([self getValueDic:tempDic CMD:CMD_GET_VOLUME_R] != -1) {
+//        self.playVolume = [self getValueDic:tempDic CMD:CMD_GET_VOLUME_R];
+//    }
+//    
+//    if ([self getValueDic:tempDic CMD:CMD_GET_PLAYSTATE_R] != -1) {
+//        self.playStatu = [self getValueDic:tempDic CMD:CMD_GET_PLAYSTATE_R];
+//    }
+//    
+//    if ([self getValueDic:tempDic CMD:CMD_NOT_controlStatus] != -1) {
+//        self.playStatu = [self getValueDic:tempDic CMD:CMD_NOT_controlStatus];
+//    }
+//    
+//    if ([self getValueDic:tempDic CMD:CMD_GET_playProgress_R] != -1) {
+//        self.playProgress = [self getValueDic:tempDic CMD:CMD_GET_playProgress_R];
+//    }
+//    
+//    if ([self getValueDic:tempDic CMD:CMD_GET_currentPlayStyle_R] != -1) {
+//        self.playType = [self getValueDic:tempDic CMD:CMD_GET_currentPlayStyle_R];
+//    }
+//    
+//    if ([self getValueDic:tempDic CMD:CMD_GET_currentDuration_R] != -1) {
+//        self.playDuration = [self getValueDic:tempDic CMD:CMD_GET_currentDuration_R];
+//    }
 }
 
 
@@ -685,35 +685,35 @@ static const CGFloat kVolumeViewHeight = 160.f;
         case CMD_GET_VOLUME_R:  // 音量
         {
             
-            self.playVolume = [self getValueDic:tempDic CMD:cmd];
+            self.playVolume = [self.cmdConfig getValueWithCMD:cmd];
             
             NSLog(@"获取音量大小 : %d", self.playVolume);
         }
         case CMD_NOT_volume:  // 音量
         {
             
-            self.playVolume = [self getValueDic:tempDic CMD:cmd];
+            self.playVolume = [self.cmdConfig getValueWithCMD:cmd];
             
             NSLog(@"通知 -- 音量大小 : %d", self.playVolume);
         }
             break;
         case CMD_GET_PLAYSTATE_R:   //  播放状态
         {
-            self.playStatu = [self getValueDic:tempDic CMD:cmd];
+            self.playStatu = [self.cmdConfig getValueWithCMD:cmd];
             
             NSLog(@"获取播放状态 : %d", self.playVolume);
         }
             break;
         case CMD_NOT_controlStatus:   //  播放状态
         {
-            self.playStatu = [self getValueDic:tempDic CMD:cmd];
+            self.playStatu = [self.cmdConfig getValueWithCMD:cmd];
             
             NSLog(@"通知 -- 获取播放状态 : %d", self.playStatu);
         }
             break;
         case CMD_GET_playProgress_R:    // 播放进度
         {
-            self.playProgress = [self getValueDic:tempDic CMD:cmd];
+            self.playProgress = [self.cmdConfig getValueWithCMD:cmd];
             
             if (self.playDuration <= 0) {
                 
@@ -723,7 +723,7 @@ static const CGFloat kVolumeViewHeight = 160.f;
             break;
         case CMD_GET_currentPlayStyle_R:    // 播放模式
         {
-            self.playType = [self getValueDic:tempDic CMD:cmd];
+            self.playType = [self.cmdConfig getValueWithCMD:cmd];
             
             NSLog(@"获取播放模式 : %d", self.playType);
         }
@@ -731,14 +731,14 @@ static const CGFloat kVolumeViewHeight = 160.f;
         case CMD_GET_currentDuration_R:     // 播放总时长
         {
 
-            self.playDuration = [self getValueDic:tempDic CMD:cmd];
+            self.playDuration = [self.cmdConfig getValueWithCMD:cmd];
             
             NSLog(@"获取播放总时长 : %d", self.playDuration);
         }
             break;
         case CMD_GET_current_musicInfo_R:   // 音乐信息
         {
-            self.playInfo = (NSDictionary *)[self getObjDic:tempDic CMD:cmd];
+            self.playInfo = (NSDictionary *)[self.cmdConfig getObjDicWithCMD:cmd];
             
             NSLog(@"获取音乐信息 : %@", self.playInfo);
             
@@ -746,11 +746,11 @@ static const CGFloat kVolumeViewHeight = 160.f;
             break;
         case CMD_NOT_controlPlay:
         {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [NSThread sleepForTimeInterval:0.1];
-                [self.vPlayer VPGetPlayMusicInfo];
-            });
-            NSLog(@"通知 -- 歌曲下标 : %d", [self getValueDic:tempDic CMD:cmd]);
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                [NSThread sleepForTimeInterval:0.1];
+//                [self.vPlayer VPGetPlayMusicInfo];
+//            });
+            NSLog(@"通知 -- 歌曲下标 : %d", [self.cmdConfig getValueWithCMD:cmd]);
         }
             break;
         case CMD_GET_playAlbum_R:
@@ -767,16 +767,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
         default:
             break;
     }
-}
-
-- (int)getValueDic:(NSDictionary *)dic CMD:(int)cmd {
-    
-    return [[dic objectForKey:[NSString stringWithFormat:@"%d", cmd]] intValue];
-}
-
-- (id)getObjDic:(NSDictionary *)dic CMD:(int)cmd {
-    
-    return [dic objectForKey:[NSString stringWithFormat:@"%d", cmd]];
 }
 
 - (NSString *)getDuration:(int)duration {
