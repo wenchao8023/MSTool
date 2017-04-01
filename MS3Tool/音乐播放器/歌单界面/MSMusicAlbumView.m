@@ -15,6 +15,13 @@
 
 #define CONTENTHEIGHT_3 (CONTENTHEIGHT / 3)
 
+#define CONTENTHEIGHT_4 (CONTENTHEIGHT / 4)
+
+
+
+static const CGFloat kHeaderHeight = 60.f;
+
+static UIColor *kLineColor;
 
 @interface MSMusicAlbumView ()<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
@@ -61,6 +68,8 @@
 }
 
 - (void)loadData {
+    
+    kLineColor = [UIColor colorWithRed:0.23 green:0.23 blue:0.23 alpha:1];
     
     self.lastPlayDataArray = [NSMutableArray arrayWithCapacity:0];
     
@@ -114,7 +123,7 @@
 - (void)createScrollView {
     
     _bgScrollView = [[UIScrollView alloc ] initWithFrame:
-                     CGRectMake(0, CONTENTHEIGHT_3 - HEIGHT_FOOTERVIEW, SCREENW, CONTENTHEIGHT_3 * 2)];
+                     CGRectMake(0, CONTENTHEIGHT - CONTENTHEIGHT_4 * 2 - HEIGHT_FOOTERVIEW, SCREENW, CONTENTHEIGHT_4 * 2 + HEIGHT_FOOTERVIEW)];
     
     _bgScrollView.delegate = self;
     
@@ -124,20 +133,55 @@
     
     [self addSubview:_bgScrollView];
     
-    _bgScrollView.contentSize = CGSizeMake(SCREENW * 2, CONTENTHEIGHT_3 * 2);
+    _bgScrollView.contentSize = CGSizeMake(SCREENW * 2, CONTENTHEIGHT_4 * 2 + HEIGHT_FOOTERVIEW);
     
     _bgScrollView.backgroundColor = WCBlack;
     
+    
+    [self.bgScrollView addSubview:[self createHeaderView]];
     
     [self createPlayingAlbum];
     
     [self createLastPlayAlbum];
 }
+
+
+-(UIView *)createHeaderView {
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, kHeaderHeight)];
+    headerView.backgroundColor = WCBlack;
+    
+    
+    UIImageView *imageV = [WenChaoControl createImageViewWithFrame:CGRectMake(20, 10, 40, 40) ImageName:nil];
+    imageV.backgroundColor = WCClear;
+    [headerView addSubview:imageV];
+    
+    
+    CGRect frame = imageV.frame;
+    frame.origin.x = CGRectGetMaxX(frame) + 20;
+    frame.size.width = 200;
+    
+    UILabel *lab = [WenChaoControl createLabelWithFrame:frame
+                                                   Font:16
+                                                   Text:nil
+                                          textAlignment:0];
+    lab.backgroundColor = WCClear;
+    [headerView addSubview:lab];
+    
+    
+    UILabel *lineLab = [WenChaoControl createLabelWithFrame:CGRectMake(0, kHeaderHeight - 1, WIDTH, 1) Font:0 Text:nil textAlignment:0];
+    lineLab.backgroundColor = kLineColor;
+    [headerView addSubview:lineLab];
+    
+    return headerView;
+}
+
 // 正在播放歌曲的列表
 - (void)createPlayingAlbum {
     
     _playingTableView = [[UITableView alloc] initWithFrame:
-                         CGRectMake(0, 0, SCREENW, CONTENTHEIGHT_3 * 2) style:UITableViewStylePlain];
+                         CGRectMake(0, kHeaderHeight, SCREENW, CONTENTHEIGHT_4 * 2 - kHeaderHeight)
+                                                     style:UITableViewStylePlain];
     
     _playingTableView.delegate = self;
     
@@ -170,11 +214,8 @@
                                                          Font:0
                                                          Text:nil
                                                 textAlignment:0];
-    
-    lineLabel.backgroundColor = WCLightGray;
-    
+    lineLabel.backgroundColor = kLineColor;
     [self addSubview:lineLabel];
-    
     [self addSubview:_bottomButton];
     
     _bottomButton.backgroundColor = WCBlack;

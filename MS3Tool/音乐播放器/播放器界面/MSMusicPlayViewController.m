@@ -230,10 +230,6 @@ static const CGFloat kVolumeViewHeight = 160.f;
         
         for (int i = 0; i < selArr.count; i++) {
             
-            if (!i) {
-                
-            }
-            
             [NSThread sleepForTimeInterval:0.1];
             
             [self.vPlayer performSelectorInBackground:NSSelectorFromString(selArr[i])

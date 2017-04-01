@@ -34,7 +34,7 @@
     if (!_imagesArray) {
         
         NSMutableArray *tempArr = [NSMutableArray arrayWithCapacity:0];
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 12; i++) {
             UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"playingInAlbum%d", i]];
             
             [tempArr  addObject:image];
@@ -111,7 +111,7 @@
     
     self.playingImageV.animationRepeatCount = 0;
     
-    self.playingImageV.animationDuration = self.imagesArray.count / 3;
+    self.playingImageV.animationDuration = 3.0;
     
     [self.playingImageV startAnimating];
 }

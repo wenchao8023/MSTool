@@ -132,8 +132,16 @@ static UIColor *kContentBgColor = nil;
     _bgScrollView = scr;
     
     self.bgScrollView.mj_header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadData)];
+}
+
+- (void)closeHeaderRefresh {
+    if ([self.bgScrollView.mj_header isRefreshing]) {
+        [self.bgScrollView.mj_header endRefreshing];
+    }
     
-    
+    if (!self.bgScrollView.mj_header.hidden) {
+        self.bgScrollView.mj_header.hidden = YES;
+    }
 }
 
 
@@ -309,10 +317,6 @@ static UIColor *kContentBgColor = nil;
         });
     });
     
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        
-//        [self reloadData];
-//    });
     
     _netWork = [MSMainNetWork shareManager];
     
@@ -397,6 +401,8 @@ static UIColor *kContentBgColor = nil;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
                         [sself resetCollectionView];
+                        
+                        [self closeHeaderRefresh];
                     });
                 }
             }
@@ -440,6 +446,8 @@ static UIColor *kContentBgColor = nil;
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 [sself resetCollectionView];
+                
+                [self closeHeaderRefresh];
             });
         }
         
@@ -468,6 +476,8 @@ static UIColor *kContentBgColor = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             
             [sself.headView configBanner:sself.bannerArray];
+            
+            [self closeHeaderRefresh];
             
         });
     }];

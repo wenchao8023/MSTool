@@ -51,10 +51,6 @@ static VoicePlayer *manager = nil;
     return self;
 }
 
-
-
-
-
 #pragma mark - set info
 #pragma mark -- set message only head
 - (void)setDataWithCMD:(int)cmd {

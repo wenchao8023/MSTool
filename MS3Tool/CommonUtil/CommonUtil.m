@@ -479,6 +479,47 @@
     
     return attText;
 }
+
++(void)loadMusicInfo {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        NSArray *selArr = @[@"VPGetPlayMusicInfo",
+                            @"VPGetPlayStatu",
+                            @"VPGetPlayType",
+                            @"VPGetVolume",
+                            ];
+        
+        for (int i = 0; i < selArr.count; i++) {
+            
+            [NSThread sleepForTimeInterval:0.1];
+            
+            [[VoicePlayer shareInstace] performSelectorInBackground:NSSelectorFromString(selArr[i])
+                                           withObject:nil];
+        }
+    });
+}
+
++(void)loadMusicAlbum {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        NSArray *selArr = @[@"VPGetPlayMusicInfo",
+                            @"VPGetPlayStatu",
+                            @"VPGetPlayType",
+                            @"VPGetVolume",
+                            ];
+        
+        for (int i = 0; i < selArr.count; i++) {
+            
+            [NSThread sleepForTimeInterval:0.1];
+            
+            [[VoicePlayer shareInstace] performSelectorInBackground:NSSelectorFromString(selArr[i])
+                                                         withObject:nil];
+        }
+    });
+}
+
 @end
 
 

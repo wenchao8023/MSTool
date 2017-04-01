@@ -247,9 +247,7 @@ static MSConnectManager *manager = nil;
     
     [[VoicePlayer shareInstace] VPGetPlayAlbum_begin:0];
     
-    [[VoicePlayer shareInstace] VPGetPlayMusicInfo];
-    
-    [[VoicePlayer shareInstace] VPGetPlayStatu];
+    [CommonUtil loadMusicInfo];
 }
 
 - (void)udpBack:(NSData *)data {

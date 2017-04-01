@@ -65,7 +65,7 @@
     
     [self setImgToPlayBtn];
     
-    [self rotateIconImage];
+//    [self rotateIconImage];
 }
 
 // 初始化数据容器
