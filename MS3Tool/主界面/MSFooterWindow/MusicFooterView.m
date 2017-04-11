@@ -8,11 +8,11 @@
 
 #import "MusicFooterView.h"
 
-#import "MSMusicPlayerConfig.h"
-
 #import "FooterViewModel.h"
 
 #import "MSMusicModel.h"
+
+
 
 
 @interface MusicFooterView ()<UIScrollViewDelegate>{
@@ -20,11 +20,7 @@
 }
 
 
-
-
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-
-
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
@@ -36,38 +32,10 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *bgScrollView;
 
-
-@property (weak, nonatomic) IBOutlet UILabel *lineLabel;
-
-@property (nonatomic, strong) UIImageView *iconImage;
-
 @property (nonatomic, assign) CGAffineTransform originTransform;
 
 
-
-
-/**
- *  如果没有歌单传过来，那么数组里面是空的
- *  如果有歌单的时候，数组中至少要有三个元素
- *  歌单 == 一首歌，数组中三个相同元素
- *  歌单 == 两首歌，数组首尾元素相同，中间是正在播放的那首
- *  歌单 == 三首歌，按顺序添加，并循环
- *  歌单  > 三首歌，按模式循环
- */
-@property (nonatomic, strong) NSMutableArray *musicArray;
-
-/**
- *  显示当前播放的音乐在数组中的下标
- *  数组为空的时候，musicIndex = 0
- *  数组不为空的时，musicIndex 初始值为 1
- */
-@property (nonatomic, assign) NSInteger musicIndex;
-
-/**
- *  为1  下一曲
- *  为-1 上一曲
- */
-@property (nonatomic, assign) NSInteger swipeType;
+@property (nonatomic, assign) int playStatu;
 
 @end
 
@@ -81,8 +49,6 @@
         
         self.frame = frame;
         
-//        self.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.1];
-        
         [self initDataContainer];
         
         [self createUI];
@@ -91,6 +57,182 @@
     return self;
 }
 
+-(void)createUI {
+    
+    self.iconImageView.layer.cornerRadius = (HEIGHT_FOOTERVIEW - 10) / 2;
+    
+    self.iconImageView.layer.masksToBounds = YES;
+    
+    [self setImgToPlayBtn];
+    
+//    [self rotateIconImage];
+}
+
+// 初始化数据容器
+-(void)initDataContainer {
+    
+    [self addNotifycation];
+}
+
+
+#pragma mark - 核心动画实现图片旋转
+// 给iconImage添加动画
+-(void)rotateIconImage {
+    
+    self.iconImageView.transform = self.originTransform;
+    
+    [self.iconImageView imageDrawRect];
+    
+    [self.iconImageView.layer addAnimation:[self rotate360DegreeImage] forKey:@"ROTATEICONIMAGE"];
+}
+
+// 暂停动画
+-(void)pauseRotate {
+    
+    // 获取当前暂停时间
+    pausedTime = [self.iconImageView.layer convertTime:CACurrentMediaTime() fromLayer:nil];
+    
+    // 层的速度为0，停止动画
+    self.iconImageView.layer.speed = 0;
+    
+    // 保存暂停时间，便于恢复
+    self.iconImageView.layer.timeOffset = pausedTime;
+}
+
+// 恢复动画
+-(void)resumRotate {
+    
+    // 设置速度
+    self.iconImageView.layer.speed = 1.0;
+    
+    // 清楚开始时间
+    self.iconImageView.layer.beginTime = 0.0;
+    
+    // 计算开始时间
+    CFTimeInterval beginTime = [self.iconImageView.layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
+    
+    // 重设开始时间
+    self.iconImageView.layer.beginTime = beginTime;
+}
+
+// 创建动画
+-(CABasicAnimation *)rotate360DegreeImage {
+    
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    
+    [animation rotate360DegreeWithDuration:5];
+    
+    return animation;
+}
+
+
+#pragma mark - click actions
+// xib中隐藏的那个滑动视图的图标点击事件
+- (IBAction)iconImageViewClick:(id)sender {
+    
+    self.goMusicVC();
+}
+
+- (IBAction)playButtonClick:(id)sender {
+    NSLog(@"点击播放按钮");
+    
+    [self setPlayStatuToNext];
+    
+    if (self.playStatu == 2 ||
+        self.playStatu == 4)
+        [[VoicePlayer shareInstace] VPause];
+    else
+        [[VoicePlayer shareInstace] VPlay];
+    
+    [self setImgToPlayBtn];
+}
+
+- (IBAction)listButtonClick:(id)sender {
+    NSLog(@"点击歌单按钮");
+    
+    self.goAlbumView();
+}
+
+#pragma mark - 设置播放按钮
+-(void)setPlayStatuToNext {
+    
+    self.playStatu = self.playStatu == 3 ? 4 : 3;
+}
+
+- (void)setImgToPlayBtn {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+        if (self.playStatu == 2 ||
+            self.playStatu == 4) {  // 播放
+            
+            [self.playButton setBackgroundImage:[UIImage imageNamed:@"bottompause"] forState:UIControlStateNormal];
+            
+             [self resumRotate];
+            
+            [[VoicePlayer shareInstace] VPGetCurrentProgressIsLastFiveSeconds:YES];
+            
+        } else {    // 暂停
+            
+            [self.playButton setBackgroundImage:[UIImage imageNamed:@"bottomplay"] forState:UIControlStateNormal];
+            
+//            [self pauseRotate];
+            [self resumRotate];
+            
+            [[VoicePlayer shareInstace] VPGetCurrentProgress_Stop];
+        }
+    });
+}
+
+#pragma mark - addNotifycation
+-(void)addNotifycation {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getCMDData) name:NOTIFY_CMDDATARETURN object:nil];
+}
+
+- (void)getCMDData {
+    
+    int cmd = [CMDDataConfig shareInstance].getCMD;
+    
+    if (cmd == CMD_GET_current_musicInfo_R) {
+        [self configViews];
+        
+    } else if (cmd == CMD_GET_PLAYSTATE_R ||
+               cmd == CMD_NOT_controlStatus) {
+        self.playStatu = [[CMDDataConfig shareInstance] getValueWithCMD:cmd];
+        
+        [self setImgToPlayBtn];
+    }
+}
+-(void)configViews {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSDictionary *infoDic = [[CMDDataConfig shareInstance] getObjDicWithCMD:CMD_GET_current_musicInfo_R];
+        
+        self.titleLabel.text = [infoDic objectForKey:@"musicName"];
+        
+        if ([[infoDic objectForKey:@"albumsName"] length])
+            self.lircLabel.text = [NSString stringWithFormat:@"%@ - %@", [infoDic objectForKey:@"artistsName"], [infoDic objectForKey:@"albumsName"]];
+        else
+            self.lircLabel.text = [infoDic objectForKey:@"artistsName"];
+        
+        if ([[infoDic objectForKey:@"musicImgUrl"] length]) {
+            [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:[infoDic objectForKey:@"musicImgUrl"]]
+                                  placeholderImage:[UIImage imageNamed:@"playDefualtImg"]];
+        } else {
+            self.iconImageView.image = [UIImage imageNamed:@"playDefualtImg"];
+        }
+        
+    });
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_CMDDATARETURN object:nil];
+}
+
+
+#if 0
 - (void)createUI {
     /**
      *  hide subViews from xib
@@ -194,85 +336,6 @@
     [self setRotate];
 }
 
-// 初始化数据容器
--(void)initDataContainer {
-    
-    self.musicArray = [NSMutableArray arrayWithCapacity:0];
-    
-    self.musicIndex = 1;
-    
-    self.swipeType = 1;
-    
-    
-    [self addNotifycation];
-}
-
-
-#pragma mark - 核心动画实现图片旋转
-// 给iconImage添加动画
--(void)rotateIconImage {
-    
-    self.iconImage.transform = self.originTransform;
-    
-    [self.iconImage imageDrawRect];
-    
-    [self.iconImage.layer addAnimation:[self rotate360DegreeImage] forKey:@"ROTATEICONIMAGE"];
-}
-
-// 设置动画
--(void)setRotate {
-    MSMusicPlayerConfig *config = [MSMusicPlayerConfig sharedInstance];
-    
-    if (config.playStatus == 1) {
-        
-        [self resumRotate];
-        
-    } else {
-        
-        [self pauseRotate];
-    }
-}
-
-// 暂停动画
--(void)pauseRotate {
-    
-    // 获取当前暂停时间
-    pausedTime = [self.iconImage.layer convertTime:CACurrentMediaTime() fromLayer:nil];
-    
-    // 层的速度为0，停止动画
-    self.iconImage.layer.speed = 0;
-    
-    // 保存暂停时间，便于恢复
-    self.iconImage.layer.timeOffset = pausedTime;
-}
-
-// 恢复动画
--(void)resumRotate {
-    
-    // 设置速度
-    self.iconImage.layer.speed = 1.0;
-    
-    // 清楚开始时间
-    self.iconImage.layer.beginTime = 0.0;
-    
-    // 计算开始时间
-    CFTimeInterval beginTime = [self.iconImage.layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
-    
-    // 重设开始时间
-    self.iconImage.layer.beginTime = beginTime;
-}
-
-// 创建动画
--(CABasicAnimation *)rotate360DegreeImage {
-    
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    
-    [animation rotate360DegreeWithDuration:5];
-    
-    return animation;
-}
-
-#pragma mark - 给视图导入数据
 -(void)resetSubviews {
     
     MSMusicPlayerConfig *config = [MSMusicPlayerConfig sharedInstance];
@@ -297,7 +360,7 @@
             
             if (i == 0) {
                 
-                [self.iconImage sd_setImageWithURL:[NSURL URLWithString:model.coverImgSmall] placeholderImage:[UIImage imageNamed:@"playDefualtImg"]];
+                [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:model.coverImgSmall] placeholderImage:[UIImage imageNamed:@"playDefualtImg"]];
                 
             } else {
                 
@@ -321,7 +384,7 @@
     
     if ([MSMusicPlayerConfig sharedInstance].playStatus == 1) {
         
-        [self.playButton setImage:[UIImage imageNamed:@"zanting"] forState:UIControlStateNormal];
+        [self.playButton setImage:[UIImage imageNamed:@"playPause39"] forState:UIControlStateNormal];
         
     } else if ([MSMusicPlayerConfig sharedInstance].playStatus == 0) {
         
@@ -329,7 +392,20 @@
     }
 }
 
-#pragma mark - click actions
+// 设置动画
+-(void)setRotate {
+    MSMusicPlayerConfig *config = [MSMusicPlayerConfig sharedInstance];
+    
+    if (config.playStatus == 1) {
+        
+        [self resumRotate];
+        
+    } else {
+        
+        [self pauseRotate];
+    }
+}
+
 - (void)iconIVClick:(UITapGestureRecognizer *)gesture {
     
     NSLog(@"点击专辑图标");
@@ -340,74 +416,7 @@
     
     self.goMusicVC();
 }
-// xib中隐藏的那个滑动视图的图标点击事件
-- (IBAction)iconImageViewClick:(id)sender {
-    
-}
-
-- (IBAction)playButtonClick:(id)sender {
-    NSLog(@"点击播放按钮");
-    
-}
-
-- (IBAction)listButtonClick:(id)sender {
-    NSLog(@"点击歌单按钮");
-    
-    self.goAlbumView();
-}
-
-
-#pragma mark - addNotifycation
--(void)addNotifycation {
-    
-    NSOperationQueue *obq = [NSOperationQueue currentQueue];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:NOTIFY_PLAYSTATUS object:nil queue:obq usingBlock:^(NSNotification * _Nonnull note) {
-   
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [self setPlayButtonImage];
-            
-            [self setRotate];
-            
-            [self resetSubviews];
-        });
-        
-        
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_PLAYSTATUS object:nil];
-    }];
-}
-
-#pragma mark - UIScrollViewDelegate
-// 处理滑动切歌时的逻辑
-//-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-
-//    CGFloat scWidth = self.frame.size.width - 90;
-//    
-//    // 表示已经滑动完成 -- 换页了
-//    if (scrollView.contentOffset.x != scWidth) {
-//        //  表示向右滑 - 上一曲
-//        if (scrollView.contentOffset.x == 0)
-//        {
-//            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//                
-//                [self.musicPlayer playLastSong];
-//            });
-//        }
-//        //  表示向左滑 - 下一曲
-//        if (scrollView.contentOffset.x == 2 * scWidth)
-//        {
-//            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//                
-//                [self.musicPlayer playNextSongWithClick:YES];
-//            });
-//        }
-//    }
-//    
-//    [self.bgScrollView setContentOffset:CGPointMake(scWidth, 0)];
-//    
-//    [self setPlayButtonImage];
-//}
+#endif
 @end
 
 

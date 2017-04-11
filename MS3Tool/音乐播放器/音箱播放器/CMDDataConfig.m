@@ -11,9 +11,6 @@
 #import "packet.h"
 
 
-
-
-
 static CMDDataConfig *manager = nil;
 
 @implementation CMDDataConfig
@@ -33,7 +30,7 @@ static CMDDataConfig *manager = nil;
     
     if (self = [super init]) {
         
-        self.isAlbumChange = NO;
+        self.isAlbumChanging = NO;
         
         [self cmdDic];
         
@@ -175,6 +172,17 @@ static CMDDataConfig *manager = nil;
 }
 
 
+// 根据 cmd 返回相应的数据
+
+- (int)getValueWithCMD:(int)cmd {
+    return [[self.cmdDic objectForKey:[NSString stringWithFormat:@"%d", cmd]] intValue];
+}
+
+-(id)getObjDicWithCMD:(int)cmd {
+    return [self.cmdDic objectForKey:[NSString stringWithFormat:@"%d", cmd]];
+}
+
+
 /**
  更新播放列表
  
@@ -200,6 +208,8 @@ static CMDDataConfig *manager = nil;
 
 - (void)setAlbumWithCMD:(int)cmd errNo:(int)errNo dic:(NSDictionary *)tempDic album:(NSMutableArray *)dataArr {
     
+    [self setIsAlbumChanging:YES];
+    
     if (![self isExistInAlbum:dataArr dic:tempDic]) {
         
         [dataArr addObject:tempDic];
@@ -211,8 +221,6 @@ static CMDDataConfig *manager = nil;
             [self setDicWithCMD:cmd andValue:[[tempDic objectForKey:@"flag"] intValue]];
             
             [[VoicePlayer shareInstace] XVPGetPlayAlbum_stop:[[tempDic objectForKey:@"flag"] intValue]];
-            
-            [self setIsAlbumChange:YES];
         }
     }
 }

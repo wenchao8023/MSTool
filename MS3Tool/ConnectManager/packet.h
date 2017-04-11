@@ -348,7 +348,7 @@ typedef enum _PACK_CMD {
     
     CMD_GET_PLAYSTATE,                  // - ok - 获取当前播放状态 (协议逻辑有问题，对歌曲的状态分类不明确)
     
-    CMD_GET_PLAYSTATE_R,                // - ok - 返回当前播放状态
+    CMD_GET_PLAYSTATE_R,                // - ok - 返回当前播放状态 (0-停止，1-暂停，2-播放)
     
     CMD_GET_VOLTAGE,                    // ! no - 获取当前电池电量 (返回错误号0，还没实现)
     
@@ -412,7 +412,7 @@ typedef enum _PACK_CMD {
     
     CMD_GET_currentPlayStyle,             // - T  - 获取当前播放模式
     
-    CMD_GET_currentPlayStyle_R,           // - T  - 返回当前播放模式
+    CMD_GET_currentPlayStyle_R,           // - T  - 返回当前播放模式(0-顺序，1-单曲，2-随机)
     
     CMD_SET_currentPlayStyle,             // - T  - 设置当前播放模式
     

@@ -194,7 +194,7 @@ static NSString *zhuboHeadID = @"zhuboHeadIDdddd";
         
         __weak typeof(&*self) sself = self;
         
-        if (![(NSArray *)result count]) {
+        if (![result count]) {
             
             [sself loadTitleArray];
             

@@ -65,13 +65,6 @@
 }
 
 #pragma mark - WiFi Control
-+(BOOL)isConnectedToVoiceboxWifi {
-    if ([[self getCurrentWIFISSID] containsString:MS3_WIFISSID]) {
-        return YES;
-    }
-    
-    return NO;
-}
 //  获取手机当前连接的WiFi名
 +(NSString *)getCurrentWIFISSID {
     
@@ -159,7 +152,7 @@
 +(void)setWifiTableToUserDefualt:(NSArray *)wifiArray {
     
    [[NSUserDefaults standardUserDefaults] setObject:wifiArray
-                                             forKey:LAST_WIFISSID];
+                                             forKey:WIFI_ARRAY];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -167,7 +160,7 @@
 // 获取WiFi列表
 +(NSMutableArray *)getWifiTableInUserDefualt {
     
-    return [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:LAST_WIFISSID]];
+    return [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:WIFI_ARRAY]];
 }
 
 // 判断是否保存过该WiFi
@@ -267,7 +260,7 @@
 #pragma mark -- 删除所有WiFi
 +(void)deleteAllWifi {
     
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:LAST_WIFISSID];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:WIFI_ARRAY];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -421,6 +414,109 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         [alert dismissWithClickedButtonIndex:0 animated:YES];
+    });
+}
+
+
+// 高斯模糊
++(UIImage *)coreBlurImage:(UIImage *)image withBlurNumber:(CGFloat)blur
+{
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *inputImage= [CIImage imageWithCGImage:image.CGImage];
+    //设置filter
+    CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
+    [filter setValue:inputImage forKey:kCIInputImageKey]; [filter setValue:@(blur) forKey: @"inputRadius"];
+    //模糊图片
+    CIImage *result=[filter valueForKey:kCIOutputImageKey];
+    CGImageRef outImage=[context createCGImage:result fromRect:[result extent]];
+    UIImage *blurImage=[UIImage imageWithCGImage:outImage];
+    CGImageRelease(outImage);
+    return blurImage;
+}
+// 文字模糊背景
++(NSMutableAttributedString *)getTitleLabelStr:(NSString *)str {
+    
+    NSRange range = NSMakeRange(0, str.length);
+    
+    NSShadow *shadow = [[NSShadow alloc] init];
+    
+    shadow.shadowBlurRadius = 5;    //模糊度
+    
+    shadow.shadowColor = WCBlack;
+    
+    shadow.shadowOffset = CGSizeMake(1, 3);
+    
+    NSDictionary *dict = @{NSFontAttributeName : [UIFont systemFontOfSize:16],
+                           NSForegroundColorAttributeName : WCWhite,
+                           NSShadowAttributeName : shadow};
+    
+    NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:str];
+    
+    [attText setAttributes:dict range:range];
+    
+    return attText;
+}
+
++(NSMutableAttributedString *)getTitleLabelStr:(NSString *)str font:(CGFloat)fontSize {
+    
+    NSRange range = NSMakeRange(0, str.length);
+    
+    NSShadow *shadow = [[NSShadow alloc] init];
+    
+    shadow.shadowBlurRadius = 5;    //模糊度
+    
+    shadow.shadowColor = WCBlack;
+    
+    shadow.shadowOffset = CGSizeMake(0, 0);
+    
+    NSDictionary *dict = @{NSFontAttributeName : [UIFont systemFontOfSize:fontSize],
+                           NSForegroundColorAttributeName : WCWhite,
+                           NSShadowAttributeName : shadow};
+    
+    NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:str];
+    
+    [attText setAttributes:dict range:range];
+    
+    return attText;
+}
+
++(void)loadMusicInfo {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        NSArray *selArr = @[@"VPGetPlayMusicInfo",
+                            @"VPGetPlayStatu",
+                            @"VPGetPlayType",
+                            @"VPGetVolume",
+                            ];
+        
+        for (int i = 0; i < selArr.count; i++) {
+            
+            [NSThread sleepForTimeInterval:0.1];
+            
+            [[VoicePlayer shareInstace] performSelectorInBackground:NSSelectorFromString(selArr[i])
+                                           withObject:nil];
+        }
+    });
+}
+
++(void)loadMusicAlbum {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        NSArray *selArr = @[@"VPGetPlayMusicInfo",
+                            @"VPGetPlayStatu",
+                            @"VPGetPlayType",
+                            @"VPGetVolume",
+                            ];
+        
+        for (int i = 0; i < selArr.count; i++) {
+            
+            [NSThread sleepForTimeInterval:0.1];
+            
+            [[VoicePlayer shareInstace] performSelectorInBackground:NSSelectorFromString(selArr[i])
+                                                         withObject:nil];
+        }
     });
 }
 

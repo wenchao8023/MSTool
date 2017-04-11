@@ -34,6 +34,7 @@
     
     self.navigationItem.leftBarButtonItem = [WenChaoControl createNaviBackButtonTarget:self Action:@selector(clickBack)];
     
+    [[MSFooterManager shareManager] setWindowHidden];
 }
 -(void)clickBack {
     

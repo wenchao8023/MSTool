@@ -17,7 +17,7 @@
 
 #import "HeadImageView.h"
 
-#import "GCDAsyncSocketManager.h"
+//#import "GCDAsyncSocketManager.h"
 
 
 
@@ -132,8 +132,16 @@ static UIColor *kContentBgColor = nil;
     _bgScrollView = scr;
     
     self.bgScrollView.mj_header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadData)];
+}
+
+- (void)closeHeaderRefresh {
+    if ([self.bgScrollView.mj_header isRefreshing]) {
+        [self.bgScrollView.mj_header endRefreshing];
+    }
     
-    
+    if (!self.bgScrollView.mj_header.hidden) {
+        self.bgScrollView.mj_header.hidden = YES;
+    }
 }
 
 
@@ -282,7 +290,10 @@ static UIColor *kContentBgColor = nil;
             
             [self.collectionView5 reloadData];
             
-            [KVNProgress dismiss];
+            if ([KVNProgress isVisible]) {
+                
+                [KVNProgress dismiss];
+            }
             
             [self.bgScrollView.mj_header endRefreshing];
         });
@@ -296,12 +307,16 @@ static UIColor *kContentBgColor = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [CommonUtil addKVNToMainView:self];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            if ([KVNProgress isVisible]) {
+                
+                [KVNProgress dismiss];
+            }
+        });
     });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        [self reloadData];
-    });
     
     _netWork = [MSMainNetWork shareManager];
     
@@ -386,6 +401,8 @@ static UIColor *kContentBgColor = nil;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
                         [sself resetCollectionView];
+                        
+                        [self closeHeaderRefresh];
                     });
                 }
             }
@@ -429,6 +446,8 @@ static UIColor *kContentBgColor = nil;
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 [sself resetCollectionView];
+                
+                [self closeHeaderRefresh];
             });
         }
         
@@ -457,6 +476,8 @@ static UIColor *kContentBgColor = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             
             [sself.headView configBanner:sself.bannerArray];
+            
+            [self closeHeaderRefresh];
             
         });
     }];
@@ -650,15 +671,13 @@ static UIColor *kContentBgColor = nil;
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
-    
-    if ([GCDAsyncSocketManager sharedInstance].connectStatus == 1) {    // 已连接
-        
-        [self postNotify];
-    } else {
-        
-        [CommonUtil showAlertToUnConnected];
-    }
+//    if ([GCDAsyncSocketManager sharedInstance].connectStatus == 1) {    // 已连接
+//        
+//        [self postNotify];
+//    } else {
+//        
+//        [CommonUtil showAlertToUnConnected];
+//    }
 }
 
 -(void)postNotify {

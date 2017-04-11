@@ -14,7 +14,7 @@
 
 #import "MSMusicPlayViewController.h"
 
-#import "MSMusicAlbumView.h"
+//#import "MSMusicAlbumView.h"
 
 #import "CDTableViewCell.h"
 
@@ -134,54 +134,54 @@ static NSString *CDCollectionHeaderID = @"CDCOLLECTIONHEADERID";
     /**
      * 设置歌单视图
      */
-    UIView *albumBgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    
-    albumBgView.y = SCREENH;
-
-    MSMusicAlbumView *albumView = [[MSMusicAlbumView alloc] initWithFrame:CGRectMake(0, 0, SCREENW, SCREENH)];
-    
-    [albumBgView addSubview:albumView];
+//    UIView *albumBgView = [[UIView alloc] initWithFrame:self.view.bounds];
+//    
+//    albumBgView.y = SCREENH;
+//
+//    MSMusicAlbumView *albumView = [[MSMusicAlbumView alloc] initWithFrame:CGRectMake(0, 0, SCREENW, SCREENH)];
+//    
+//    [albumBgView addSubview:albumView];
 
     // 打开歌单
-    _footerView.goAlbumView = ^() {
-        
-        [[[UIApplication sharedApplication] keyWindow] addSubview:albumBgView];
-        
-        [UIView animateWithDuration:0.4 animations:^{
-            
-            bgView.y = SCREENH;
-            
-        } completion:^(BOOL finished) {
-            
-            if (finished) {
-                
-                [UIView animateWithDuration:0.2 animations:^{
-                    
-                    albumBgView.y = 0;
-                }];
-            }
-        }];
-    };
-    
-    // 关闭歌单
-    albumView.closeAlbum = ^() {
-        [UIView animateWithDuration:0.4 animations:^{
-            albumBgView.y = SCREENH;
-        } completion:^(BOOL finished) {
-            if (finished) {
-                [UIView animateWithDuration:0.2 animations:^{
-                    bgView.y = SCREENH - HEIGHT_FOOTERVIEW - NAVIGATIONBAR_HEIGHT;
-                } completion:^(BOOL finished) {
-                    [albumBgView removeFromSuperview];
-                }];
-            }
-        }];
-    };
+//    _footerView.goAlbumView = ^() {
+//        
+//        [[[UIApplication sharedApplication] keyWindow] addSubview:albumBgView];
+//        
+//        [UIView animateWithDuration:0.4 animations:^{
+//            
+//            bgView.y = SCREENH;
+//            
+//        } completion:^(BOOL finished) {
+//            
+//            if (finished) {
+//                
+//                [UIView animateWithDuration:0.2 animations:^{
+//                    
+//                    albumBgView.y = 0;
+//                }];
+//            }
+//        }];
+//    };
+//    
+//    // 关闭歌单
+//    albumView.closeAlbum = ^() {
+//        [UIView animateWithDuration:0.4 animations:^{
+//            albumBgView.y = SCREENH;
+//        } completion:^(BOOL finished) {
+//            if (finished) {
+//                [UIView animateWithDuration:0.2 animations:^{
+//                    bgView.y = SCREENH - HEIGHT_FOOTERVIEW - NAVIGATIONBAR_HEIGHT;
+//                } completion:^(BOOL finished) {
+//                    [albumBgView removeFromSuperview];
+//                }];
+//            }
+//        }];
+//    };
     
     /**
      *  添加通知
      */
-    [self addNotifycation];
+//    [self addNotifycation];
 }
 
 - (void)createTableView {
@@ -655,21 +655,21 @@ static NSString *CDCollectionHeaderID = @"CDCOLLECTIONHEADERID";
     }
 }
 
-#pragma mark - addNotifycation
--(void)addNotifycation {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(musicStatus:) name:NOTIFY_PLAYSTATUS object:nil];
-}
--(void)musicStatus:(NSNotification *)notify {
-    // notify.object, notify.userInfo, notify.name
-    NSInteger status = [notify.object integerValue];
-    if (status == -1) {
-        [self.footerView resetSubviews];
-    }
-}
--(void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_PLAYSTATUS object:nil];
-}
+//#pragma mark - addNotifycation
+//-(void)addNotifycation {
+////    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(musicStatus:) name:NOTIFY_PLAYSTATUS object:nil];
+//}
+//-(void)musicStatus:(NSNotification *)notify {
+//    // notify.object, notify.userInfo, notify.name
+////    NSInteger status = [notify.object integerValue];
+////    if (status == -1) {
+////        [self.footerView resetSubviews];
+////    }
+//}
+//-(void)dealloc
+//{
+////    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_PLAYSTATUS object:nil];
+//}
 
 
 

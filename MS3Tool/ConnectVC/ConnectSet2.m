@@ -10,7 +10,7 @@
 
 #import "latestCell.h"
 
-#import "SmartUDPManager.h"
+#import "MSConnectManager.h"
 
 
 
@@ -37,11 +37,7 @@
 
 @property (nonatomic, assign) BOOL isRememberPswd;
 
-@property (nonnull, nonatomic, strong) GCDAsyncSocketCommunicationManager *comManager;
 
-@property (nonatomic, nonnull, strong) GCDConnectConfig *configManager;
-
-@property (nonatomic, nullable, strong) SmartUDPManager *SmartUDP;
 
 @end
 
@@ -58,17 +54,21 @@
 
     self.navigationController.navigationBar.hidden = NO;
     
+    self.navigationItem.title = @"网络配置";
+    
     self.navigationItem.leftBarButtonItem = [WenChaoControl createNaviBackButtonTarget:self Action:@selector(clickBack)];
     
 }
 -(void)clickBack {
  
-//    if ([KVNProgress isVisible]) {
-//        
-//        [KVNProgress dismiss];
-//    }
-    
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([KVNProgress isVisible] == YES) {
+            
+            [KVNProgress dismiss];
+        }
+        
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    });
 }
 
 - (void)viewDidLoad {
@@ -78,30 +78,27 @@
     [self loadLocalData];
     
     [self resetView];
-
-    self.comManager = [GCDAsyncSocketCommunicationManager sharedInstance];
     
-    self.comManager = [GCDAsyncSocketCommunicationManager sharedInstance];
-    
-    self.configManager = [GCDConnectConfig sharedInstance];
-    
-    [self.configManager addObserver:self forKeyPath:@"connectProgress" options:NSKeyValueObservingOptionNew context:nil];
+    [[CMDDataConfig shareInstance] addObserver:self forKeyPath:@"getCMD" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     
-    if ([keyPath isEqualToString:@"connectProgress"]) {
+    if ([keyPath isEqualToString:@"getCMD"]) {
         
-        if (self.configManager.connectProgress == CProgressShouldConnectSuccess) {
+        if ([CMDDataConfig shareInstance].getCMD == CMD_HANDSHAKE_R) {
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-//                [self clickBack];
-                NSLog(@"连接成功，关闭提示框");
-            });
+            [self clickBack];
         }
     }
 }
+
+
+- (void)dealloc {
+    
+    [[CMDDataConfig shareInstance] removeObserver:self forKeyPath:@"getCMD"];
+}
+
 
 
 - (void)didReceiveMemoryWarning {
@@ -138,17 +135,9 @@
     
     self.dataArray = [CommonUtil getWifiTableInUserDefualt];
     
-    if (self.currentWifiStr) {
-        
-        self.currentWifiLabel.hidden = NO;
-        
-        self.currentWifiLabel.text = [NSString stringWithFormat:@"当前连接WiFi: %@", self.currentWifiStr];
-        
-    } else {
-        
-        self.currentWifiLabel.hidden = YES;
-    }
+    self.ssidLabel.text = self.currentWifiStr;
     
+    self.pswdLabel.text = [CommonUtil getPasswordFromWifiTableWithSSID:self.currentWifiStr];
     
     if (self.dataArray.count) {
         
@@ -162,15 +151,15 @@
 
 
 #pragma mark - -- 按钮点击事件
+
 // 显示 或隐藏密码
 - (IBAction)showPswdClick:(id)sender {
     
 }
 
-// 记住 或不记住密码
-- (IBAction)remberPswdClick:(id)sender {
-    
+- (IBAction)rembpswd:(id)sender {
 }
+
 
 // 清空 WiFi列表
 - (IBAction)delectClick:(id)sender {
@@ -194,24 +183,53 @@
     
     [self.latestWifi reloadData];
     
-    [[NSUserDefaults standardUserDefaults] setObject:self.ssidLabel.text forKey:@"wifiname"];
+    [[NSUserDefaults standardUserDefaults] setObject:self.ssidLabel.text forKey:CRT_WIFI_SSID];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:self.pswdLabel.text forKey:CRT_WIFI_PSWD];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [[SmartUDPManager shareInstance] sendRouteInfoSSID:self.ssidLabel.text pswd:self.pswdLabel.text];
+//    [[SmartUDPManager shareInstance] sendRouteInfo];
+    [[MSConnectManager sharedInstance] smartConfig];
     
-//    [self tcpConnect];
+    [self addKVNToConnect];
     
-//    [CommonUtil addKVNToConnectOnView:self.view];
+    [KVNProgress showWithStatus:@"正在连接网络" onView:self.view];
 }
 
-- (void)tcpConnect {
+-(void)addKVNToConnect {
     
-    [self.comManager resetToConnect];
+    KVNProgressConfiguration *configuration = [[KVNProgressConfiguration alloc] init];
     
-    [self.comManager rememberWifi:self.ssidLabel.text pswd:self.pswdLabel.text];
+    configuration.statusColor = [UIColor whiteColor];
     
-    [self.comManager createSocketWithDelegate:self andHost:TCP_HOST andPort:TCP_PORT];
+    configuration.statusFont = [UIFont fontWithName:@"HelveticaNeue-Thin" size:15.0f];
+    
+    configuration.circleStrokeForegroundColor = [UIColor whiteColor];
+    
+    configuration.circleStrokeBackgroundColor = [UIColor colorWithWhite:1.0f alpha:0.3f];
+    
+    configuration.circleFillBackgroundColor = [UIColor colorWithWhite:1.0f alpha:0.1f];
+    
+    configuration.backgroundTintColor = [UIColor colorWithRed:6 / 255.0 green:71 / 255.0 blue:69 / 255.0 alpha:1];
+    
+    configuration.successColor = [UIColor whiteColor];
+    
+    configuration.errorColor = [UIColor redColor];
+    
+    configuration.stopColor = [UIColor whiteColor];
+    
+    configuration.circleSize = 100.0f;
+    
+    configuration.lineWidth = 1.0f;
+    
+    configuration.fullScreen = YES;
+    
+    configuration.showStop = YES;
+    
+    configuration.stopRelativeHeight = 0.4f;
+    
+    [KVNProgress setConfiguration:configuration];
 }
 
 
@@ -272,7 +290,7 @@
     
     [super viewWillDisappear:animated];
     
-    [self.SmartUDP stopUdpTimer];
+    [[MSConnectManager sharedInstance] smartStopConfig];
 }
 
 @end

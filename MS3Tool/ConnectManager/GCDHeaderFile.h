@@ -4,7 +4,7 @@
 #define DEV_STATE_ONLINE 1
 
 // 连接超时时长
-static const int TIMEOUT = 1;
+static const double TIMEOUT = 0.3;
 
 #define UPLOAD_ENV_ONLINE @"online"
 
@@ -42,6 +42,7 @@ static const int DELAYTIME = 15;    // AP模式结束之后休眠时长
 
 static const uint16_t UDP_PORT_S = 7778;    // 服务器端端口号
 static const uint16_t UDP_PORT_C = 1014;    // 客户端端口号
+static const uint16_t UDP_PORT_R = 1015;    // 
 static const uint16_t UDP_PORT_G = 10000;   // 广播组端口
 static NSString *UDP_HOST_C = @"255.255.255.255";
 

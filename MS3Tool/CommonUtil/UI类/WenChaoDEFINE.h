@@ -16,9 +16,9 @@
 /**
  *  设置通知
  */
-#define NOTIFY_PLAYSTATUS       @"notifyPlaystatus"             //播放状态
-#define NOTIFY_SETTRACKARRAY    @"notifySetTrackArray"          //播放列表
-#define NOTIFY_PROGRESS          @"notifyProgress"              //播放进度
+//#define NOTIFY_PLAYSTATUS       @"notifyPlaystatus"             //播放状态
+//#define NOTIFY_SETTRACKARRAY    @"notifySetTrackArray"          //播放列表
+//#define NOTIFY_PROGRESS          @"notifyProgress"              //播放进度
 #define NOTIFY_BUTTONINDEX      @"buttonIndexChange"            //pageViewController控制页面
 #define NOTIFY_CONTROLLERCOUNT  @"naviViewsControllerCount"     //返回到了根导航
 #define NOTIFY_CMDDATARETURN    @"notifyCMDDataReturn"          //音箱返回数据
@@ -27,7 +27,9 @@
 #define NOTIFY_PUSH_VOICE    @"pushVoiceSetterViewController"   //推出音箱中的视图
 #define NOTIFY_PUSH_ALBUMDETAIL @"pushAlbumDetailViewController"//推出我的歌单详情
 
-#define TCP_DATA_QUEUE          "com.data.tcp"  // tcp请求数据的串行对列
+#define NOTIRY_CONNECTSTATUS @"notifyConnectStatus"             // tcp连接状态
+
+
 
 
 
@@ -38,9 +40,10 @@
 #define LAST_PLAYINDEX      @"LASTPLAYINDEX"        //上一次播放的下标
 #define LAST_PLAYTYPE       @"LASTPLAYTYPE"         //上一次的循环模式
 
-#define LAST_WIFISSID       @"LASTWIFISSID"         //上一次进来的WiFi
+#define WIFI_ARRAY          @"WIFIARRAY"            //上一次进来的WiFi
+#define CRT_WIFI_SSID       @"currentWIFISSIDName"  //当前连接WiFi账号
+#define CRT_WIFI_PSWD       @"currentWIFIPWSDName"  //当前连接WiFi密码
 
-#define MS3_WIFISSID         @"SmartAudio"           //音箱WiFi名包含的字符串
 
 #warning rotateTime
 #pragma mark - define rotateTime
@@ -79,7 +82,7 @@
 #define WCBgGray [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1] // 背景灰 - 视图背景色
 
 // 视图背景颜色
-#define VIEW_BACKGROUNDCOLOR [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]
+//#define VIEW_BACKGROUNDCOLOR [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]
 
 //自定义颜色，直接填入整数
 #define WCColor(r, g, b, a) [UIColor colorWithRed:r / 255.f green:g / 255.f blue:b / 255.f alpha:a]
@@ -120,6 +123,8 @@
 
 //资源下载路径
 #define LIBPATH [NSString stringWithFormat:@"%@/",[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject]]
+
+
 
 
 

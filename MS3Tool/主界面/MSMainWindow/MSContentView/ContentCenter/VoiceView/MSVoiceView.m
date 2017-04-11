@@ -12,7 +12,6 @@
 
 #import "MSVoicecommandViewController.h"
 
-#import "GCDAsyncSocketManager.h"
 
 
 static NSString *kCollectionCellID = @"MSVoiceViewCollectionCellID";
@@ -32,7 +31,7 @@ static NSString *kCollectionCellID = @"MSVoiceViewCollectionCellID";
 
 @property (nonatomic, assign) CGFloat sWidth;
 
-@property (nonatomic, strong, nonnull) GCDAsyncSocketManager *socketManager;
+
 
 @end
 
@@ -52,28 +51,20 @@ static NSString *kCollectionCellID = @"MSVoiceViewCollectionCellID";
         
         [self addSubview:self.collectionView];
         
-        self.socketManager = [GCDAsyncSocketManager sharedInstance];
-        
-        [self.socketManager addObserver:self forKeyPath:@"connectStatus" options:NSKeyValueObservingOptionNew context:nil];
+        [self addNotifycation];
     }
     
     return self;
 }
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-
-    if ([keyPath isEqualToString:@"connectStatus"]) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [self resetHeadImage];
-        });
-    }
+- (void)addNotifycation {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetHeadImage) name:NOTIFY_CONTROLLERCOUNT object:nil];
 }
 
 - (void)resetHeadImage {
     
-    if (self.socketManager.connectStatus == 1)
+    if ([[MSConnectManager sharedInstance] tcpConnectStatus])
         self.headImage.image = [UIImage imageNamed:@"voicebgConnect"];
     else
         self.headImage.image = [UIImage imageNamed:@"voicebgUnconnected"];
@@ -96,10 +87,9 @@ static NSString *kCollectionCellID = @"MSVoiceViewCollectionCellID";
 
 -(void)imageTap {
     
-    
-    if (self.socketManager.connectStatus != 1)
+    if (![[MSConnectManager sharedInstance] tcpConnectStatus])
         [self postNotify:[NSIndexPath indexPathForRow:4 inSection:0]];
-        
+    
 }
 
 
@@ -180,7 +170,7 @@ static NSString *kCollectionCellID = @"MSVoiceViewCollectionCellID";
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_PUSH_VOICE object:nil];
     
-    [self removeObserver:self.socketManager forKeyPath:@"connectStatus"];
+//    [self removeObserver:self.socketManager forKeyPath:@"connectStatus"];
 }
 
 @end

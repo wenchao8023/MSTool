@@ -39,7 +39,6 @@ typedef enum : NSInteger{
 +(void)changeStateBarBlack;
 
 
-+(BOOL)isConnectedToVoiceboxWifi;
 /**
  *  获取手机当前连接的WiFiSSID
  */
@@ -89,4 +88,16 @@ typedef enum : NSInteger{
  提示音箱还没有连接网络
  */
 +(void)showAlertToUnConnected;
+
+//图片模糊
++(UIImage *)coreBlurImage:(UIImage *)image withBlurNumber:(CGFloat)blur;
+
++(NSMutableAttributedString *)getTitleLabelStr:(NSString *)str;
++(NSMutableAttributedString *)getTitleLabelStr:(NSString *)str font:(CGFloat)fontSize;
+
+
+// 导入音乐信息
++(void)loadMusicInfo;
+// 导入列表信息
++(void)loadMusicAlbum;
 @end

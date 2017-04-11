@@ -14,17 +14,20 @@ static VoicePlayer *manager = nil;
 
 @interface VoicePlayer ()
 
-@property (nonatomic, strong, nonnull) GCDAsyncSocketCommunicationManager *comManager;
+@property (nonatomic, strong, nonnull) MSConnectManager *conManager;
 
 @property (nonatomic, strong, nullable) NSTimer *getAlbumTimer;     // 控制播放列表获取
 
 @property (nonatomic, strong, nullable) NSTimer *getCollectTimer;   // 控制收藏列表获取
 
+@property (nonatomic, strong, nullable) NSTimer *progressTimer_inv5;     // 控制进度获取,每5s获取一次
+
+@property (nonatomic, strong, nullable) NSTimer *progressTimer_inv1;     // 控制进度获取,每1s获取一次
+
+
 @end
 
 @implementation VoicePlayer
-
-
 +(instancetype)shareInstace {
     
     static dispatch_once_t onceToken;
@@ -41,40 +44,36 @@ static VoicePlayer *manager = nil;
     
     if (self = [super init]) {
         
-        self.comManager = [GCDAsyncSocketCommunicationManager sharedInstance];
+        self.conManager = [MSConnectManager sharedInstance];
         
     }
     
     return self;
 }
 
-
-
-
-
 #pragma mark - set info
 #pragma mark -- set message only head
 - (void)setDataWithCMD:(int)cmd {
     
-    NSData *data = [self.comManager.dataManager getGetReturnHeadDataWithCMD:cmd];
+    NSData *data = [self.conManager.dataManager getGetReturnHeadDataWithCMD:cmd];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 // 设置播放 某个列表(0-当前列表 1-收藏列表) 中的 某首歌曲
 - (void)setDataWithAlbumType:(int)albumType index:(int)index {
     
-    NSData *data = [self.comManager.dataManager getAlbumUrlDataWithFlag:albumType index:index];
+    NSData *data = [self.conManager.dataManager getAlbumUrlDataWithFlag:albumType index:index];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 // 设置APP收藏音乐
 - (void)setDataWithCMD:(int)cmd musicInfo:(NSDictionary *)musicInfo {
     
-    NSData *data = [self.comManager.dataManager getReturnAPPCollectMusicWithCMD:cmd dataDic:musicInfo];
+    NSData *data = [self.conManager.dataManager getReturnAPPCollectMusicWithCMD:cmd dataDic:musicInfo];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 
@@ -83,9 +82,9 @@ static VoicePlayer *manager = nil;
 #pragma mark -- message with value
 -(void)setArgumentWithCMD:(int)cmd value:(int)value {
     
-    NSData *data = [self.comManager.dataManager getSetReturnHeadAndValueDataWithCMD:cmd andValue:value];
+    NSData *data = [self.conManager.dataManager getSetReturnHeadAndValueDataWithCMD:cmd andValue:value];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 #pragma mark -- play control
@@ -201,9 +200,9 @@ static VoicePlayer *manager = nil;
 #pragma mark - get info
 -(void)getArgumentWithCMD:(int)cmd {
     
-    NSData *data = [self.comManager.dataManager getGetReturnHeadDataWithCMD:cmd];
+    NSData *data = [self.conManager.dataManager getGetReturnHeadDataWithCMD:cmd];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 /**
@@ -226,24 +225,93 @@ static VoicePlayer *manager = nil;
  获取播放进度
  */
 -(void)VPGetCurrentProgress {
+
+    [self VPGetCurrentProgressInRunLoop];
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        
+//        [self VPGetCurrentProgressInRunLoop];
+//        
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            
+//            NSTimer *timer = [NSTimer timerWithTimeInterval:5.0
+//                                                     target:self
+//                                                   selector:@selector(VPGetCurrentProgressInRunLoop)
+//                                                   userInfo:nil repeats:YES];
+//            
+//            [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+//            
+//            CFRunLoopRun();
+//        });
+//    });
+}
+
+-(void)VPGetCurrentProgressIsLastFiveSeconds:(BOOL)isLastFiveSeconds {
     
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if (isLastFiveSeconds) {
         
+        if (_progressTimer_inv5 && [_progressTimer_inv5 isValid]) {
+            
+            [_progressTimer_inv5 invalidate];
+            _progressTimer_inv5 = nil;
+        }
+        
+        [self progressTimer_inv1];
+    } else {
+        
+        if (_progressTimer_inv1 && [_progressTimer_inv1 isValid]) {
+            
+            [_progressTimer_inv1 invalidate];
+            _progressTimer_inv1 = nil;
+        }
+        
+        [self progressTimer_inv5];
+    }
+}
+
+-(void)VPGetCurrentProgress_Stop {
+    
+    if (_progressTimer_inv5 && [_progressTimer_inv5 isValid]) {
+        
+        [_progressTimer_inv5 invalidate];
+        _progressTimer_inv5 = nil;
+    }
+    
+    if (_progressTimer_inv1 && [_progressTimer_inv1 isValid]) {
+        
+        [_progressTimer_inv1 invalidate];
+        _progressTimer_inv1 = nil;
+    }
+}
+
+-(NSTimer *)progressTimer_inv5 {
+    
+    if (!_progressTimer_inv5) {
         [self VPGetCurrentProgressInRunLoop];
+        _progressTimer_inv5 = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(VPGetCurrentProgressInRunLoop) userInfo:nil repeats:YES];
         
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            
-            NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
-                                                     target:self
-                                                   selector:@selector(VPGetCurrentProgressInRunLoop)
-                                                   userInfo:nil repeats:YES];
-            
-            [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-            
-            CFRunLoopRun();
-        });
-    });
+        [[NSRunLoop currentRunLoop] addTimer:_progressTimer_inv5 forMode:NSDefaultRunLoopMode];
+        
+        CFRunLoopRun();
+        
+        [self.progressTimer_inv5 fire];
+    }
+    
+    return _progressTimer_inv5;
+}
+
+-(NSTimer *)progressTimer_inv1 {
+    
+    if (!_progressTimer_inv1) {
+        [self VPGetCurrentProgressInRunLoop];
+        _progressTimer_inv1 = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(VPGetCurrentProgressInRunLoop) userInfo:nil repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] addTimer:_progressTimer_inv1 forMode:NSRunLoopCommonModes];
+        
+        [self.progressTimer_inv1 fire];
+    }
+    
+    return _progressTimer_inv1;
 }
 
 -(void)VPGetCurrentProgressInRunLoop {
@@ -413,9 +481,9 @@ static VoicePlayer *manager = nil;
 //播放列表下标对应的歌曲
 - (void)writeDataWithValue:(int)value flag:(int)flag {
     
-    NSData *data = [self.comManager.dataManager getAlbumUrlDataWithFlag:flag index:value];
+    NSData *data = [self.conManager.dataManager getAlbumUrlDataWithFlag:flag index:value];
     
-    [self.comManager socketWriteDataWithData:data andTag:0];
+    [self.conManager tcpWriteDataWithData:data andTag:0];
 }
 
 //播放列表下标对应的歌曲
@@ -425,15 +493,15 @@ static VoicePlayer *manager = nil;
         
         NSDictionary *dataDic = [self musicInfo:modelArray[i]];
         
-        NSData *data = [self.comManager.dataManager getReturnAPPCollectMusicWithCMD:CMD_SET_currentPlayAlbum dataDic:dataDic];
+        NSData *data = [self.conManager.dataManager getReturnAPPCollectMusicWithCMD:CMD_SET_currentPlayAlbum dataDic:dataDic];
         
-        [self.comManager socketWriteDataWithData:data andTag:0];
+        [self.conManager tcpWriteDataWithData:data andTag:0];
         
         if (i == modelArray.count - 1) {
             
-            NSData *lastData = [self.comManager.dataManager getSetReturnHeadAndValueDataWithCMD:CMD_SET_send_end_album andValue:(int)index];
+            NSData *lastData = [self.conManager.dataManager getSetReturnHeadAndValueDataWithCMD:CMD_SET_send_end_album andValue:(int)index];
             
-            [self.comManager socketWriteDataWithData:lastData andTag:0];
+            [self.conManager tcpWriteDataWithData:lastData andTag:0];
         }
     }
 }

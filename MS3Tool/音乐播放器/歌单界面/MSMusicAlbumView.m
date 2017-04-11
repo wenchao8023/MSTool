@@ -10,14 +10,18 @@
 
 #import "MSMusicAlbumCell.h"
 
-#import "MSMusicPlayerConfig.h"
-
-
 
 #define CONTENTHEIGHT SCREENH
 
 #define CONTENTHEIGHT_3 (CONTENTHEIGHT / 3)
 
+#define CONTENTHEIGHT_4 (CONTENTHEIGHT / 4)
+
+
+
+static const CGFloat kHeaderHeight = 60.f;
+
+static UIColor *kLineColor;
 
 @interface MSMusicAlbumView ()<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
@@ -55,6 +59,8 @@
         
         [self loadData];
         
+        [self setBgColorTypeDark];
+        
         [self addNotifycation];
     }
     
@@ -62,6 +68,8 @@
 }
 
 - (void)loadData {
+    
+    kLineColor = [UIColor colorWithRed:0.23 green:0.23 blue:0.23 alpha:1];
     
     self.lastPlayDataArray = [NSMutableArray arrayWithCapacity:0];
     
@@ -80,7 +88,7 @@
 
 -(void)loadPlayingDataArray {
     
-    if ([CMDDataConfig shareInstance].isAlbumChange) {
+    if ([CMDDataConfig shareInstance].isAlbumChanging) {
         
         [self.playingDataArray removeAllObjects];
         
@@ -93,7 +101,6 @@
             [self.playingDataArray addObject:model];
         }
         
-//        [[CMDDataConfig shareInstance] setIsAlbumChange:NO];
         
         [self.playingTableView reloadData];
     }
@@ -116,7 +123,7 @@
 - (void)createScrollView {
     
     _bgScrollView = [[UIScrollView alloc ] initWithFrame:
-                     CGRectMake(0, CONTENTHEIGHT_3 - HEIGHT_FOOTERVIEW, SCREENW, CONTENTHEIGHT_3 * 2)];
+                     CGRectMake(0, CONTENTHEIGHT - CONTENTHEIGHT_4 * 2 - HEIGHT_FOOTERVIEW, SCREENW, CONTENTHEIGHT_4 * 2 + HEIGHT_FOOTERVIEW)];
     
     _bgScrollView.delegate = self;
     
@@ -126,26 +133,61 @@
     
     [self addSubview:_bgScrollView];
     
-    _bgScrollView.contentSize = CGSizeMake(SCREENW * 2, CONTENTHEIGHT_3 * 2);
+    _bgScrollView.contentSize = CGSizeMake(SCREENW * 2, CONTENTHEIGHT_4 * 2 + HEIGHT_FOOTERVIEW);
     
     _bgScrollView.backgroundColor = WCBlack;
     
+    
+    [self.bgScrollView addSubview:[self createHeaderView]];
     
     [self createPlayingAlbum];
     
     [self createLastPlayAlbum];
 }
+
+
+-(UIView *)createHeaderView {
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, kHeaderHeight)];
+    headerView.backgroundColor = WCBlack;
+    
+    
+    UIImageView *imageV = [WenChaoControl createImageViewWithFrame:CGRectMake(20, 10, 40, 40) ImageName:nil];
+    imageV.backgroundColor = WCClear;
+    [headerView addSubview:imageV];
+    
+    
+    CGRect frame = imageV.frame;
+    frame.origin.x = CGRectGetMaxX(frame) + 20;
+    frame.size.width = 200;
+    
+    UILabel *lab = [WenChaoControl createLabelWithFrame:frame
+                                                   Font:16
+                                                   Text:nil
+                                          textAlignment:0];
+    lab.backgroundColor = WCClear;
+    [headerView addSubview:lab];
+    
+    
+    UILabel *lineLab = [WenChaoControl createLabelWithFrame:CGRectMake(0, kHeaderHeight - 1, WIDTH, 1) Font:0 Text:nil textAlignment:0];
+    lineLab.backgroundColor = kLineColor;
+    [headerView addSubview:lineLab];
+    
+    return headerView;
+}
+
 // 正在播放歌曲的列表
 - (void)createPlayingAlbum {
     
     _playingTableView = [[UITableView alloc] initWithFrame:
-                         CGRectMake(0, 0, SCREENW, CONTENTHEIGHT_3 * 2) style:UITableViewStylePlain];
+                         CGRectMake(0, kHeaderHeight, SCREENW, CONTENTHEIGHT_4 * 2 - kHeaderHeight)
+                                                     style:UITableViewStylePlain];
     
     _playingTableView.delegate = self;
     
     _playingTableView.dataSource = self;
     
-    _playingTableView.backgroundColor = WCClear;
+    _playingTableView.backgroundColor = WCBlack;
     
     [self.bgScrollView addSubview:_playingTableView];
 }
@@ -154,8 +196,6 @@
     
 }
 - (void)createBottomButton {
-    
-//    _bottomButton = [WenChaoControl createButtonWithFrame:CGRectMake(0, CONTENTHEIGHT - HEIGHT_FOOTERVIEW, SCREENW, HEIGHT_FOOTERVIEW) ImageName:nil Target:self Action:@selector(close) Title:@"关闭"];
     
     _bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
@@ -174,11 +214,8 @@
                                                          Font:0
                                                          Text:nil
                                                 textAlignment:0];
-    
-    lineLabel.backgroundColor = WCLightGray;
-    
+    lineLabel.backgroundColor = kLineColor;
     [self addSubview:lineLabel];
-    
     [self addSubview:_bottomButton];
     
     _bottomButton.backgroundColor = WCBlack;
@@ -238,44 +275,42 @@
         
         [cell configWithBoxMusic:self.playingDataArray[indexPath.row]];
         
+        [cell setUnselectedSong:self.cellColorUnselect];
+        
         if ([CMDDataConfig shareInstance].playIndex == indexPath.row) {
             
-            [cell setSelectedSong:self.cellColorSelected];
+            int playstatus = [[CMDDataConfig shareInstance] getValueWithCMD:CMD_NOT_controlStatus];
             
-        } else {
+            BOOL isPlaying = (playstatus == 2 || playstatus == 4) ? YES : NO;
             
-            [cell setUnselectedSong:self.cellColorUnselect];
+            [cell setSelectedSong:self.cellColorSelected isPlaying:(BOOL)isPlaying];   
         }
-        
-        __weak typeof(&*self) sself = self;
         
         // 删除 cell 的回调
         cell.delBlock = ^() {
           
             NSLog(@"indepath for cell is : %ld", (long)indexPath.row);
-            
-            [sself delCellWithIndex:indexPath.row];
         };
     }
     
     return cell;
 }
 
-- (void) delCellWithIndex:(NSInteger)index {
-    
-    MSMusicPlayerConfig *config = [MSMusicPlayerConfig sharedInstance];
-    
-    if (config.playAlbum.count > 1) {
-        
-        [config delModelFromMusicArrayWithIndex:index];
-        
-    } else {
-        
-        NSLog(@"清空当前播放列表");
-    }
-    
-    [self loadPlayingDataArray];
-}
+//- (void) delCellWithIndex:(NSInteger)index {
+//    
+//    MSMusicPlayerConfig *config = [MSMusicPlayerConfig sharedInstance];
+//    
+//    if (config.playAlbum.count > 1) {
+//        
+//        [config delModelFromMusicArrayWithIndex:index];
+//        
+//    } else {
+//        
+//        NSLog(@"清空当前播放列表");
+//    }
+//    
+//    [self loadPlayingDataArray];
+//}
 
 
 
@@ -287,47 +322,33 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self playMusicWithIndexPath:indexPath];
-}
-
-
-- (void)playMusicWithIndexPath:(NSIndexPath *)indexPath {
+    if ([[[[CMDDataConfig shareInstance] getObjDicWithCMD:CMD_GET_current_musicInfo_R] objectForKey:@"index"] integerValue] != indexPath.row) {
+        [[VoicePlayer shareInstace] VPSetPlayMusicInAlbum:0 index:(int)indexPath.row];
+    }
     
-    MSMusicPlayerConfig *config = [MSMusicPlayerConfig sharedInstance];
-    
-    config.playIndex = indexPath.row;
-    
-    [self.playingTableView reloadData];
 }
 
 #pragma mark - addNotifycation
 -(void)addNotifycation {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(musicStatus:) name:NOTIFY_PLAYSTATUS object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getCMDData) name:NOTIFY_CMDDATARETURN object:nil];
 }
-/**
- *  status
- *      -1 := 切歌
- *       0 := 暂停
- *       1 := 播放
- */
--(void)musicStatus:(NSNotification *)notify {
+
+- (void)getCMDData {
     
-    // notify.object, notify.userInfo, notify.name
+    int cmd = [CMDDataConfig shareInstance].getCMD;
     
-    if ([notify.object integerValue] == -1) {
+    if (cmd == CMD_NOT_controlPlay) {
         
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            
-            [self loadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.playingTableView reloadData];
         });
     }
 }
-
--(void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_PLAYSTATUS object:nil];
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFY_CMDDATARETURN object:nil];
 }
-
-
 
 
 #pragma mark - touchesBegan

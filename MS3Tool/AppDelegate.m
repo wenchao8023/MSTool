@@ -36,8 +36,7 @@ static void uncaughtExceptionHandler(NSException *exception) {
     // Override point for customization after application launch.
     
     
-    [self udpBroadCast];
-    
+    [[MSConnectManager sharedInstance] udpBroadcast];
     
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
@@ -59,10 +58,6 @@ static void uncaughtExceptionHandler(NSException *exception) {
 }
 
 
-- (void)udpBroadCast {
-    
-    [[GCDAsyncSocketCommunicationManager sharedInstance] udpBroadcast];
-}
 
 
 

@@ -23,10 +23,14 @@ typedef void(^DelBlock)();
 
 - (void)config:(MSMusicModel *)model;
 
-- (void)setSelectedSong:(UIColor *)color ;
+- (void)setSelectedSong:(UIColor *)color isPlaying:(BOOL)isPlaying;
 
 - (void)setUnselectedSong:(UIColor *)color ;
 
 - (void)configWithBoxMusic:(MSMusicInfoInBox *)boxModel ;
+
+- (void)startAnimation ;
+
+- (void)stopAnimation ;
 
 @end

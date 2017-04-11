@@ -135,6 +135,10 @@
  */
 -(void)VPGetCurrentProgress ;
 
+-(void)VPGetCurrentProgressIsLastFiveSeconds:(BOOL)isLastFiveSeconds ;
+
+-(void)VPGetCurrentProgress_Stop ;
+
 /**
  获取播放总时长
  */
